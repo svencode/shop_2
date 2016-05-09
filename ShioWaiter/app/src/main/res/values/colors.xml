@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="glo_nav_bar_bg">#ED4850</color>
+
+
+
+    <color name="black">#ffffff</color>
 </resources>

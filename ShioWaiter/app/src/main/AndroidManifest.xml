@@ -47,7 +47,7 @@
         android:theme="@style/AppTheme"
         android:name=".base.AppEnter">
         <activity
-            android:name=""
+            android:name=".activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:orientation="vertical"
