@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/glo_bg_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/parentrel">
 
     <include
         android:id="@+id/comment_title_bar_layout"
@@ -24,16 +25,66 @@
 
 
     <LinearLayout
+        android:id="@+id/scanResultarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/comment_title_bar_layout"
-        android:orientation="vertical"
-        android:id="@+id/scanResultarea">
+        android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/captureroot"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:background="@color/scan_bg_color">
+
+            <SurfaceView
+                android:id="@+id/capture_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/left_mask"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/scan_bg"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/right_mask"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/scan_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/capture_crop_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toLeftOf="@id/right_mask"
+                    android:layout_toRightOf="@id/left_mask"
+                    android:background="@android:color/transparent">
+
+                    <ImageView
+                        android:id="@+id/capture_scan_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/scanning_line" />
+
+                    <com.cqgk.clerk.view.scan.TagetImageView
+                        android:id="@+id/scan_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +93,8 @@
                 android:layout_centerHorizontal="true"
                 android:text="请扫描商品条码"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_m" />
+                android:textSize="@dimen/text_size_m"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -188,12 +240,12 @@
     </LinearLayout>
 
     <GridView
+        android:id="@+id/selview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="5"
-        android:id="@+id/selview"
         android:layout_below="@+id/scanResultarea"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:numColumns="5">
 
 
     </GridView>

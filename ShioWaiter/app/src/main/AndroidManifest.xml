@@ -2,6 +2,7 @@
     package="com.cqgk.clerk"
     android:versionCode="1"
     android:versionName="1.1">
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="23" />
@@ -28,20 +29,22 @@
     <!-- 二维码相关权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera.flash" />
+
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
 
 
     <application
+        android:name=".base.AppEnter"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".base.AppEnter">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -55,18 +58,17 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.product.ProductEdit"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.CashieringActivity"
-            android:orientation="vertical"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.CashieringActivity"
+            android:orientation="vertical" />
     </application>
 
 </manifest>

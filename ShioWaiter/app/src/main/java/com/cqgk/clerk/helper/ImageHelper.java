@@ -82,6 +82,21 @@ public class ImageHelper extends Basic {
         display(into, picPath, options, loadCallBack);
     }
 
+
+    public <T extends View> void displayFile(ImageView into, String picPath) {
+
+        if (!CheckUtils.isAvailable(picPath))
+            return;
+
+
+        try {
+            ImageLoader.getInstance().displayImage(picPath, into);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public <T extends View> void display(ImageView into, String picPath, @Nullable DisplayImageOptions config,
                                          @Nullable SimpleImageLoadingListener loadCallBack) {
 
@@ -103,7 +118,7 @@ public class ImageHelper extends Basic {
         try {
             //LogUtil.e(picPath);
             ImageLoader.getInstance().displayImage(picPath, into, config, loadCallBack);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -134,6 +149,7 @@ public class ImageHelper extends Basic {
 
     class imageLoaderLisener extends SimpleImageLoadingListener {
         private ImageView.ScaleType scaleType;
+
         @Override
         public void onLoadingStarted(String imageUri, View view) {
             super.onLoadingStarted(imageUri, view);

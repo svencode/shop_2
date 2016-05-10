@@ -1,15 +1,12 @@
 package com.cqgk.clerk.base;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.graphics.Bitmap;
-import android.support.v4.app.NotificationCompat;
-import android.widget.RemoteViews;
 
 import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.helper.ImageHelper;
-import com.cqgk.clerk.helper.PreferencesHelper;
+import com.cqgk.clerk.view.galleryfinall.UILImageLoader;
+import com.cqgk.clerk.view.galleryfinall.UILPauseOnScrollListener;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,6 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
 
 /**
  *
@@ -53,6 +55,9 @@ public class BaseApp extends Application {
 //        setPushService();
         //推送服务_end
 
+
+        galleryfinalInit();
+
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG);
 
@@ -77,6 +82,30 @@ public class BaseApp extends Application {
 //            mPushAgent.disable();
 //        }
 //    }
+
+    /**
+     * 图片库初始化
+     */
+    private void galleryfinalInit() {
+        //设置主题
+        ThemeConfig theme = ThemeConfig.DARK;
+//        ThemeConfig theme = new ThemeConfig.Builder()
+//                .build();
+        //配置功能
+        FunctionConfig functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(false)
+                .setEnableCrop(false)
+                .setEnableRotate(false)
+                .setCropSquare(false)
+                .setEnablePreview(true)
+                .build();
+        CoreConfig coreConfig = new CoreConfig.Builder(this, new UILImageLoader(), theme)
+                .setFunctionConfig(functionConfig)
+                .setPauseOnScrollListener(new UILPauseOnScrollListener(false, true))
+                .build();
+        GalleryFinal.init(coreConfig);
+    }
 
     /**
      * 图片组件初始化

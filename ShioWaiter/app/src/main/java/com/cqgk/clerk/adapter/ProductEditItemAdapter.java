@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.EditBean;
+import com.cqgk.clerk.helper.ImageHelper;
+import com.cqgk.clerk.utils.ViewHolderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,8 @@ public class ProductEditItemAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public ProductEditItemAdapter(Context context,List<EditBean> valueList) {
-       this.valueList = valueList;
+    public ProductEditItemAdapter(Context context, List<EditBean> valueList) {
+        this.valueList = valueList;
         this.context = context;
     }
 
@@ -84,6 +86,8 @@ public class ProductEditItemAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.addnewitem, null);
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.product_selitem, null);
+            ImageView myimg = ViewHolderUtil.get(view, R.id.myimg);
+            ImageHelper.getInstance().displayFile(myimg, "file://"+editBean.getPhotoInfo().getPhotoPath());
         }
         return view;
     }

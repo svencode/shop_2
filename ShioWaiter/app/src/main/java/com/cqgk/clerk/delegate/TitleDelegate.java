@@ -94,11 +94,7 @@ public class TitleDelegate extends BasicDelegate {
         mLeftText.setOnClickListener(leftOnClickListener);
 
 
-
     }
-
-
-
 
 
     /**
