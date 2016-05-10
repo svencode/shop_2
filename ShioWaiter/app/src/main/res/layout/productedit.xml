@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/glo_bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/glo_nav_bar_bg"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_l" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_title_bar_layout"
+        android:orientation="vertical"
+        android:id="@+id/scanResultarea">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/scan_bg_color">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="请扫描商品条码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/row_1_title"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="条码"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/row_1_title"
+                android:background="@android:color/transparent"
+                android:text="123123"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+        <View style="@style/magic_h_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/row_2_title"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="名称"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/row_2_title"
+                android:background="@android:color/transparent"
+                android:text="name"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+        <View style="@style/magic_h_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/row_3_title"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="零售价"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:id="@+id/row_3_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/row_3_title"
+                android:background="@android:color/transparent"
+                android:text="0.0"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="元/件(斤)"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+        <View style="@style/magic_h_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/row_4_title"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="会员价"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:id="@+id/row_4_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/row_4_title"
+                android:background="@android:color/transparent"
+                android:text="0.0"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="元/件(斤)"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+        <View style="@style/magic_h_line" />
+    </LinearLayout>
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="5"
+        android:id="@+id/selview"
+        android:layout_below="@+id/scanResultarea"
+        android:layout_marginTop="5dp">
+
+
+    </GridView>
+
+
+</RelativeLayout>

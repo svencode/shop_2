@@ -12,4 +12,16 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="magic_h_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1sp</item>
+        <item name="android:background">@color/magic_list_line</item>
+    </style>
+
+    <style name="magic_v_line">
+        <item name="android:layout_width">0.7dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/magic_list_line</item>
+    </style>
 </resources>

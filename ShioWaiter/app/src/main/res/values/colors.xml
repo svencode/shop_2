@@ -4,8 +4,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="glo_nav_bar_bg">#ED4850</color>
+    <color name="scan_bg">#7f000000</color>
+    <color name="glo_bg_color">#e5e5e5</color>
+    <color name="scan_bg_color">#878787</color>
 
 
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="magic_list_line">#DDDDDD</color>
 
-    <color name="black">#ffffff</color>
+    <color name="font_color_1">#ED4850</color>
+    <color name="font_color_2">#666666</color>
+    <color name="font_color_3">#646464</color>
+    <color name="font_color_4">#bebebe</color>
 </resources>

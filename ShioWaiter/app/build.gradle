@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         applicationId "clerk.cqgk.com.shiowaiter"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -85,4 +85,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'cn.finalteam:galleryfinal:1.4.8.7'
 }

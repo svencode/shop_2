@@ -8,6 +8,8 @@ import android.provider.ContactsContract;
 
 
 import com.cqgk.clerk.activity.LoginActivity;
+import com.cqgk.clerk.activity.MainActivity;
+import com.cqgk.clerk.activity.product.ProductEdit;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
 
@@ -57,6 +59,16 @@ public class NavigationHelper extends Basic {
             this.startActivityForResult(getActivity(), i, 0);
         }
 
+    }
+
+    public void startMain(){
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startUploadProduct(){
+        Intent i = new Intent(getActivity(), ProductEdit.class);
+        this.startActivity(getActivity(),i);
     }
 
 
