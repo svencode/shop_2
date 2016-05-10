@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.adapter.CashieringAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 
 import org.xutils.view.annotation.ContentView;
@@ -24,7 +25,12 @@ public class CashieringActivity extends BusinessBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("收银记账");
+        layoutView();
     }
 
 
+    private void layoutView(){
+        CashieringAdapter adapter = new CashieringAdapter(this);
+        listView.setAdapter( adapter);
+    }
 }

@@ -15,10 +15,13 @@ import com.cqgk.clerk.bean.normal.EditBean;
 public class CashieringAdapter extends BaseAdapter{
     private Context context;
 
+    public CashieringAdapter(Context context){
+        this.context = context;
+    }
 
     @Override
     public int getCount() {
-        return 0;
+        return 5;
     }
 
     @Override
