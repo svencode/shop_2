@@ -53,7 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -66,6 +65,8 @@
             android:name=".activity.product.ProductEdit"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".activity.CashieringActivity"
+            android:orientation="vertical"/>
     </application>
 
 </manifest>

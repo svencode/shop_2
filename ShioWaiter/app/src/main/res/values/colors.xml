@@ -17,4 +17,7 @@
     <color name="font_color_2">#666666</color>
     <color name="font_color_3">#646464</color>
     <color name="font_color_4">#bebebe</color>
+
+    <color name="color_red">#ec584e</color>
+    <color name="color_gray">#646464</color>
 </resources>
