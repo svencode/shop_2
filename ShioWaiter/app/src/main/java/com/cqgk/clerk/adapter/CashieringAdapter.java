@@ -15,10 +15,13 @@ import com.cqgk.clerk.bean.normal.EditBean;
 public class CashieringAdapter extends BaseAdapter{
     private Context context;
 
+    public CashieringAdapter(Context context){
+        this.context = context;
+    }
 
     @Override
     public int getCount() {
-        return 0;
+        return 5;
     }
 
     @Override
@@ -33,7 +36,11 @@ public class CashieringAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        view = LayoutInflater.from(context).inflate(R.layout.cell_cashiering, null);
+        if( 0 == position){
+            view = LayoutInflater.from(context).inflate(R.layout.view_qr_scan, null);
+        }else {
+            view = LayoutInflater.from(context).inflate(R.layout.cell_cashiering, null);
+        }
 
 
         return view;

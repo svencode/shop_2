@@ -11,12 +11,10 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 /**
- * Created by sven on 16/5/9.
+ * Created by sven on 16/5/11.
  */
-
 @ContentView(R.layout.activity_cashiering)
-public class CashieringActivity extends BusinessBaseActivity {
-
+public class PickGoodActivity extends BusinessBaseActivity{
     @ViewInject(R.id.listView)
     ListView listView;
 
@@ -24,7 +22,7 @@ public class CashieringActivity extends BusinessBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-        getTitleDelegate().setTitle("收银记账");
+        getTitleDelegate().setTitle("挑选商品");
         layoutView();
     }
 
