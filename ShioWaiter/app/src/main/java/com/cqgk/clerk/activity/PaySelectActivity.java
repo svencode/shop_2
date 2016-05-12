@@ -18,4 +18,6 @@ public class PaySelectActivity extends BusinessBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("选择支付方式");
     }
+
+
 }

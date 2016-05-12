@@ -40,8 +40,6 @@ public abstract class HttpCallBack<T> {
             responseVo.retCode = jsonObject.optInt("code", Integer.MIN_VALUE);
             responseVo.msg = jsonObject.optString("msg");
             responseVo.data = jsonObject.optString("data");
-            responseVo.error = jsonObject.optString("error");
-            responseVo.detail = jsonObject.optString("detail");
 
         } catch (JSONException e) {
             e.printStackTrace();

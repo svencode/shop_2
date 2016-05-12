@@ -1,7 +1,6 @@
 package com.cqgk.clerk.http;
 
 
-
 import com.cqgk.clerk.bean.dbbean.ResponBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.helper.ProgressDialogHelper;
@@ -103,14 +102,14 @@ public class HttpHelper
             LogUtil.w("HttpRequest", String.format("___params:%s", params.getQueryStringParams().toString()));
         }
 
-        if (params.getHeaders() != null && params.getHeaders().size() > 0) {
-            LogUtil.w("HttpRequest", String.format("____headers:Auth-Token:%s,private-key:%s,appid:%s,device_token:%s",
-
-                    params.getHeaders().get(0).getValueStr(),
-                    params.getHeaders().get(1).getValueStr(),
-                    params.getHeaders().get(2).getValueStr(),
-                    params.getHeaders().get(3).getValueStr()));
-        }
+//        if (params.getHeaders() != null && params.getHeaders().size() > 0) {
+//            LogUtil.w("HttpRequest", String.format("____headers:Auth-Token:%s,private-key:%s,appid:%s,device_token:%s",
+//
+//                    params.getHeaders().get(0).getValueStr(),
+//                    params.getHeaders().get(1).getValueStr(),
+//                    params.getHeaders().get(2).getValueStr(),
+//                    params.getHeaders().get(3).getValueStr()));
+//        }
     }
 
 
@@ -177,8 +176,6 @@ public class HttpHelper
                 LogUtil.w(this.getClass().getName(), "资源被禁止，无法访问，请联系客服人员！TOKEN过期");
 
 
-
-
                 loginEvent();
 
 
@@ -198,8 +195,6 @@ public class HttpHelper
                 LogUtil.w(this.getClass().getName(), "服务器地址无法访问，未授权： (Unauthorized)！");
 
 
-
-
                 loginEvent();
             } else if (e.getCode() == 407) {
                 AppUtil.showLongToast("您的购物车没有商品,或是商品已失效!");
@@ -207,7 +202,6 @@ public class HttpHelper
                 AppUtil.showLongToast("服务器地址请求无效,请稍后再试");
             }
         }
-
 
 
         //错误回调

@@ -15,5 +15,7 @@ public class ActiveCard extends BusinessBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        enableTitleDelegate();
+        getTitleDelegate().setTitle("会员开卡");
     }
 }

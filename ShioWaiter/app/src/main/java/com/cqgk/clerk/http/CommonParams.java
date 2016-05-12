@@ -11,7 +11,7 @@ public class CommonParams extends RequestParams {
 
     public CommonParams(String url) {
         super(url);
-
+        this.setHeader("Content-Type","application/json");
         this.setConnectTimeout(20 * 1000);
         this.setCacheMaxAge(1000 * 2);
 

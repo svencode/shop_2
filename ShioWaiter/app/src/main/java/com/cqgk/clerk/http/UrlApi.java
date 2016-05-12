@@ -11,13 +11,11 @@ import com.cqgk.clerk.BuildConfig;
 public class UrlApi {
 
     /**
-     * E扫盈: mall.mobo2o.com/api/v1/
-     * 云指: m2.nnwhy.com/api/v1/
-     * http://test.mobo2o.com
+     *
      */
-    private static String Service = "test";
+    private static String Service = "http://betam.51xnb.cn";
     /**  */
-    private static String Domain = "/api/v1/";
+    private static String Domain = "/clerk/";
 
     public static String getService() {
         return Service;
@@ -90,7 +88,7 @@ public class UrlApi {
     /**
      * token请求
      */
-    public static String url_gettoken = "apps/auth";
+    public static String url_login = "login/login.do";
 
 
 

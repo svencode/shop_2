@@ -8,4 +8,5 @@ public class Key {
      *访问token
      */
     public static final String TOKEN = "token";
+    public static final String USERID = "userid";
 }
