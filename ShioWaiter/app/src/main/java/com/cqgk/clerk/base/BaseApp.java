@@ -99,9 +99,11 @@ public class BaseApp extends Application {
                 .setEnableRotate(false)
                 .setCropSquare(false)
                 .setEnablePreview(true)
+
                 .build();
         CoreConfig coreConfig = new CoreConfig.Builder(this, new UILImageLoader(), theme)
                 .setFunctionConfig(functionConfig)
+                .setNoAnimcation(true)
                 .setPauseOnScrollListener(new UILPauseOnScrollListener(false, true))
                 .build();
         GalleryFinal.init(coreConfig);

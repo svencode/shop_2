@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentrel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/glo_bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true" />
+
+
+    <LinearLayout
+        android:id="@+id/scanResultarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_title_bar_layout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/captureroot"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/scan_bg_color">
+
+            <SurfaceView
+                android:id="@+id/capture_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/left_mask"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/scan_bg"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/right_mask"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/scan_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/capture_crop_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toLeftOf="@id/right_mask"
+                    android:layout_toRightOf="@id/left_mask"
+                    android:background="@android:color/transparent">
+
+                    <ImageView
+                        android:id="@+id/capture_scan_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/scanning_line" />
+
+                    <com.cqgk.clerk.view.scan.TagetImageView
+                        android:id="@+id/scan_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="请扫描未使用会员卡上的二维码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_m"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/row_1_title"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="充值金额"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:id="@+id/rechargemoney"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/row_1_title"
+                android:hint="请输入100整倍数"
+                android:inputType="numberDecimal"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_m" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/rechargemoney"
+                android:text="元" />
+
+        </RelativeLayout>
+
+        <View style="@style/magic_h_line" />
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="$0"
+            android:textSize="@dimen/text_size_m" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_m"
+            android:layout_alignParentRight="true"
+            android:background="@color/glo_nav_bar_bg"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

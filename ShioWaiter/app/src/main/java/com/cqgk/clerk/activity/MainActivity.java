@@ -29,10 +29,19 @@ public class MainActivity extends BusinessBaseActivity {
         getTitleDelegate().hideLeftBtn();
     }
 
-
+    @Event(R.id.activecard)
+    private void activecard_click(View view){
+        NavigationHelper.getInstance().startActiveCard();
+    }
 
     @Event(R.id.uploadprodct)
-    private void uploadprodct_click(View view){
+    private void uploadprodct_click(View view) {
         NavigationHelper.getInstance().startUploadProduct();
+    }
+
+
+    @Event(R.id.viprecharge)
+    private void viprecharge_click(View view) {
+        NavigationHelper.getInstance().startVipRecharge();
     }
 }

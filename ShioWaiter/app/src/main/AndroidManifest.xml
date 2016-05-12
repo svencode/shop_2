@@ -69,6 +69,12 @@
         <activity
             android:name=".activity.CashieringActivity"
             android:orientation="vertical" />
+        <activity
+            android:name=".activity.VipRecharge"
+            android:orientation="vertical" />
+        <activity
+            android:name=".activity.active.ActiveCard"
+            android:orientation="vertical" />
     </application>
 
 </manifest>

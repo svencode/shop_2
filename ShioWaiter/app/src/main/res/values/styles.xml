@@ -24,4 +24,8 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/magic_list_line</item>
     </style>
+
+    <style name="CustomCheckboxThemeNormal" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_red</item>
+    </style>
 </resources>

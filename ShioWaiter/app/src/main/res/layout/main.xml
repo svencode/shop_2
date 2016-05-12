@@ -130,7 +130,8 @@
                     android:maxHeight="2560px"
                     android:maxWidth="1280px"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_member" />
+                    android:src="@drawable/btn_member"
+                    android:id="@+id/activecard"/>
             </LinearLayout>
 
             <LinearLayout
@@ -158,7 +159,8 @@
                     android:maxHeight="2560px"
                     android:maxWidth="1280px"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_vipcharge" />
+                    android:src="@drawable/btn_vipcharge"
+                    android:id="@+id/viprecharge"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

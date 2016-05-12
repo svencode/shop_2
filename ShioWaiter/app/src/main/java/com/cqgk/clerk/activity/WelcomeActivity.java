@@ -40,7 +40,7 @@ public class WelcomeActivity extends BusinessBaseActivity {
         super.onUIHandleMessage(msg);
         switch (msg.what) {
             case UI_MAIN_TAB:
-                NavigationHelper.getInstance().startMain();
+                NavigationHelper.getInstance().startLoginActivity();
                 finish();
                 break;
         }

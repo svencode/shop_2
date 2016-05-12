@@ -9,6 +9,8 @@ import android.provider.ContactsContract;
 
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
+import com.cqgk.clerk.activity.VipRecharge;
+import com.cqgk.clerk.activity.active.ActiveCard;
 import com.cqgk.clerk.activity.product.ProductEdit;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
@@ -71,5 +73,14 @@ public class NavigationHelper extends Basic {
         this.startActivity(getActivity(),i);
     }
 
+    public void startVipRecharge(){
+        Intent i = new Intent(getActivity(), VipRecharge.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startActiveCard(){
+        Intent i = new Intent(getActivity(), ActiveCard.class);
+        this.startActivity(getActivity(),i);
+    }
 
 }
