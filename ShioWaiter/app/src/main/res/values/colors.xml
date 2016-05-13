@@ -12,6 +12,9 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="magic_list_line">#DDDDDD</color>
+    <color name="home_tab_bg_color">#ec584e</color>
+    <color name="home_tab_bg_spccolor">#db5249</color>
+
 
     <color name="font_color_1">#ED4850</color>
     <color name="font_color_2">#666666</color>

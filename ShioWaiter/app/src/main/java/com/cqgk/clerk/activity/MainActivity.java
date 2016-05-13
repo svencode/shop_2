@@ -5,21 +5,23 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.base.AppEnter;
+import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.view.CommonDialogView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-/**
+/**首页
  * Created by duke on 16/5/9.
  */
 @ContentView(R.layout.main)
 public class MainActivity extends BusinessBaseActivity {
 
-    @ViewInject(R.id.uploadprodct)
-    ImageView uploadprodct;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,18 @@ public class MainActivity extends BusinessBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("店小二");
         getTitleDelegate().hideLeftBtn();
+        getTitleDelegate().setRightText("退出");
+        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonDialogView.show("你要退出店小二账号?", new CommonDialogView.DialogClickListener() {
+                    @Override
+                    public void doConfirm() {
+                        AppEnter.exitAccount();
+                    }
+                });
+            }
+        });
     }
 
     @Event(R.id.activecard)
@@ -44,4 +58,7 @@ public class MainActivity extends BusinessBaseActivity {
     private void viprecharge_click(View view) {
         NavigationHelper.getInstance().startVipRecharge();
     }
+
+
+
 }

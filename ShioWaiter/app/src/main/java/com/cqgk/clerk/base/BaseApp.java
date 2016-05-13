@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 
 import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.helper.ImageHelper;
+import com.cqgk.clerk.helper.PreferencesHelper;
 import com.cqgk.clerk.view.galleryfinall.UILImageLoader;
 import com.cqgk.clerk.view.galleryfinall.UILPauseOnScrollListener;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -40,7 +41,7 @@ public class BaseApp extends Application {
         Context = this;
         //PlatformConfig.setWeixin(Constant.payAppId, Constant.appSecret);//友盟微信服务
         Basic.setAppContext(this);
-        //PreferencesHelper.init(this);//全局参服务
+        PreferencesHelper.init(this);//全局参服务
 
 
         //图片服务
@@ -48,21 +49,11 @@ public class BaseApp extends Application {
         initImageLoader(getApplicationContext());
 
 
-        //推送服务
-//        mPushAgent = PushAgent.getInstance(this);
-//        mPushAgent.setDebugMode(BuildConfig.DEBUG);
-//        mPushAgent.setDisplayNotificationNumber(10);
-//        setPushService();
-        //推送服务_end
-
-
         galleryfinalInit();
 
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG);
 
-        //美洽
-        //MQManageInit();
     }
 
 

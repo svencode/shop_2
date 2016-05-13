@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.LoginResultBean;
@@ -42,6 +43,11 @@ public class LoginActivity extends BusinessBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("用户登录");
         getTitleDelegate().hideLeftBtn();
+
+        if(BuildConfig.DEBUG){
+            mobile.setText("18682013055");
+            pwd.setText("123456");
+        }
     }
 
 
