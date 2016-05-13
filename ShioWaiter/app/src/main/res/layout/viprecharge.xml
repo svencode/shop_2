@@ -22,6 +22,52 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/scansuccess"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/cardnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="卡号:"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l" />
+
+            <TextView
+                android:id="@+id/cardmoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardnum"
+                android:layout_marginTop="8dp"
+                android:text="余额:0.0"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l" />
+
+            <ImageView
+                android:id="@+id/scanagain"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_delpic" />
+
+            <View
+                style="@style/magic_h_line"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/captureroot"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -29,52 +75,11 @@
 
             <SurfaceView
                 android:id="@+id/capture_preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/mo_scanner_bg" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
-
-                <ImageView
-                    android:id="@+id/left_mask"
-                    android:layout_width="34dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:background="@color/scan_bg"
-                    android:contentDescription="@string/app_name" />
-
-                <ImageView
-                    android:id="@+id/right_mask"
-                    android:layout_width="34dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/scan_bg" />
-
-                <RelativeLayout
-                    android:id="@+id/capture_crop_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toLeftOf="@id/right_mask"
-                    android:layout_toRightOf="@id/left_mask"
-                    android:background="@android:color/transparent">
-
-                    <ImageView
-                        android:id="@+id/capture_scan_line"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/scanning_line" />
-
-                    <com.cqgk.clerk.view.scan.TagetImageView
-                        android:id="@+id/scan_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </RelativeLayout>
-            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,9 +87,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:text="请扫描未使用会员卡上的二维码"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_m"
-                android:visibility="gone" />
+                android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
 
@@ -106,20 +111,22 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
-                android:id="@+id/rechargemoney"
+                android:id="@+id/inputmoney"
                 android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_1_title"
                 android:hint="请输入100整倍数"
+                android:textColorHint="@color/font_color_4"
                 android:inputType="numberDecimal"
                 android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m" />
+                android:textSize="@dimen/text_size_m"
+                android:digits="0123456789"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/rechargemoney"
+                android:layout_toRightOf="@+id/inputmoney"
                 android:text="元" />
 
         </RelativeLayout>
@@ -142,18 +149,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="$0"
-            android:textSize="@dimen/text_size_m" />
+            android:text="￥0.0"
+            android:textSize="@dimen/text_size_m"
+            android:id="@+id/summoney"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/glo_nav_bar_bg"
             android:gravity="center"
             android:text="充值"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_m"
-            android:layout_alignParentRight="true"
-            android:background="@color/glo_nav_bar_bg"/>
+            android:id="@+id/congnow"/>
 
     </RelativeLayout>
 

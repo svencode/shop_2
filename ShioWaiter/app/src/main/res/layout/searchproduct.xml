@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/glo_bg_color">
+
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:layout_marginRight="4dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="请输入商品标题关键字"
+
+                android:textColorHint="@color/font_color_4"
+                android:drawableLeft="@drawable/icon_l_search"
+                android:drawablePadding="8dp"
+                android:background="@color/white"
+               />
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:text="搜索"
+            android:layout_weight="3"
+            android:textSize="@dimen/text_size_m"
+            android:textColor="@color/font_color_1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我的商品"
+        android:gravity="center_vertical|left"
+        android:textColor="@color/font_color_3"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/text_size_l"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"/>
+
+    <com.cqgk.clerk.view.NormalListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview"
+        android:divider="@null"/>
+
+
+</LinearLayout>

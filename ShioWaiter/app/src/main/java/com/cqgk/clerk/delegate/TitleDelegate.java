@@ -106,17 +106,6 @@ public class TitleDelegate extends BasicDelegate {
         this.tabClickListenerInterface = tabEvent;
     }
 
-    /**
-     * 显示搜索栏
-     */
-    public void showSearchBar(int left, int rihgt) {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT, 1.0f);
-        layoutParams.setMargins(left, DisplayUtil.dip2px(8), rihgt, DisplayUtil.dip2px(8));
-        top_search_bar.setLayoutParams(layoutParams);
-        top_search_bar.setVisibility(View.VISIBLE);
-        mTitleShow.setVisibility(View.GONE);
-    }
 
     public void setSearch_etNotrue() {
         search_et.setFocusable(false);

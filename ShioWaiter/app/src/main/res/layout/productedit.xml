@@ -39,52 +39,12 @@
 
             <SurfaceView
                 android:id="@+id/capture_preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/mo_scanner_bg"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
 
-                <ImageView
-                    android:id="@+id/left_mask"
-                    android:layout_width="34dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:background="@color/scan_bg"
-                    android:contentDescription="@string/app_name" />
-
-                <ImageView
-                    android:id="@+id/right_mask"
-                    android:layout_width="34dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/scan_bg" />
-
-                <RelativeLayout
-                    android:id="@+id/capture_crop_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toLeftOf="@id/right_mask"
-                    android:layout_toRightOf="@id/left_mask"
-                    android:background="@android:color/transparent">
-
-                    <ImageView
-                        android:id="@+id/capture_scan_line"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/scanning_line" />
-
-                    <com.cqgk.clerk.view.scan.TagetImageView
-                        android:id="@+id/scan_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </RelativeLayout>
-            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +54,7 @@
                 android:text="请扫描商品条码"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_m"
-                android:visibility="gone" />
+                android:layout_marginBottom="8dp"/>
 
         </RelativeLayout>
 
@@ -120,7 +80,9 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_1_title"
                 android:background="@android:color/transparent"
-                android:text="123123"
+                android:hint="请扫描或输入商品条码"
+                android:textColorHint="@color/font_color_4"
+                android:id="@+id/productcode"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m" />
 
@@ -150,7 +112,8 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_2_title"
                 android:background="@android:color/transparent"
-                android:text="name"
+                android:textColorHint="@color/font_color_4"
+                android:hint="请输入商品名称"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m" />
 
@@ -181,7 +144,8 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_3_title"
                 android:background="@android:color/transparent"
-                android:text="0.0"
+                android:textColorHint="@color/font_color_4"
+                android:hint="请输入商品零售价"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m" />
 
@@ -221,7 +185,8 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_4_title"
                 android:background="@android:color/transparent"
-                android:text="0.0"
+                android:textColorHint="@color/font_color_4"
+                android:hint="请输入商品会员价"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m" />
 

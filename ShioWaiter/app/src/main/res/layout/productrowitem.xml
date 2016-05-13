@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ex_product"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/gimg"
+            android:layout_marginRight="3dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_m"
+            android:textColor="@color/font_color_3"
+            android:text="卡布奇诺 之能力是的酸辣粉 上锁的房间稍等来佛挡杀佛第三方"
+            android:id="@+id/title"
+            android:layout_toRightOf="@+id/gimg"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_m"
+            android:textColor="@color/font_color_4"
+            android:text="符合肥料31-"
+            android:id="@+id/desc"
+            android:layout_toRightOf="@+id/gimg"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/title"/>
+
+        <com.cqgk.clerk.view.PricesTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_m"
+            android:textColor="@color/font_color_1"
+            android:text="0.0"
+            android:gravity="left"
+            android:id="@+id/price"
+            android:layout_toRightOf="@+id/gimg"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/desc"/>
+
+        <View
+            style="@style/magic_h_line"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

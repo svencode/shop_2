@@ -1,0 +1,5 @@
+<resources>
+  <!-- Messages IDs -->
+  <item type="id" name="auto_focus"/>
+  <item type="id" name="launch_product_query"/>
+</resources>

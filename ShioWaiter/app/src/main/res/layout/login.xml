@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="手机号"
-            android:textColor="@color/font_color_4"
+            android:textColor="@color/font_color_3"
             android:textSize="@dimen/text_size_m" />
 
         <EditText
@@ -34,6 +34,7 @@
             android:layout_toRightOf="@+id/row_1_title"
             android:background="@android:color/transparent"
             android:hint="请输入手机号"
+            android:textColorHint="@color/font_color_4"
             android:inputType="phone"
             android:textColor="@color/font_color_4"
             android:textSize="@dimen/text_size_m" />
@@ -57,7 +58,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="密码"
-            android:textColor="@color/font_color_4"
+            android:textColor="@color/font_color_3"
             android:textSize="@dimen/text_size_m"/>
 
         <EditText
@@ -69,6 +70,7 @@
             android:layout_toRightOf="@+id/row_2_title"
             android:background="@android:color/transparent"
             android:hint="请输入密码"
+            android:textColorHint="@color/font_color_4"
             android:inputType="textPassword"
             android:textColor="@color/font_color_4"
             android:textSize="@dimen/text_size_m" />

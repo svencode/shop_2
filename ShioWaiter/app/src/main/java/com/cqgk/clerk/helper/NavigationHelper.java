@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 
 
+import com.cqgk.clerk.activity.InputMoney;
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
+import com.cqgk.clerk.activity.PaySelectActivity;
 import com.cqgk.clerk.activity.VipRecharge;
+import com.cqgk.clerk.activity.WebViewActivity;
 import com.cqgk.clerk.activity.active.ActiveCard;
 import com.cqgk.clerk.activity.product.ProductEdit;
+import com.cqgk.clerk.activity.product.SeachProduct;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
 
@@ -80,6 +84,27 @@ public class NavigationHelper extends Basic {
 
     public void startActiveCard(){
         Intent i = new Intent(getActivity(), ActiveCard.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startInputMoney(){
+        Intent i = new Intent(getActivity(), InputMoney.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startPaySelect(){
+        Intent i = new Intent(getActivity(), PaySelectActivity.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startWebView(String url) {
+        Intent i = new Intent(getActivity(), WebViewActivity.class);
+        i.putExtra("url", url);
+        this.startActivity(getActivity(), i);
+    }
+
+    public void startSearchProduct(){
+        Intent i = new Intent(getActivity(), SeachProduct.class);
         this.startActivity(getActivity(),i);
     }
 

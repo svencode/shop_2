@@ -1,32 +1,31 @@
 package com.cqgk.clerk.activity.product;
 
-import android.graphics.PointF;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridLayout;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.baoyz.actionsheet.ActionSheet;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.ProductEditItemAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.EditBean;
-import com.cqgk.clerk.zxing.ScanListener;
-import com.cqgk.clerk.zxing.ScanManager;
-import com.cqgk.clerk.zxing.decode.DecodeThread;
+import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
@@ -36,7 +35,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
  * Created by duke on 16/5/9.
  */
 @ContentView(R.layout.productedit)
-public class ProductEdit extends BusinessBaseActivity implements ScanListener {
+public class ProductEdit extends CamerBaseActivity {
 
     @ViewInject(R.id.selview)
     GridView selview;
@@ -44,25 +43,17 @@ public class ProductEdit extends BusinessBaseActivity implements ScanListener {
     @ViewInject(R.id.capture_preview)
     SurfaceView capture_preview;
 
-    @ViewInject(R.id.captureroot)
-    RelativeLayout captureroot;
 
-    @ViewInject(R.id.capture_scan_line)
-    ImageView capture_scan_line;
-
-    @ViewInject(R.id.parentrel)
-    RelativeLayout parentrel;
-
-
-    @ViewInject(R.id.capture_crop_view)
-    RelativeLayout capture_crop_view;
+    @ViewInject(R.id.productcode)
+    EditText productcode;
 
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<EditBean> editBeanList;
     private ProductEditItemAdapter productEditItemAdapter;
-    ScanManager scanManager;
 
+
+    private boolean hasSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +71,6 @@ public class ProductEdit extends BusinessBaseActivity implements ScanListener {
     @Override
     public void initView() {
         super.initView();
-        //构造出扫描管理器
-        scanManager = new ScanManager(this, capture_preview,
-                parentrel, capture_crop_view,
-                capture_scan_line, DecodeThread.ALL_MODE, this);
 
 
         productEditItemAdapter = new ProductEditItemAdapter(this, editBeanList);
@@ -151,28 +138,45 @@ public class ProductEdit extends BusinessBaseActivity implements ScanListener {
     };
 
     @Override
-    public void scanError(Exception e) {
-        showToast(e.getMessage());
-    }
-
-    @Override
-    public void scanResult(Result rawResult, Bundle bundle) {
-
-        showToast(rawResult.getText());
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        scanManager.onResume();
+        if (hasSurface) {
+            initCamera(capture_preview.getHolder());
+        } else {
+            capture_preview.getHolder().addCallback(this);
+            capture_preview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        scanManager.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    public void handleDecode(Result result, Bitmap barcode) {
+        super.handleDecode(result, barcode);
+        String recode = recode(result.toString());
+        productcode.setText(recode);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        if (!hasSurface) {
+            hasSurface = true;
+            initCamera(holder);
+        }
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        hasSurface = false;
+
+    }
 }

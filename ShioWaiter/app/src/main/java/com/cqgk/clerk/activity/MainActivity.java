@@ -59,6 +59,10 @@ public class MainActivity extends BusinessBaseActivity {
         NavigationHelper.getInstance().startVipRecharge();
     }
 
+    @Event(R.id.ad_1)
+    private void ad_1_click(View view) {
+        NavigationHelper.getInstance().startWebView("http://baidu.com");
+    }
 
 
 }

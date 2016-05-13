@@ -25,7 +25,8 @@
                 android:maxHeight="2560px"
                 android:maxWidth="1280px"
                 android:scaleType="fitXY"
-                android:src="@drawable/home_ad_ex" />
+                android:src="@drawable/home_ad_ex"
+                android:id="@+id/ad_1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
