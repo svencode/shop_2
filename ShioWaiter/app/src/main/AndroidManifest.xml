@@ -75,6 +75,11 @@
         <activity
             android:name=".activity.active.ActiveCard"
             android:orientation="vertical" />
+
+        <activity android:name=".activity.PickGoodActivity"
+            android:orientation="vertical" >
+
+        </activity>
     </application>
 
 </manifest>
