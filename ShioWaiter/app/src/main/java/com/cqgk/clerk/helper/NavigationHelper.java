@@ -3,26 +3,20 @@ package com.cqgk.clerk.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 
 
-import com.cqgk.clerk.activity.CashieringActivity;
-import com.cqgk.clerk.activity.InputMoney;
+import com.cqgk.clerk.activity.InputMoneyActivity;
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
 import com.cqgk.clerk.activity.PaySelectActivity;
-import com.cqgk.clerk.activity.PickGoodActivity;
-import com.cqgk.clerk.activity.VipRecharge;
+import com.cqgk.clerk.activity.ScanProductActivity;
+import com.cqgk.clerk.activity.VipRechargeActivity;
 import com.cqgk.clerk.activity.WebViewActivity;
 import com.cqgk.clerk.activity.active.ActiveCard;
 import com.cqgk.clerk.activity.product.ProductEdit;
 import com.cqgk.clerk.activity.product.SeachProduct;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
-
-import java.io.Serializable;
-import java.util.List;
 
 
 /**
@@ -69,9 +63,14 @@ public class NavigationHelper extends Basic {
 
     }
 
+    public void startScanProductActivity(){
+        Intent i = new Intent(getActivity(), ScanProductActivity.class);
+        this.startActivity(getActivity(),i);
+    }
+
     public void startMain(){
         Intent i = new Intent(getActivity(), MainActivity.class);
-        this.startActivity(getActivity(), i);
+        this.startActivity(getActivity(),i);
     }
 
     public void startUploadProduct(){
@@ -80,7 +79,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startVipRecharge(){
-        Intent i = new Intent(getActivity(), VipRecharge.class);
+        Intent i = new Intent(getActivity(), VipRechargeActivity.class);
         this.startActivity(getActivity(),i);
     }
 
@@ -90,7 +89,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startInputMoney(){
-        Intent i = new Intent(getActivity(), InputMoney.class);
+        Intent i = new Intent(getActivity(), InputMoneyActivity.class);
         this.startActivity(getActivity(),i);
     }
 
@@ -107,11 +106,6 @@ public class NavigationHelper extends Basic {
 
     public void startSearchProduct(){
         Intent i = new Intent(getActivity(), SeachProduct.class);
-        this.startActivity(getActivity(),i);
-    }
-
-    public void startCashiering(){
-        Intent i = new Intent(getActivity(), ProductEdit.class);
         this.startActivity(getActivity(),i);
     }
 

@@ -43,7 +43,6 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.WelcomeActivity"
@@ -51,10 +50,9 @@
             android:label="@string/app_name"
             android:orientation="vertical"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
+
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -70,27 +68,36 @@
             android:name=".activity.CashieringActivity"
             android:orientation="vertical" />
         <activity
-            android:name=".activity.VipRecharge"
+            android:name=".activity.VipRechargeActivity"
             android:orientation="vertical" />
         <activity
             android:name=".activity.active.ActiveCard"
             android:orientation="vertical" />
 
-        <activity android:name=".activity.PickGoodActivity"
+        <activity
+            android:name=".activity.PickGoodActivity"
             android:orientation="vertical" />
 
-        <activity android:name=".activity.InputMoney"
-            android:orientation="vertical" >
-        </activity>
-        <activity android:name=".activity.PaySelectActivity"
-            android:orientation="vertical" >
-        </activity>
-        <activity android:name=".activity.WebViewActivity"
-            android:orientation="vertical" >
-        </activity>
-        <activity android:name=".activity.product.SeachProduct"
+        <activity
+            android:name=".activity.InputMoneyActivity"
+            android:orientation="vertical"></activity>
+        <activity
+            android:name=".activity.PaySelectActivity"
+            android:orientation="vertical"></activity>
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:orientation="vertical"></activity>
+        <activity
+            android:name=".activity.product.SeachProduct"
             android:orientation="vertical"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activity.ScanProductActivity"
+            android:orientation="vertical">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

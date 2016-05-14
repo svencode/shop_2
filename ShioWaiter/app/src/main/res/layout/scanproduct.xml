@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentrel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/glo_bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true" />
+
+
+    <LinearLayout
+        android:id="@+id/scanResultarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_title_bar_layout"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/captureroot"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/scan_bg_color">
+
+            <SurfaceView
+                android:id="@+id/capture_preview"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/mo_scanner_bg" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:text="请扫描商品上的条码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_m" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="已扫描商品"
+        android:textColor="@color/font_color_3"
+        android:textSize="@dimen/text_size_l" />
+
+    <View style="@style/magic_h_line" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="卡布奇诺 2S 非常实用老人手机1312323313"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="4dp"
+            android:lines="1"
+            android:layout_weight="1"
+            android:ellipsize="end"/>
+
+        <com.cqgk.clerk.view.PricesTextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:lines="1"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/font_color_1"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="1件"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="+"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/font_color_1"
+            android:textSize="@dimen/text_size_l"/>
+    </LinearLayout>
+    <View style="@style/magic_h_line"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="卡布奇诺 2S 非常实用老人手机1312323313"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="8dp"
+            android:lines="1"
+            android:layout_weight="1"
+            android:ellipsize="end"/>
+
+        <com.cqgk.clerk.view.PricesTextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/font_color_1"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0件"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_m"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="+"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/font_color_1"
+            android:textSize="@dimen/text_size_l"/>
+    </LinearLayout>
+    <View style="@style/magic_h_line"/>
+
+</LinearLayout>

@@ -52,6 +52,19 @@ android {
         }
     }
 
+    //签名
+    signingConfigs {
+        debug {
+            storeFile file("keystore/debug.keystore")
+        }
+        release {
+            storeFile file("keystore/waiter.jks")
+            storePassword "waiter2016"
+            keyAlias "waiter"
+            keyPassword "waiter2016"
+        }
+
+    }
 
     //打包apk名称构成
     applicationVariants.all { variant ->
@@ -68,8 +81,19 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
