@@ -1,6 +1,7 @@
 package com.cqgk.clerk.activity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,10 @@ public class LoginActivity extends BusinessBaseActivity {
     @ViewInject(R.id.pwd)
     EditText pwd;
 
+    @ViewInject(R.id.randomcode)
+    Button randomcode;
+
+    private TimeCount time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,11 @@ public class LoginActivity extends BusinessBaseActivity {
             mobile.setText("18682013055");
             pwd.setText("123456");
         }
+
+        initView();
     }
+
+
 
 
     @Event(R.id.loginbtn)
@@ -86,5 +95,35 @@ public class LoginActivity extends BusinessBaseActivity {
 
         NavigationHelper.getInstance().startMain();
 
+    }
+
+    @Event(R.id.randomcode)
+    private void randomcode_click(View view){
+        time.start();//开始计时
+    }
+
+    @Override
+    public void initView() {
+        super.initView();
+        time = new TimeCount(60000, 1000);//60秒倒计时
+    }
+
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {//计时完毕时触发
+            randomcode.setText("获取随机密码");
+            randomcode.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {//计时过程显示
+            randomcode.setClickable(false);
+            randomcode.setText(millisUntilFinished / 1000 + "秒");
+        }
     }
 }

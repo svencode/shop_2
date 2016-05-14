@@ -22,6 +22,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="手机号"
+            android:maxLength="11"
+            android:digits="0123456789"
             android:textColor="@color/font_color_3"
             android:textSize="@dimen/text_size_m" />
 
@@ -83,6 +85,7 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:text="获取随机密码"
+            android:id="@+id/randomcode"
             android:textColor="@color/font_color_4" />
 
         <View

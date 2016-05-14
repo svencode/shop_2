@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.zxing.camera.CameraManager;
 import com.cqgk.clerk.zxing.decoding.CaptureActivityHandler;
 import com.google.zxing.Result;
@@ -26,7 +27,7 @@ public class CamerBaseActivity extends BusinessBaseActivity
         implements CamerInterface,SurfaceHolder.Callback {
     protected CaptureActivityHandler handler;
 
-    private static final int UPTATE_INTERVAL_TIME = 180;
+    private static final int UPTATE_INTERVAL_TIME = 2000;
     private long lastUpdateTime;
 
     @Override
@@ -42,7 +43,13 @@ public class CamerBaseActivity extends BusinessBaseActivity
 
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
+        long currentUpdateTime = System.currentTimeMillis();
+        long timeInterval = currentUpdateTime - lastUpdateTime;
+        if (timeInterval < UPTATE_INTERVAL_TIME){
+            return;
+        }
 
+        lastUpdateTime = currentUpdateTime;
     }
 
     @Override
@@ -94,12 +101,6 @@ public class CamerBaseActivity extends BusinessBaseActivity
     }
 
     protected void reScan(){
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME)
-            return;
-        lastUpdateTime = currentUpdateTime;
-
         if(handler!=null){
             handler.sendEmptyMessage(R.id.restart_preview);
         }

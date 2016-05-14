@@ -67,7 +67,7 @@ public class MainActivity extends BusinessBaseActivity {
 
     @Event(R.id.moneyrecord)
     private void moneyrecord_click(View view) {
-        NavigationHelper.getInstance().startCashiering();
+        //NavigationHelper.getInstance().startCashiering();
     }
 
 }
