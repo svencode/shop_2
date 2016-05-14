@@ -8,6 +8,11 @@
         layout="@layout/layout_bar_title"
         />
 
+    <include
+        android:id="@+id/search_bar"
+        layout="@layout/view_search"
+        />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

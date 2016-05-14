@@ -64,5 +64,10 @@ public class MainActivity extends BusinessBaseActivity {
         NavigationHelper.getInstance().startWebView("http://baidu.com");
     }
 
+    @Event(R.id.cashiering)
+    private void cashieringClick(View view){
+        NavigationHelper.getInstance().startCashiering();
+    }
+
 
 }

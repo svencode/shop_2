@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 
 
+import com.cqgk.clerk.activity.CashieringActivity;
 import com.cqgk.clerk.activity.InputMoney;
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
 import com.cqgk.clerk.activity.PaySelectActivity;
+import com.cqgk.clerk.activity.PickGoodActivity;
 import com.cqgk.clerk.activity.VipRecharge;
 import com.cqgk.clerk.activity.WebViewActivity;
 import com.cqgk.clerk.activity.active.ActiveCard;
@@ -69,7 +71,7 @@ public class NavigationHelper extends Basic {
 
     public void startMain(){
         Intent i = new Intent(getActivity(), MainActivity.class);
-        this.startActivity(getActivity(),i);
+        this.startActivity(getActivity(), i);
     }
 
     public void startUploadProduct(){
@@ -105,6 +107,11 @@ public class NavigationHelper extends Basic {
 
     public void startSearchProduct(){
         Intent i = new Intent(getActivity(), SeachProduct.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startCashiering(){
+        Intent i = new Intent(getActivity(), ProductEdit.class);
         this.startActivity(getActivity(),i);
     }
 
