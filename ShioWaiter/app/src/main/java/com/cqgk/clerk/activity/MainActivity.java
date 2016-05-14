@@ -64,5 +64,13 @@ public class MainActivity extends BusinessBaseActivity {
         NavigationHelper.getInstance().startWebView("http://baidu.com");
     }
 
+    @Event(R.id.moneyrecord)
+    private void moneyrecord_click(View view) {
+        showToast("此功能还没开放");
+    }
+
+
+
+
 
 }

@@ -22,7 +22,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by duke on 16/5/11.
  */
 @ContentView(R.layout.inputmoney)
-public class InputMoney extends BusinessBaseActivity {
+public class InputMoneyActivity extends BusinessBaseActivity {
 
     @ViewInject(R.id.summoney)
     TextView summoney;

@@ -29,7 +29,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by duke on 16/5/11.
  */
 @ContentView(R.layout.viprecharge)
-public class VipRecharge extends CamerBaseActivity {
+public class VipRechargeActivity extends CamerBaseActivity {
 
     @ViewInject(R.id.scansuccess)
     RelativeLayout scansuccess;

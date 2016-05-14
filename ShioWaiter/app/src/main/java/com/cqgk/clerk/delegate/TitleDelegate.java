@@ -207,6 +207,7 @@ public class TitleDelegate extends BasicDelegate {
     public void setLeftOnClick(View.OnClickListener onClickListener) {
         left_layout.setOnClickListener(onClickListener);
         mLeftBtn.setOnClickListener(onClickListener);
+        mLeftText.setOnClickListener(onClickListener);
     }
 
     public void setLeftText(int titleId) {
