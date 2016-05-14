@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import com.cqgk.clerk.activity.CashieringActivity;
 import com.cqgk.clerk.activity.InputMoneyActivity;
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
@@ -65,7 +66,7 @@ public class NavigationHelper extends Basic {
 
     public void startScanProductActivity(){
         Intent i = new Intent(getActivity(), ScanProductActivity.class);
-        this.startActivity(getActivity(),i);
+        this.startActivity(getActivity(), i);
     }
 
     public void startMain(){
@@ -106,6 +107,11 @@ public class NavigationHelper extends Basic {
 
     public void startSearchProduct(){
         Intent i = new Intent(getActivity(), SeachProduct.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startCashiering(){
+        Intent i = new Intent(getActivity(), CashieringActivity.class);
         this.startActivity(getActivity(),i);
     }
 
