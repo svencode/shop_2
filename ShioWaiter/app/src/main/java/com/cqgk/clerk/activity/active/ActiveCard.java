@@ -83,9 +83,6 @@ public class ActiveCard extends CamerBaseActivity {
         }
     }
 
-    private void reScan() {
-
-    }
 
     @Override
     public void onPause() {

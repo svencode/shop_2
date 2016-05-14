@@ -163,6 +163,7 @@ public class ProductEdit extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         String recode = recode(result.toString());
         productcode.setText(recode);
+        reScan();
     }
 
     @Override

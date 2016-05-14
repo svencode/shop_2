@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.zxing.camera.CameraManager;
 import com.cqgk.clerk.zxing.decoding.CaptureActivityHandler;
@@ -25,6 +26,8 @@ public class CamerBaseActivity extends BusinessBaseActivity
         implements CamerInterface,SurfaceHolder.Callback {
     protected CaptureActivityHandler handler;
 
+    private static final int UPTATE_INTERVAL_TIME = 180;
+    private long lastUpdateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,18 @@ public class CamerBaseActivity extends BusinessBaseActivity
         }
         if (handler == null) {
             handler = new CaptureActivityHandler(this, null,null);
+        }
+    }
+
+    protected void reScan(){
+        long currentUpdateTime = System.currentTimeMillis();
+        long timeInterval = currentUpdateTime - lastUpdateTime;
+        if (timeInterval < UPTATE_INTERVAL_TIME)
+            return;
+        lastUpdateTime = currentUpdateTime;
+
+        if(handler!=null){
+            handler.sendEmptyMessage(R.id.restart_preview);
         }
     }
 
