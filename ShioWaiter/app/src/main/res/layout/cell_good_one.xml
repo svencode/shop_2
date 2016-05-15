@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/imgIV"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ex_product"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,32 +23,45 @@
             android:maxLines="1"
             android:textColor="@color/color_gray"
             android:textSize="@dimen/text_size_m"
-            android:text="卡布奇洛"/>
+            android:text="卡布奇诺 智能手机2S 全网通 屏幕5.0吋 内存2G+..."/>
 
         
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:id="@+id/numEditView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true">
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                >
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:text="-"/>
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+
+                    android:background="@drawable/bg_gray_border"
+                    android:text="-"
+                    android:textColor="@color/color_red"
+                    />
+
                 <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"/>
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:background="@drawable/bg_gray_border_topandbottom"
+                    android:gravity="center"/>
+
+
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:background="@drawable/bg_gray_border"
+                    android:textColor="@color/color_red"
                     android:text="+"/>
             </LinearLayout>
 
@@ -65,7 +79,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="￥999"/>
+                    android:text="￥999"
+                    android:textColor="@color/color_red"/>
             </LinearLayout>
 
         </RelativeLayout>

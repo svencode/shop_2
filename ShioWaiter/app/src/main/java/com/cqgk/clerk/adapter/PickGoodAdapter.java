@@ -40,6 +40,7 @@ public class PickGoodAdapter extends BaseAdapter{
             view = LayoutInflater.from(context).inflate(R.layout.cell_title, null);
             TextView name = (TextView) view.findViewById(R.id.nameTV);
             name.setText(0==position?"本单商品":"本店热销");
+            view.setBackgroundResource(R.color.bg_color);
         }else if (position>0 && position<4){
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_one, null);
         }else {
