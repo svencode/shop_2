@@ -25,8 +25,18 @@ public abstract class HttpCallBack<T> {
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     *  - 200：调用正常，表示已按照正常业务流程处理；
+     - 400：请求传入的参数不合法被服务端拒绝；
+     - 500：服务端处理出现异常；
+     - 401：用户未登录或者会话已超期；
+     - 403：用户执行未授权的操作；
+     - 510：登录失败（用户名或者密码错误）；
+     - 511：登录失败（用户验证通过，但无权限登录该功能）；
+     - 601：会员卡不存在；
+     - 602：会员卡已被使用；
+     */
     void handle(String resultJsonStr) {
-
         if (!CheckUtils.isAvailable(resultJsonStr)) {
             AppUtil.showToast("resultJsonStr is empty___");
             return;
@@ -70,7 +80,6 @@ public abstract class HttpCallBack<T> {
                     //AppUtil.showToast("new gson type fail");
                 }
             }
-
         }
 
         //返回失败

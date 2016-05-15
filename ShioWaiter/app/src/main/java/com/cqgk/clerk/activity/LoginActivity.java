@@ -83,6 +83,7 @@ public class LoginActivity extends BusinessBaseActivity {
 
                 PreferencesHelper.save(Key.TOKEN, result.getToken());
                 PreferencesHelper.save(Key.USERID, result.getUserid());
+                NavigationHelper.getInstance().startMain();
 
             }
 
@@ -93,7 +94,7 @@ public class LoginActivity extends BusinessBaseActivity {
             }
         });
 
-        NavigationHelper.getInstance().startMain();
+
 
     }
 

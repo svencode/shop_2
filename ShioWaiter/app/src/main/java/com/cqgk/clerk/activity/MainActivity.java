@@ -67,6 +67,7 @@ public class MainActivity extends BusinessBaseActivity {
 
     @Event(R.id.moneyrecord)
     private void moneyrecord_click(View view) {
+        showLongToast("此功能还没开放");
         //NavigationHelper.getInstance().startCashiering();
     }
 
