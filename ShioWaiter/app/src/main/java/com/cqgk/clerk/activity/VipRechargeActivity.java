@@ -60,13 +60,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("会员充值");
-        getTitleDelegate().setRightText("商品");
-        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationHelper.getInstance().startSearchProduct();
-            }
-        });
+
 
 
         inputmoney.addTextChangedListener(new TextWatcher() {
@@ -106,6 +100,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         cardnum.setText(String.format("卡号:%s", recode));
         cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
         captureroot.setVisibility(View.GONE);
+        reScan();
     }
 
     @Override

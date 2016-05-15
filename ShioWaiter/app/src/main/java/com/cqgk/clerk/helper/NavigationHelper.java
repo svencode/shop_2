@@ -13,9 +13,9 @@ import com.cqgk.clerk.activity.PaySelectActivity;
 import com.cqgk.clerk.activity.ScanProductActivity;
 import com.cqgk.clerk.activity.VipRechargeActivity;
 import com.cqgk.clerk.activity.WebViewActivity;
-import com.cqgk.clerk.activity.active.ActiveCard;
-import com.cqgk.clerk.activity.product.ProductEdit;
-import com.cqgk.clerk.activity.product.SeachProduct;
+import com.cqgk.clerk.activity.active.ActiveCardActivity;
+import com.cqgk.clerk.activity.product.ProductEditActivity;
+import com.cqgk.clerk.activity.product.SeachProductActivity;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
 
@@ -75,7 +75,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startUploadProduct(){
-        Intent i = new Intent(getActivity(), ProductEdit.class);
+        Intent i = new Intent(getActivity(), ProductEditActivity.class);
         this.startActivity(getActivity(),i);
     }
 
@@ -85,7 +85,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startActiveCard(){
-        Intent i = new Intent(getActivity(), ActiveCard.class);
+        Intent i = new Intent(getActivity(), ActiveCardActivity.class);
         this.startActivity(getActivity(),i);
     }
 
@@ -106,7 +106,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startSearchProduct(){
-        Intent i = new Intent(getActivity(), SeachProduct.class);
+        Intent i = new Intent(getActivity(), SeachProductActivity.class);
         this.startActivity(getActivity(),i);
     }
 

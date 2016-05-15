@@ -29,7 +29,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by duke on 16/5/11.
  */
 @ContentView(R.layout.activecard)
-public class ActiveCard extends CamerBaseActivity {
+public class ActiveCardActivity extends CamerBaseActivity {
 
     @ViewInject(R.id.scansuccess)
     RelativeLayout scansuccess;
@@ -83,9 +83,6 @@ public class ActiveCard extends CamerBaseActivity {
         }
     }
 
-    private void reScan() {
-
-    }
 
     @Override
     public void onPause() {
@@ -106,6 +103,7 @@ public class ActiveCard extends CamerBaseActivity {
         cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
         captureroot.setVisibility(View.GONE);
         opencard.setVisibility(View.VISIBLE);
+        reScan();
     }
 
     @Override

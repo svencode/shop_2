@@ -16,6 +16,7 @@ import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.ProductEditItemAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.EditBean;
+import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.google.zxing.Result;
 
@@ -35,7 +36,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
  * Created by duke on 16/5/9.
  */
 @ContentView(R.layout.productedit)
-public class ProductEdit extends CamerBaseActivity {
+public class ProductEditActivity extends CamerBaseActivity {
 
     @ViewInject(R.id.selview)
     GridView selview;
@@ -60,6 +61,13 @@ public class ProductEdit extends CamerBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("商品上传");
+        getTitleDelegate().setRightText("商品");
+        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationHelper.getInstance().startSearchProduct();
+            }
+        });
 
         editBeanList = new ArrayList<>();
         editBeanList.add(new EditBean());
@@ -163,6 +171,7 @@ public class ProductEdit extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         String recode = recode(result.toString());
         productcode.setText(recode);
+        reScan();
     }
 
     @Override

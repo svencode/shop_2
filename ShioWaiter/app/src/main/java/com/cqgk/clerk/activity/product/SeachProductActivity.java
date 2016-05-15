@@ -19,7 +19,7 @@ import java.util.List;
  * Created by duke on 16/5/14.
  */
 @ContentView(R.layout.searchproduct)
-public class SeachProduct extends BusinessBaseActivity {
+public class SeachProductActivity extends BusinessBaseActivity {
 
     @ViewInject(R.id.listview)
     NormalListView listview;
