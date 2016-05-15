@@ -63,7 +63,7 @@ public class MainActivity extends BusinessBaseActivity {
     private void ad_1_click(View view) {
         NavigationHelper.getInstance().startWebView("http://baidu.com");
     }
-    
+
 
     @Event(R.id.moneyrecord)
     private void moneyrecord_click(View view) {
