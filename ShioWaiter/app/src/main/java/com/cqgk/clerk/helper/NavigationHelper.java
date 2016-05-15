@@ -10,6 +10,7 @@ import com.cqgk.clerk.activity.InputMoneyActivity;
 import com.cqgk.clerk.activity.LoginActivity;
 import com.cqgk.clerk.activity.MainActivity;
 import com.cqgk.clerk.activity.PaySelectActivity;
+import com.cqgk.clerk.activity.PickGoodActivity;
 import com.cqgk.clerk.activity.ScanProductActivity;
 import com.cqgk.clerk.activity.VipRechargeActivity;
 import com.cqgk.clerk.activity.WebViewActivity;
@@ -111,6 +112,11 @@ public class NavigationHelper extends Basic {
     }
 
     public void startCashiering(){
+        Intent i = new Intent(getActivity(), PickGoodActivity.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startPayBill(){
         Intent i = new Intent(getActivity(), CashieringActivity.class);
         this.startActivity(getActivity(),i);
     }

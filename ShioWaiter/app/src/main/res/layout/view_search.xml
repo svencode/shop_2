@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/bg_color">
     <Button
         android:id="@+id/btn_search"
         android:layout_width="60dp"
@@ -10,7 +11,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="搜索"
-        android:textColor="@color/color_red"/>
+        android:textColor="@color/color_red"
+        android:background="@drawable/bg_gray_border_round"/>
     
     <EditText
         android:id="@+id/et_search"
@@ -20,5 +22,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:hint="请输入商品标题关键字"
-        android:layout_toLeftOf="@+id/btn_search"/>
+        android:layout_toLeftOf="@+id/btn_search"
+        android:drawableLeft="@drawable/icon_search_et"
+        android:drawablePadding="5dp"
+        android:background="@drawable/bg_gray_border_round"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:paddingRight="45dp"/>
+
+    <ImageButton
+        android:id="@+id/cleanIB"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/et_search"
+        android:src="@drawable/icon_clean_et"
+        android:background="@android:color/transparent"
+        />
 </RelativeLayout>
