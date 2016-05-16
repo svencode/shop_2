@@ -84,7 +84,7 @@ public class WXPayHelper extends Basic {
 
 
     /**
-     *
+     *发起支付
      * @param appid
      * @param partnerId
      * @param prepayid

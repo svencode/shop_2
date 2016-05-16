@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
+import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
+import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
@@ -64,6 +66,9 @@ public class ActiveCardActivity extends CamerBaseActivity {
     @ViewInject(R.id.phone)
     EditText phone;
 
+    @ViewInject(R.id.card_idcard)
+    EditText card_idcard;
+
     private boolean hasSurface;
     private String card_id;
 
@@ -102,15 +107,16 @@ public class ActiveCardActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
         cid = AppEnter.TestCardid;
+        card_id = cid;
 
-        RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
+        RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
-            public void success(CardDtlBean result) {
-                card_id = result.getCard_id();
+            public void success(String result) {
                 scansuccess.setVisibility(View.VISIBLE);
-                cardnum.setText(String.format("卡号:%s", result.getCard_id()));
-                cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
+                cardnum.setText(String.format("卡号:%s", card_id));
+                cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
+                opencard.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -151,6 +157,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
 
     @Event(R.id.opencard)
     private void opencard_click(View view) {
+
         if (!CheckUtils.isAvailable(memeber_name.getText().toString())) {
             showLongToast("请输入会员姓名");
             return;
@@ -171,15 +178,49 @@ public class ActiveCardActivity extends CamerBaseActivity {
                 new CommonDialogView.DialogClickListener() {
                     @Override
                     public void doConfirm() {
+                        openVipCard();
+                    }
+                }, true, false, "返回修改", "确定开通");
+
+    }
+
+    private void openVipCard() {
+        RequestUtils.membercardAct(card_id,
+                memeber_name.getText().toString(),
+                phone.getText().toString(),
+                card_idcard.getText().toString(),
+                row_4_pwd.getText().toString(), new HttpCallBack<MembercardActBean>() {
+                    @Override
+                    public void success(MembercardActBean result) {
                         CommonDialogView.show("卡片信息已完成绑定\n还需要充值100元才能成功开通",
                                 new CommonDialogView.DialogClickListener() {
                                     @Override
                                     public void doConfirm() {
-                                        NavigationHelper.getInstance().startInputMoney();
+                                        getRechargeCode();
                                     }
                                 }, true, false, "取消", "去充值");
                     }
-                }, true, false, "返回修改", "确定开通");
 
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+    }
+
+    private void getRechargeCode() {
+        RequestUtils.vipRecharge(card_id, "100", new HttpCallBack<RechargeResultBean>() {
+            @Override
+            public void success(RechargeResultBean result) {
+                NavigationHelper.getInstance().startPaySelect();
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                return super.failure(state, msg);
+            }
+        });
     }
 }

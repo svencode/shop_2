@@ -102,6 +102,11 @@
             android:orientation="vertical">
 
         </activity>
+        <activity
+            android:name="com.cqgk.shennong.shop.activity.VipPaySelectActivity"
+            android:orientation="vertical">
+
+        </activity>
 
         <activity
             android:name="com.cqgk.shennong.shop.wxapi.WXPayEntryActivity"

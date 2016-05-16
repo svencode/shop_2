@@ -178,7 +178,7 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
-                android:id="@+id/row_3_edit"
+                android:id="@+id/card_idcard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_3_title"

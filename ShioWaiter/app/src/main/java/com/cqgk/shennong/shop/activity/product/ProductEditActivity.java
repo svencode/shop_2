@@ -19,6 +19,7 @@ import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
+import com.cqgk.shennong.shop.utils.AppUtil;
 import com.cqgk.shennong.shop.utils.CheckUtils;
 import com.cqgk.shennong.shop.zxing.CamerBaseActivity;
 import com.cqgk.shennong.shop.R;
@@ -136,7 +137,6 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                     @Override
                     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
-                        String path = "/sdcard/pk1-2.jpg";
                         switch (index) {
                             case 0:
                                 GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
@@ -156,15 +156,26 @@ public class ProductEditActivity extends CamerBaseActivity {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
-                final EditBean temp = new EditBean();
-                PhotoInfo photoInfo = resultList.get(0);
-                temp.setPhotoInfo(photoInfo);
 
-                RequestUtils.fileUpload(temp, temp.getFileName(), new HttpCallBack<FileUploadResultBean>() {
+                final PhotoInfo photoInfo = resultList.get(0);
+                File file = new File(photoInfo.getPhotoPath());
+                if(file.length()/1024>1024){
+                    showLongToast("上传的图片不能大于1M");
+                    return;
+                }
+
+                String fileName = AppUtil.getFileName(photoInfo.getPhotoPath());
+
+                RequestUtils.fileUpload(photoInfo.getPhotoPath(),
+                        fileName, new HttpCallBack<FileUploadResultBean>() {
                     @Override
                     public void success(FileUploadResultBean result) {
+                        EditBean temp = new EditBean();
+                        temp.setPhotoInfo(photoInfo);
                         temp.setUploadId(result.getFile_id());
                         editBeanList.add(temp);
+                        productEditItemAdapter.setValueList(editBeanList);
+                        productEditItemAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -174,13 +185,6 @@ public class ProductEditActivity extends CamerBaseActivity {
                     }
                 });
 
-//                for (PhotoInfo item : resultList) {
-//                    EditBean temp = new EditBean();
-//                    temp.setPhotoInfo(item);
-//                    editBeanList.add(temp);
-//                }
-                productEditItemAdapter.setValueList(editBeanList);
-                productEditItemAdapter.notifyDataSetChanged();
             }
         }
 

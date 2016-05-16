@@ -185,4 +185,9 @@ public class UrlApi {
      */
     public static String url_getCardInfo="member/getCardInfo.do";
 
+    /**
+     * 查询上传的所有商品
+     */
+    public static String url_queryClerkGoods="goods/queryClerkGoods.do";
+
 }

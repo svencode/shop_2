@@ -6,6 +6,8 @@ import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
+import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 import com.cqgk.shennong.shop.config.Key;
 import com.cqgk.shennong.shop.helper.PreferencesHelper;
@@ -16,12 +18,70 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by duke on 16/5/12.
  */
 public class RequestUtils {
 
+
+    /**
+     *
+     * @param keyword
+     * @param pageIndex
+     * @param pageSize
+     * @param callBack
+     */
+    public static void queryClerkGoodsByKey(String keyword,String pageIndex, String pageSize, HttpCallBack<List<ProductDtlBean>> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
+        params.addParameter("keyword",keyword);
+        params.addParameter("pageIndex",pageIndex);
+        params.addParameter("pageSize",pageSize);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+    /**
+     * 查询上传所有的商品
+     * @param pageIndex
+     * @param pageSize
+     * @param callBack
+     */
+    public static void allProdct(String pageIndex, String pageSize, HttpCallBack<List<ProductDtlBean>> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
+        params.addParameter("pageIndex",pageIndex);
+        params.addParameter("pageSize",pageSize);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
+     * 会员开卡
+     * @param card_id
+     * @param card_name
+     * @param card_mobile
+     * @param card_idcard
+     * @param card_password
+     * @param callBack
+     */
+    public static void membercardAct(String card_id,
+                                     String card_name,
+                                     String card_mobile,
+                                     String card_idcard,
+                                     String card_password,
+                                     HttpCallBack<MembercardActBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_membercardActivate));
+        params.addParameter("card_id",card_id);
+        params.addParameter("card_name",card_name);
+        params.addParameter("card_mobile",card_mobile);
+        params.addParameter("card_idcard",card_idcard);
+        params.addParameter("card_password",card_password);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+
+    }
 
     /**
      * 会员卡充值->获取paycode
@@ -112,13 +172,13 @@ public class RequestUtils {
      * @param filename
      * @param callBlack
      */
-    public static void fileUpload(EditBean file, String filename , HttpCallBack<FileUploadResultBean> callBlack ){
+    public static void fileUpload(String filepath, String filename , HttpCallBack<FileUploadResultBean> callBlack ){
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_appUpload));
         params.setHeader("x_file_name",filename);
         params.setMultipart(true);
         try {
         params.addBodyParameter("file",
-                new FileInputStream(new File(file.getPhotoInfo().getPhotoPath())),null,filename);
+                new FileInputStream(new File(filepath)),null,filename);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }

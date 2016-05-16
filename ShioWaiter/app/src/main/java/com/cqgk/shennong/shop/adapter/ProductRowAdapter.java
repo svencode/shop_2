@@ -5,9 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.ProductRowBean;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.helper.ImageHelper;
+import com.cqgk.shennong.shop.utils.ViewHolderUtil;
+import com.cqgk.shennong.shop.view.PricesTextView;
 
 import java.util.List;
 
@@ -17,13 +23,13 @@ import java.util.List;
 public class ProductRowAdapter extends BaseAdapter {
     private Context context;
 
-    private List<ProductRowBean> valuelist;
+    private List<ProductDtlBean> valuelist;
 
     public ProductRowAdapter(Context context) {
         this.context = context;
     }
 
-    public ProductRowAdapter(Context context,List<ProductRowBean> valuelist) {
+    public ProductRowAdapter(Context context,List<ProductDtlBean> valuelist) {
         this.context = context;
         this.valuelist = valuelist;
     }
@@ -36,11 +42,11 @@ public class ProductRowAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public List<ProductRowBean> getValuelist() {
+    public List<ProductDtlBean> getValuelist() {
         return valuelist;
     }
 
-    public void setValuelist(List<ProductRowBean> valuelist) {
+    public void setValuelist(List<ProductDtlBean> valuelist) {
         this.valuelist = valuelist;
     }
 
@@ -50,7 +56,7 @@ public class ProductRowAdapter extends BaseAdapter {
     }
 
     @Override
-    public ProductRowBean getItem(int position) {
+    public ProductDtlBean getItem(int position) {
         return null;
     }
 
@@ -65,8 +71,17 @@ public class ProductRowAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.productrowitem, null);
         }
 
-        ProductRowBean item = valuelist.get(position);
+        ProductDtlBean item = valuelist.get(position);
 
+        ImageView imageView = ViewHolderUtil.get(view,R.id.gimg);
+        TextView title = ViewHolderUtil.get(view,R.id.title);
+        TextView desc = ViewHolderUtil.get(view,R.id.desc);
+        PricesTextView price = ViewHolderUtil.get(view,R.id.price);
+
+        ImageHelper.getInstance().display(imageView,item.getLogoImg());
+        title.setText(item.getGoodsTitle());
+        desc.setText(item.getSpecificationDesc());
+        price.setText(String.valueOf(item.getVipPrice()));
 
         return view;
     }

@@ -12,6 +12,7 @@ import com.cqgk.shennong.shop.activity.MainActivity;
 import com.cqgk.shennong.shop.activity.PaySelectActivity;
 import com.cqgk.shennong.shop.activity.PickGoodActivity;
 import com.cqgk.shennong.shop.activity.ScanProductActivity;
+import com.cqgk.shennong.shop.activity.VipPaySelectActivity;
 import com.cqgk.shennong.shop.activity.VipRechargeActivity;
 import com.cqgk.shennong.shop.activity.WebViewActivity;
 import com.cqgk.shennong.shop.activity.active.ActiveCardActivity;
@@ -118,6 +119,11 @@ public class NavigationHelper extends Basic {
 
     public void startPayBill(){
         Intent i = new Intent(getActivity(), CashieringActivity.class);
+        this.startActivity(getActivity(),i);
+    }
+
+    public void startVipPaySelect(){
+        Intent i = new Intent(getActivity(), VipPaySelectActivity.class);
         this.startActivity(getActivity(),i);
     }
 

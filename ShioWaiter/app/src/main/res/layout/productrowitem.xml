@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:textSize="@dimen/text_size_m"
             android:textColor="@color/font_color_3"
-            android:text="卡布奇诺 之能力是的酸辣粉 上锁的房间稍等来佛挡杀佛第三方"
+            android:text="title"
             android:id="@+id/title"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="8dp"/>
@@ -37,13 +37,13 @@
             android:ellipsize="end"
             android:textSize="@dimen/text_size_m"
             android:textColor="@color/font_color_4"
-            android:text="符合肥料31-"
+            android:text="desc"
             android:id="@+id/desc"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/title"/>
 
-        <com.cqgk.clerk.view.PricesTextView
+        <com.cqgk.shennong.shop.view.PricesTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
