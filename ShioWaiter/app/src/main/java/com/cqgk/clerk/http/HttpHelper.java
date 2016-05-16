@@ -90,6 +90,7 @@ public class HttpHelper
             this.showAlert = showAlert;
             this.callBack = myCallback;
             x.http().post(params, this);
+
         }
 
 
@@ -102,14 +103,10 @@ public class HttpHelper
             LogUtil.w("HttpRequest", String.format("___params:%s", params.getQueryStringParams().toString()));
         }
 
-//        if (params.getHeaders() != null && params.getHeaders().size() > 0) {
-//            LogUtil.w("HttpRequest", String.format("____headers:Auth-Token:%s,private-key:%s,appid:%s,device_token:%s",
-//
-//                    params.getHeaders().get(0).getValueStr(),
-//                    params.getHeaders().get(1).getValueStr(),
-//                    params.getHeaders().get(2).getValueStr(),
-//                    params.getHeaders().get(3).getValueStr()));
-//        }
+        if (params.getHeaders() != null && params.getHeaders().size() > 0) {
+            LogUtil.w("HttpRequest", String.format("____headers:x-Token:%s",
+                    params.getHeaders().toString()));
+        }
     }
 
 

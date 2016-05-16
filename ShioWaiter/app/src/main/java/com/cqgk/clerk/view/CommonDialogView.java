@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.Basic;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.shennong.shop.R;
 
 
 /**

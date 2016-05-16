@@ -12,17 +12,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.baoyz.actionsheet.ActionSheet;
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.ProductEditItemAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.EditBean;
+import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
+import com.cqgk.shennong.shop.R;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +54,17 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.productcode)
     EditText productcode;
 
+
+    @ViewInject(R.id.productTitle)
+    EditText productTitle;
+
+    @ViewInject(R.id.retailPrice)
+    EditText retailPrice;
+
+    @ViewInject(R.id.vipPrice)
+    EditText vipPrice;
+
+
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<EditBean> editBeanList;
@@ -55,12 +72,13 @@ public class ProductEditActivity extends CamerBaseActivity {
 
 
     private boolean hasSurface;
+    private String productId;//商品ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-        getTitleDelegate().setTitle("商品上传");
+
         getTitleDelegate().setRightText("商品");
         getTitleDelegate().setRightOnClick(new View.OnClickListener() {
             @Override
@@ -80,6 +98,12 @@ public class ProductEditActivity extends CamerBaseActivity {
     public void initView() {
         super.initView();
 
+        if (CheckUtils.isAvailable(productId)) {
+            getTitleDelegate().setTitle("商品更新");
+        } else {
+            getTitleDelegate().setTitle("商品上传");
+        }
+
 
         productEditItemAdapter = new ProductEditItemAdapter(this, editBeanList);
         selview.setAdapter(productEditItemAdapter);
@@ -89,6 +113,11 @@ public class ProductEditActivity extends CamerBaseActivity {
                 EditBean editBean = productEditItemAdapter.getItem(i);
                 if (editBean.getPhotoInfo() == null) {
                     startActionSheet();
+                } else {
+                    editBeanList.remove(i);
+                    productEditItemAdapter.setValueList(editBeanList);
+                    productEditItemAdapter.notifyDataSetChanged();
+
                 }
             }
         });
@@ -110,7 +139,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                         String path = "/sdcard/pk1-2.jpg";
                         switch (index) {
                             case 0:
-                                GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, 8, mOnHanlderResultCallback);
+                                GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
                                 break;
                             case 1:
                                 GalleryFinal.openCamera(REQUEST_CODE_CAMERA, mOnHanlderResultCallback);
@@ -127,13 +156,31 @@ public class ProductEditActivity extends CamerBaseActivity {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
-                editBeanList = new ArrayList<>();
-                editBeanList.add(new EditBean());
-                for (PhotoInfo item : resultList) {
-                    EditBean temp = new EditBean();
-                    temp.setPhotoInfo(item);
-                    editBeanList.add(temp);
-                }
+                final EditBean temp = new EditBean();
+                PhotoInfo photoInfo = resultList.get(0);
+                temp.setPhotoInfo(photoInfo);
+                temp.setUploadId("1001X");
+                editBeanList.add(temp);
+
+                RequestUtils.fileUpload(temp, temp.getFileName(), new HttpCallBack<FileUploadResultBean>() {
+                    @Override
+                    public void success(FileUploadResultBean result) {
+                        temp.setUploadId(result.getFile_id());
+                        editBeanList.add(temp);
+                    }
+
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+
+//                for (PhotoInfo item : resultList) {
+//                    EditBean temp = new EditBean();
+//                    temp.setPhotoInfo(item);
+//                    editBeanList.add(temp);
+//                }
                 productEditItemAdapter.setValueList(editBeanList);
                 productEditItemAdapter.notifyDataSetChanged();
             }
@@ -188,4 +235,72 @@ public class ProductEditActivity extends CamerBaseActivity {
         hasSurface = false;
 
     }
+
+
+    @Event(R.id.savenow)
+    private void savenow_click(View view) {
+
+        if (!CheckUtils.isAvailable(productcode.getText().toString())) {
+            showLongToast("请扫描后输入条形码");
+            return;
+        }
+
+        if (!CheckUtils.isAvailable(productTitle.getText().toString())) {
+            showLongToast("请输入商品名称");
+            return;
+        }
+
+        if (!CheckUtils.isAvailable(retailPrice.getText().toString())) {
+            showLongToast("请输入零售价");
+            return;
+        }
+        if (!CheckUtils.isAvailable(vipPrice.getText().toString())) {
+            showLongToast("请输入会员价");
+            return;
+        }
+
+        if (editBeanList == null || editBeanList.size() == 0) {
+            showLongToast("请上传商品图片");
+            return;
+        }
+
+        String ids = getAllUploadId();
+
+
+        RequestUtils.productUpdate(productId,
+                productcode.getText().toString(),
+                productTitle.getText().toString(),
+                retailPrice.getText().toString(),
+                vipPrice.getText().toString(),
+                editBeanList.get(0).getUploadId(),
+                ids, new HttpCallBack<String>() {
+                    @Override
+                    public void success(String result) {
+                        showLongToast(result);
+                        finish();
+                    }
+
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+    }
+
+
+    private String getAllUploadId() {
+        String uploadIDS = "";
+        for (int i = 0; i < editBeanList.size(); i++) {
+            if(editBeanList.get(i).getPhotoInfo()==null)continue;
+
+            String uploadId = editBeanList.get(i).getUploadId();
+            if (CheckUtils.isAvailable(uploadId))
+                uploadIDS += uploadId + ",";
+        }
+
+        return uploadIDS.length() > 0 ? uploadIDS.substring(0,uploadIDS.length()-1) : "";
+    }
+
+
 }

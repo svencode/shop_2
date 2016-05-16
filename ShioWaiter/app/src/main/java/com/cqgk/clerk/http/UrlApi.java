@@ -1,7 +1,6 @@
 package com.cqgk.clerk.http;
 
 
-import com.cqgk.clerk.BuildConfig;
 
 /**
  * 接口url地址定义

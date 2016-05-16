@@ -24,10 +24,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.zxing.camera.CameraManager;
 import com.cqgk.clerk.zxing.camera.PlanarYUVLuminanceSource;
+import com.cqgk.shennong.shop.R;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;

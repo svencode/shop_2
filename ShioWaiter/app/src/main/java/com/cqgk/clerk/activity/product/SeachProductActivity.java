@@ -2,11 +2,11 @@ package com.cqgk.clerk.activity.product;
 
 import android.os.Bundle;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.ProductRowAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.ProductRowBean;
 import com.cqgk.clerk.view.NormalListView;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;

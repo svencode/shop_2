@@ -39,7 +39,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "clerk.cqgk.com.shiowaiter"
+        applicationId "com.cqgk.shennong.shop"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1

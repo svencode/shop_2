@@ -16,11 +16,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.ProgressWebView;
+import com.cqgk.shennong.shop.R;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

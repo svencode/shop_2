@@ -3,9 +3,12 @@ package com.cqgk.clerk.activity;
 import android.os.Bundle;
 import android.os.Message;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.config.Key;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.helper.PreferencesHelper;
+import com.cqgk.clerk.logic.normal.UserLogic;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 
@@ -40,7 +43,11 @@ public class WelcomeActivity extends BusinessBaseActivity {
         super.onUIHandleMessage(msg);
         switch (msg.what) {
             case UI_MAIN_TAB:
-                NavigationHelper.getInstance().startLoginActivity();
+                if(UserLogic.isLogin()){
+                    NavigationHelper.getInstance().startMain();
+                }else {
+                    NavigationHelper.getInstance().startLoginActivity();
+                }
                 finish();
                 break;
         }

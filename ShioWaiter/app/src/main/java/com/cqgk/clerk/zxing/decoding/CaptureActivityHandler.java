@@ -27,9 +27,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.zxing.camera.CameraManager;
+import com.cqgk.shennong.shop.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 

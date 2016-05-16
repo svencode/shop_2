@@ -38,7 +38,7 @@ public abstract class HttpCallBack<T> {
      */
     void handle(String resultJsonStr) {
         if (!CheckUtils.isAvailable(resultJsonStr)) {
-            AppUtil.showToast("resultJsonStr is empty___");
+            AppUtil.showToast("服务器空返回.(Server Response Empty)");
             return;
         }
 

@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.base.BusinessBaseFragment;
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.DisplayUtil;
+import com.cqgk.shennong.shop.R;
 
 
 /**

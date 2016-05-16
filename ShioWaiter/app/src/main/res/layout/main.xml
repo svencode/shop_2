@@ -58,7 +58,8 @@
                         android:gravity="center"
                         android:text="0.0"
                         android:textColor="@color/font_color_3"
-                        android:textSize="@dimen/text_size_m" />
+                        android:textSize="@dimen/text_size_m"
+                        android:id="@+id/money_a"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -85,7 +86,8 @@
                         android:gravity="center"
                         android:text="0.0"
                         android:textColor="@color/font_color_3"
-                        android:textSize="@dimen/text_size_m" />
+                        android:textSize="@dimen/text_size_m"
+                        android:id="@+id/money_b"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,7 +114,8 @@
                         android:gravity="center"
                         android:text="0.0"
                         android:textColor="@color/font_color_3"
-                        android:textSize="@dimen/text_size_m" />
+                        android:textSize="@dimen/text_size_m"
+                        android:id="@+id/money_c"/>
                 </LinearLayout>
 
             </LinearLayout>

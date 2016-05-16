@@ -5,7 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
+import com.cqgk.shennong.shop.R;
+
 
 /**
  * 自定义行组件
