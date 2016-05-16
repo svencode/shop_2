@@ -18,6 +18,8 @@ import com.cqgk.shennong.shop.R;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
+
 /**
  * Created by sven on 16/5/11.
  */
@@ -27,6 +29,8 @@ public class PickGoodActivity extends BusinessBaseActivity{
     ListView listView;
 
     private String keyWork;
+
+    PickGoodAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +47,40 @@ public class PickGoodActivity extends BusinessBaseActivity{
 
         layoutView();
 
+        getHotGood();
         getValue();
     }
 
 
     private void layoutView(){
-        PickGoodAdapter adapter = new PickGoodAdapter(this);
-        listView.setAdapter( adapter);
+        adapter = new PickGoodAdapter(this);
+        listView.setAdapter(adapter);
     }
 
     private void getValue(){
         RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
+            @Override
+            public void success(GoodListBean result) {
+
+                result = new GoodListBean();
+                ArrayList<GoodListBean.Item> items = new ArrayList<GoodListBean.Item>();
+                GoodListBean.Item item = null;
+
+                for (int i=0;i<10;i++){
+                    item = new GoodListBean.Item();
+                    item.setGoodsTitle("我是一个商品"+i);
+                    item.setRetailPrice(32.76);
+                    item.setSpecificationDesc("我是一个描述");
+                }
+                items.add(item);
+                adapter.setTopGoodList(result);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void getHotGood(){
+        RequestUtils.queryTopGoodsList(new HttpCallBack<GoodListBean>() {
             @Override
             public void success(GoodListBean result) {
 
