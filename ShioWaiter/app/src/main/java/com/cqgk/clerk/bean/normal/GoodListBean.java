@@ -25,7 +25,7 @@ public class GoodListBean {
         this.list = list;
     }
 
-    public class Item{
+    public static class Item{
         private String id;
         private String goodsId;
         private String goodsTitle;

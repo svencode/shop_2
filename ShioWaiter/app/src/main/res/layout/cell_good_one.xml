@@ -73,10 +73,12 @@
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/numEditView">
                 <TextView
+                    android:id="@+id/descTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="复合肥料"/>
                 <TextView
+                    android:id="@+id/priceTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="￥999"

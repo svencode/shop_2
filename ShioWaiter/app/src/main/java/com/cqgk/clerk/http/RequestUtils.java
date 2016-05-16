@@ -2,6 +2,8 @@ package com.cqgk.clerk.http;
 
 import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.LoginResultBean;
+import com.cqgk.clerk.config.Key;
+import com.cqgk.clerk.helper.PreferencesHelper;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class RequestUtils {
         if (null == keyword){
             keyword = "";
         }
+        params = getLoginParams(params);
         params.addParameter("keyword",keyword);
         params.addParameter("pageIndex",pageIndex);
         params.addParameter("pageSize",20);
@@ -53,8 +56,9 @@ public class RequestUtils {
      */
     public static void submitOrder(String MCID, String CCID, ArrayList<String> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
-        params.addBodyParameter("MCID",MCID);
-        params.addBodyParameter("CCID",CCID);
+        params = getLoginParams(params);
+        params.addBodyParameter("MCID", MCID);
+        params.addBodyParameter("CCID", CCID);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
@@ -66,7 +70,13 @@ public class RequestUtils {
      */
     public static void queryTopGoodsList(HttpCallBack<GoodListBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkTopGoodsList));
+        params = getLoginParams(params);
         RequestHelper.sendPost(true, params, callBlack);
+    }
+
+    private static CommonParams getLoginParams(CommonParams params){
+        params.setHeader("x_token", PreferencesHelper.find(Key.TOKEN,""));
+        return params;
     }
 
 }
