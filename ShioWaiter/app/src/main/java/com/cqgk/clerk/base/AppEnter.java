@@ -31,6 +31,8 @@ public class AppEnter extends BaseApp {
     public static Fragment MainFragment;
 
 
+    public static String TestCardid="010125200000002";
+
 
 
 

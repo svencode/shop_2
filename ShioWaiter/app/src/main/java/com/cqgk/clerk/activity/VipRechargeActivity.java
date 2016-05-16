@@ -12,8 +12,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.bean.normal.CardDtlBean;
+import com.cqgk.clerk.bean.normal.RechargeResultBean;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
@@ -54,13 +59,13 @@ public class VipRechargeActivity extends CamerBaseActivity {
     TextView summoney;
 
     private boolean hasSurface;
+    private String card_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("会员充值");
-
 
 
         inputmoney.addTextChangedListener(new TextWatcher() {
@@ -76,7 +81,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                summoney.setText(String.format("￥%s",inputmoney.getText().toString()));
+                summoney.setText(String.format("￥%s", inputmoney.getText().toString()));
             }
         });
     }
@@ -95,12 +100,43 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        String recode = recode(result.toString());
-        scansuccess.setVisibility(View.VISIBLE);
-        cardnum.setText(String.format("卡号:%s", recode));
-        cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
-        captureroot.setVisibility(View.GONE);
-        reScan();
+        String cid = recode(result.toString());
+
+        cid = AppEnter.TestCardid;
+        RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
+            @Override
+            public void success(CardDtlBean result) {
+                card_id = result.getCard_id();
+                scansuccess.setVisibility(View.VISIBLE);
+                cardnum.setText(String.format("卡号:%s", result.getCard_id()));
+                cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
+                captureroot.setVisibility(View.GONE);
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                reScan();
+                return super.failure(state, msg);
+            }
+        });
+
+
+    }
+
+    private void checkCard(String card_id) {
+        RequestUtils.checkCardState(card_id, new HttpCallBack<String>() {
+            @Override
+            public void success(String result) {
+
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                return super.failure(state, msg);
+            }
+        });
     }
 
     @Override
@@ -117,7 +153,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         CommonDialogView.show("你确认删除此张卡片信息?", new CommonDialogView.DialogClickListener() {
             @Override
             public void doConfirm() {
-                initCamera(capture_preview.getHolder());
+                reScan();
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
             }
@@ -132,27 +168,48 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
 
     @Event(R.id.congnow)
-    private void congnow_click(View view){
+    private void congnow_click(View view) {
 
 
-        if(!CheckUtils.isAvailable(inputmoney.getText().toString())){
+        if (!CheckUtils.isAvailable(card_id)) {
+            showLongToast("请扫描有效的会员卡");
+            return;
+        }
+
+
+        if (!CheckUtils.isAvailable(inputmoney.getText().toString())) {
             showLongToast("请输入您要充值的金额");
             return;
         }
 
         long imoney = Long.parseLong(inputmoney.getText().toString());
-        if(imoney%100!=0){
+        if (imoney % 100 != 0) {
             showLongToast("充值金额必须为100元的整倍数");
             return;
         }
 
 
+        CommonDialogView.show("请确定您收到客户的现金后再进行充值", new CommonDialogView.DialogClickListener() {
+            @Override
+            public void doConfirm() {
+                getRechargeCode();
 
-       CommonDialogView.show("请确定您收到客户的现金后再进行充值", new CommonDialogView.DialogClickListener() {
-           @Override
-           public void doConfirm() {
-               NavigationHelper.getInstance().startPaySelect();
-           }
-       },true,false,"","继续");
+            }
+        }, true, false, "", "继续");
+    }
+
+    private void getRechargeCode() {
+        RequestUtils.vipRecharge(card_id, inputmoney.getText().toString(), new HttpCallBack<RechargeResultBean>() {
+            @Override
+            public void success(RechargeResultBean result) {
+                NavigationHelper.getInstance().startPaySelect();
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                return super.failure(state, msg);
+            }
+        });
     }
 }

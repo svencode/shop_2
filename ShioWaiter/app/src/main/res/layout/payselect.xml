@@ -20,7 +20,8 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:id="@+id/payway">
+        android:id="@+id/payway"
+        android:paddingLeft="10dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -44,8 +45,8 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp" />
 
             <LinearLayout
@@ -77,8 +78,8 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp" />
 
             <LinearLayout
@@ -105,8 +106,43 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"/>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_weixinpay" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不支持信用卡支付"
+                    android:layout_marginTop="3dp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <CheckBox
+                style="@style/CustomCheckboxThemeNormal"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp" />
 
             <LinearLayout
@@ -138,8 +174,8 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp" />
 
             <LinearLayout
@@ -181,8 +217,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="$0"
-            android:textSize="@dimen/text_size_m" />
+            android:text="￥0"
+            android:textSize="@dimen/text_size_m"
+            android:id="@+id/paymoney"/>
 
         <Button
             android:layout_width="100dp"
