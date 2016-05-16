@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
+import com.cqgk.shennong.shop.R;
+
 
 /**
  * Created by sven on 16/5/12.

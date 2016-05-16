@@ -8,11 +8,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.zxing.camera.CameraManager;
 import com.cqgk.clerk.zxing.decoding.CaptureActivityHandler;
+import com.cqgk.shennong.shop.R;
 import com.google.zxing.Result;
 
 import java.io.IOException;

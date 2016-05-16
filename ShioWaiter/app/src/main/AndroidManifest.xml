@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cqgk.clerk"
+    package="com.cqgk.shennong.shop"
     android:versionCode="1"
     android:versionName="1.1">
 
@@ -39,13 +39,13 @@
 
 
     <application
-        android:name=".base.AppEnter"
+        android:name="com.cqgk.clerk.base.AppEnter"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name="com.cqgk.clerk.activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:orientation="vertical"
@@ -61,44 +61,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.cqgk.clerk.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.cqgk.clerk.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.product.ProductEditActivity"
+            android:name="com.cqgk.clerk.activity.product.ProductEditActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.CashieringActivity"
+            android:name="com.cqgk.clerk.activity.CashieringActivity"
             android:orientation="vertical" />
         <activity
-            android:name=".activity.VipRechargeActivity"
+            android:name="com.cqgk.clerk.activity.VipRechargeActivity"
             android:orientation="vertical" />
         <activity
-            android:name=".activity.active.ActiveCardActivity"
-            android:orientation="vertical" />
-
-        <activity
-            android:name=".activity.PickGoodActivity"
+            android:name="com.cqgk.clerk.activity.active.ActiveCardActivity"
             android:orientation="vertical" />
 
         <activity
-            android:name=".activity.InputMoneyActivity"
+            android:name="com.cqgk.clerk.activity.PickGoodActivity"
+            android:orientation="vertical" />
+
+        <activity
+            android:name="com.cqgk.clerk.activity.InputMoneyActivity"
             android:orientation="vertical"></activity>
         <activity
-            android:name=".activity.PaySelectActivity"
+            android:name="com.cqgk.clerk.activity.PaySelectActivity"
             android:orientation="vertical"></activity>
         <activity
-            android:name=".activity.WebViewActivity"
+            android:name="com.cqgk.clerk.activity.WebViewActivity"
             android:orientation="vertical"></activity>
         <activity
-            android:name=".activity.product.SeachProductActivity"
+            android:name="com.cqgk.clerk.activity.product.SeachProductActivity"
             android:orientation="vertical"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".activity.ScanProductActivity"
+            android:name="com.cqgk.clerk.activity.ScanProductActivity"
             android:orientation="vertical">
 
         </activity>

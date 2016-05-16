@@ -7,9 +7,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
+import com.cqgk.shennong.shop.R;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;

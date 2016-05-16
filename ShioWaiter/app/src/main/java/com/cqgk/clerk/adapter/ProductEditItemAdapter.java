@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.utils.ViewHolderUtil;
+import com.cqgk.shennong.shop.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +92,15 @@ public class ProductEditItemAdapter extends BaseAdapter {
         return view;
     }
 
+    /**
+     * 删除物品
+     * @param i
+     */
+    public void removeItem(int i){
+        if(valueList==null)return;
+        valueList.remove(i);
+        notifyDataSetChanged();
+    }
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();

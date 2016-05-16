@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
+import com.cqgk.shennong.shop.R;
 
 
 /**

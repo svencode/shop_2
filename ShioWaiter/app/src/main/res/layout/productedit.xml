@@ -21,7 +21,8 @@
         android:background="@color/glo_nav_bar_bg"
         android:text="保存"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_l" />
+        android:textSize="@dimen/text_size_l"
+        android:id="@+id/savenow"/>
 
 
     <LinearLayout
@@ -115,7 +116,8 @@
                 android:textColorHint="@color/font_color_4"
                 android:hint="请输入商品名称"
                 android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m" />
+                android:textSize="@dimen/text_size_m"
+                android:id="@+id/productTitle"/>
 
         </RelativeLayout>
 
@@ -139,7 +141,7 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
-                android:id="@+id/row_3_edit"
+                android:id="@+id/retailPrice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_3_title"
@@ -147,7 +149,10 @@
                 android:textColorHint="@color/font_color_4"
                 android:hint="请输入商品零售价"
                 android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m" />
+                android:textSize="@dimen/text_size_m"
+                android:inputType="numberDecimal"
+                android:digits="0123456789."
+                />
 
             <TextView
                 android:layout_width="80dp"
@@ -180,7 +185,7 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
-                android:id="@+id/row_4_edit"
+                android:id="@+id/vipPrice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_4_title"
@@ -188,7 +193,9 @@
                 android:textColorHint="@color/font_color_4"
                 android:hint="请输入商品会员价"
                 android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m" />
+                android:textSize="@dimen/text_size_m"
+                android:inputType="numberDecimal"
+                android:digits="0123456789."/>
 
             <TextView
                 android:layout_width="80dp"

@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.cqgk.clerk.BuildConfig;
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.LoginResultBean;
 import com.cqgk.clerk.config.Key;
@@ -16,6 +14,8 @@ import com.cqgk.clerk.helper.PreferencesHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.shennong.shop.BuildConfig;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -48,6 +48,9 @@ public class LoginActivity extends BusinessBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("用户登录");
         getTitleDelegate().hideLeftBtn();
+
+
+
 
         if(BuildConfig.DEBUG){
             mobile.setText("18682013055");

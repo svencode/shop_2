@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.CommonDialogView;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;

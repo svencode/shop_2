@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.ProductRowBean;
+import com.cqgk.shennong.shop.R;
 
 import java.util.List;
 

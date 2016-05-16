@@ -3,13 +3,17 @@ package com.cqgk.clerk.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.bean.normal.HomeBean;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.view.CommonDialogView;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -21,7 +25,15 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.main)
 public class MainActivity extends BusinessBaseActivity {
 
+    @ViewInject(R.id.money_a)
+    TextView money_a;
 
+
+    @ViewInject(R.id.money_b)
+    TextView money_b;
+
+    @ViewInject(R.id.money_c)
+    TextView money_c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +51,24 @@ public class MainActivity extends BusinessBaseActivity {
                         AppEnter.exitAccount();
                     }
                 });
+            }
+        });
+
+        requestData();
+    }
+
+    @Override
+    public void requestData() {
+        super.requestData();
+        RequestUtils.homedata(new HttpCallBack<HomeBean>() {
+            @Override
+            public void success(HomeBean result) {
+                if(result==null)
+                    return;
+
+                money_a.setText(String.valueOf(result.getTCA()));
+                money_b.setText(String.valueOf(result.getTMA()));
+                money_c.setText(String.valueOf(result.getYTA()));
             }
         });
     }

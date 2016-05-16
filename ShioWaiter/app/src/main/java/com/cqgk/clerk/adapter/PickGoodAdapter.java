@@ -9,8 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cqgk.clerk.R;
+
 import com.cqgk.clerk.bean.normal.GoodListBean;
+
+import com.cqgk.shennong.shop.R;
+
 
 /**
  * Created by sven on 16/5/12.

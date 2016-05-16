@@ -34,6 +34,24 @@ import java.util.List;
  */
 public class AppUtil extends Basic {
 
+    /**
+     * 获取文件名
+     * @param pathandname
+     * @return
+     */
+    public static String getFileName(String pathandname){
+
+        int start=pathandname.lastIndexOf("/");
+        int end=pathandname.lastIndexOf(".");
+        if(start!=-1){
+            return pathandname.substring(start+1);
+        }else{
+            return null;
+        }
+
+    }
+
+
     public static String getUrlEncoder(String content){
         try {
             return java.net.URLEncoder.encode(content, "utf-8");

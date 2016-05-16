@@ -3,10 +3,10 @@ package com.cqgk.clerk.activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.PickGoodAdapter;
 import com.cqgk.clerk.adapter.SearchResultAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.shennong.shop.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;

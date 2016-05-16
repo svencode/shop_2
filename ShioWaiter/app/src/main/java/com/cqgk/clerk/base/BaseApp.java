@@ -3,11 +3,11 @@ package com.cqgk.clerk.base;
 import android.app.Application;
 import android.app.NotificationManager;
 
-import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.helper.PreferencesHelper;
 import com.cqgk.clerk.view.galleryfinall.UILImageLoader;
 import com.cqgk.clerk.view.galleryfinall.UILPauseOnScrollListener;
+import com.cqgk.shennong.shop.BuildConfig;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;

@@ -32,8 +32,8 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-import com.cqgk.clerk.R;
 
+import com.cqgk.shennong.shop.R;
 
 /**
  * Private class created to work around issues with AnimationListeners being

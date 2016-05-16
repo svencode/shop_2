@@ -10,11 +10,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.Basic;
 import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.UrlApi;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.shennong.shop.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
