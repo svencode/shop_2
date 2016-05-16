@@ -16,6 +16,7 @@ import com.cqgk.shennong.shop.R;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -66,5 +67,11 @@ public class CashieringActivity extends CamerBaseActivity {
     private void layoutView() {
         CashieringAdapter adapter = new CashieringAdapter(this);
         listView.setAdapter(adapter);
+    }
+
+
+    @Event(R.id.goPayBtn)
+    private void goPay(View view) {
+
     }
 }
