@@ -143,7 +143,7 @@ public class UrlApi {
     /**
      * 会员开卡充值
      */
-    public static String url_recharge="pay/recharge.do";
+    public static String url_recharge="member/recharge.do";
 
     /**
      * 首页 统计当前店小二账户的今日会员卡 、今日现金、昨日销售 资金流水
@@ -179,4 +179,10 @@ public class UrlApi {
      *结算界面扫描现金券时重新计算价格信息
      */
     public static String url_settleScanCashCoupon="order/settleScanCashCoupon.do";
+
+    /**
+     * 卡信息
+     */
+    public static String url_getCardInfo="member/getCardInfo.do";
+
 }

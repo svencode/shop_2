@@ -53,7 +53,7 @@ public class LoginActivity extends BusinessBaseActivity {
 
 
         if(BuildConfig.DEBUG){
-            mobile.setText("13739704118");
+            mobile.setText("13939446027");
             pwd.setText("123456");
         }
 

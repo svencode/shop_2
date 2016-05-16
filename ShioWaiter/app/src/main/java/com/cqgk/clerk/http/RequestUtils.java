@@ -1,10 +1,12 @@
 package com.cqgk.clerk.http;
 
+import com.cqgk.clerk.bean.normal.CardDtlBean;
 import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.bean.normal.HomeBean;
 import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.LoginResultBean;
+import com.cqgk.clerk.bean.normal.RechargeResultBean;
 import com.cqgk.clerk.config.Key;
 import com.cqgk.clerk.helper.PreferencesHelper;
 import com.cqgk.clerk.utils.CheckUtils;
@@ -19,6 +21,47 @@ import java.util.ArrayList;
  * Created by duke on 16/5/12.
  */
 public class RequestUtils {
+
+
+    /**
+     * 会员卡充值->获取paycode
+     * @param card_id
+     * @param amount
+     * @param callBack
+     */
+    public static void vipRecharge(String card_id,String amount,HttpCallBack<RechargeResultBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_recharge));
+        params.addParameter("card_id",card_id);
+        params.addParameter("amount",amount);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
+     * 卡信息
+     * @param card_id
+     * @param callBlack
+     */
+    public static void cardInfo(String card_id,HttpCallBack<CardDtlBean> callBlack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_getCardInfo));
+        params.addParameter("card_id",card_id);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+    /**
+     * 检测卡有效性
+     * @param card_id
+     * @param callBlack
+     */
+    public static void checkCardState(String card_id,HttpCallBack<String> callBlack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_checkCardStatus));
+        params.addParameter("card_id",card_id);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
 
     /**
      * 用户登录
