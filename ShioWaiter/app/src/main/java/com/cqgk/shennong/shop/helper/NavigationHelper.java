@@ -3,6 +3,7 @@ package com.cqgk.shennong.shop.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 
 import com.cqgk.shennong.shop.activity.CashieringActivity;
@@ -20,6 +21,9 @@ import com.cqgk.shennong.shop.activity.product.ProductEditActivity;
 import com.cqgk.shennong.shop.activity.product.SeachProductActivity;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.Basic;
+import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
+
+import java.io.Serializable;
 
 
 /**
@@ -122,8 +126,11 @@ public class NavigationHelper extends Basic {
         this.startActivity(getActivity(),i);
     }
 
-    public void startVipPaySelect(){
+    public void startVipPaySelect(RechargeResultBean bean){
         Intent i = new Intent(getActivity(), VipPaySelectActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ordercode", (Serializable) bean);
+        i.putExtras(bundle);
         this.startActivity(getActivity(),i);
     }
 

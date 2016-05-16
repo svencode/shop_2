@@ -47,7 +47,8 @@
                 style="@style/CustomCheckboxThemeNormal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:id="@+id/sel_1"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -80,7 +81,8 @@
                 style="@style/CustomCheckboxThemeNormal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:id="@+id/sel_2"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -109,7 +111,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="10dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/sel_3"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -143,7 +146,8 @@
                 style="@style/CustomCheckboxThemeNormal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:id="@+id/sel_4"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -176,7 +180,8 @@
                 style="@style/CustomCheckboxThemeNormal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:id="@+id/sel_5"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -212,12 +217,12 @@
         android:background="@color/white"
         android:paddingLeft="10dp">
 
-        <TextView
+        <com.cqgk.shennong.shop.view.PricesTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="￥0"
+            android:text="0"
             android:textSize="@dimen/text_size_m"
             android:id="@+id/paymoney"/>
 
@@ -229,7 +234,8 @@
             android:gravity="center"
             android:text="付款"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_m" />
+            android:textSize="@dimen/text_size_m"
+            android:id="@+id/paynow"/>
 
     </RelativeLayout>
 

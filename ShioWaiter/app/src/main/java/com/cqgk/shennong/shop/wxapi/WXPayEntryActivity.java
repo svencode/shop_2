@@ -32,6 +32,8 @@ public class WXPayEntryActivity extends BusinessBaseActivity
     public static String TAG = "paytag";
     protected IWXAPI api;
 
+    @ViewInject(R.id.showmsgicon)
+    TextView showmsgicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +113,16 @@ public class WXPayEntryActivity extends BusinessBaseActivity
     public void onResp(BaseResp resp) {
         switch (resp.errCode) {
             case 0://支付成功
-                showToast("支付成功");
+                showToast("充值成功");
+                showmsgicon.setText("充值成功");
                 break;
             case -1://支付失败
                 showToast("支付失败");
+                showmsgicon.setText("支付失败");
                 break;
             case -2://取消支付
                 showToast("取消支付");
+                showmsgicon.setText("取消支付");
                 break;
         }
     }

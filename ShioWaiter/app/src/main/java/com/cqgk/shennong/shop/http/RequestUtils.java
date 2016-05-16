@@ -1,5 +1,6 @@
 package com.cqgk.shennong.shop.http;
 
+import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
@@ -24,6 +25,25 @@ import java.util.List;
  * Created by duke on 16/5/12.
  */
 public class RequestUtils {
+
+
+    /**
+     * 获取微信支付参数
+     * @param payCode
+     * @param gateway
+     * @param callBack
+     *  - 10：店小二微信支付通道
+    - 8：农掌柜微信支付通道
+    - 9：新农宝微信支付通道
+
+     */
+    public static void prepareWeixinPay(String payCode,String gateway, HttpCallBack<WechatResultBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_prepareWeixinPay));
+        params.addParameter("payCode",payCode);
+        params.addParameter("gateway",gateway);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
 
 
     /**

@@ -26,7 +26,8 @@ import java.net.URLEncoder;
  */
 public class PayUtil {
     private Activity context;
-    public PayUtil(Activity context){
+
+    public PayUtil(Activity context) {
         this.context = context;
     }
 
@@ -42,7 +43,7 @@ public class PayUtil {
 
     private static final int SDK_CHECK_FLAG = 2;
 
-    public void aliPay(String orderName,String orderId,String orderSN,String amount){
+    public void aliPay(String orderName, String orderId, String orderSN, String amount) {
         if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
                 || TextUtils.isEmpty(SELLER)) {
             new AlertDialog.Builder(context)
@@ -61,7 +62,7 @@ public class PayUtil {
         // 订单
 //        String orderInfo = getOrderInfo(dtlData.getOrderinfo().getOrder_sn(), dtlData.getOrderinfo().getOrder_sn(), dtlData.getOrderinfo().getOrder_amount());
 
-        String orderInfo = getOrderInfo(orderName, orderSN,orderId, amount);
+        String orderInfo = getOrderInfo(orderName, orderSN, orderId, amount);
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
@@ -100,8 +101,7 @@ public class PayUtil {
     /**
      * sign the order info. 对订单信息进行签名
      *
-     * @param content
-     *            待签名订单信息
+     * @param content 待签名订单信息
      */
     private String sign(String content) {
         return SignUtils.sign(content, RSA_PRIVATE);
@@ -109,7 +109,6 @@ public class PayUtil {
 
     /**
      * get the sign type we use. 获取签名方式
-     *
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";
@@ -156,12 +155,13 @@ public class PayUtil {
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     /**
      * create the order info. 创建订单信息
-     *
      */
     private String getOrderInfo(String subject, String body, String orderid, String price) {
 
@@ -218,7 +218,8 @@ public class PayUtil {
     //--------------------------------微信支付---------------------------------------------------
     public static final String WECHAT_APP_ID = "wxd930ea5d5a258f4f";
     private IWXAPI api;
-    public void wechatPay(String orderid){
+
+    public void wechatPay(String orderid) {
         api = WXAPIFactory.createWXAPI(context, WECHAT_APP_ID);
         //TODO 获取支付参数
 //        SnacksRequestLogic.wechatPay(context, orderid, new SnacksRequestCallBackT<WechatPayBean>() {
@@ -240,25 +241,27 @@ public class PayUtil {
     }
 
     //微信支付
-    private void wechatPay(WechatPayBean object){
+    private void wechatPay(WechatPayBean object) {
         api.registerApp(WECHAT_APP_ID);
 
-        if (!checkWechatPaySupported()){return;}
+        if (!checkWechatPaySupported()) {
+            return;
+        }
         PayReq request = new PayReq();
         request.appId = object.getAction().getAppid();
         request.partnerId = object.getAction().getPartnerid();
-        request.prepayId= object.getAction().getPrepayid();
+        request.prepayId = object.getAction().getPrepayid();
         request.packageValue = object.getAction().getPackageStr();
-        request.nonceStr= object.getAction().getNoncestr();
-        request.timeStamp= object.getAction().getTimestamp();
-        request.sign= object.getAction().getSign();
+        request.nonceStr = object.getAction().getNoncestr();
+        request.timeStamp = object.getAction().getTimestamp();
+        request.sign = object.getAction().getSign();
         api.sendReq(request);
     }
 
     //检查微信是否支持
-    private boolean checkWechatPaySupported(){
+    private boolean checkWechatPaySupported() {
         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-        if (!isPaySupported){
+        if (!isPaySupported) {
             AppUtil.showToast("当前微信版本不支持微信支付");
         }
 

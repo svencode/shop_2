@@ -213,7 +213,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
         RequestUtils.vipRecharge(card_id, "100", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
-                NavigationHelper.getInstance().startPaySelect();
+                NavigationHelper.getInstance().startVipPaySelect(result);
             }
 
             @Override

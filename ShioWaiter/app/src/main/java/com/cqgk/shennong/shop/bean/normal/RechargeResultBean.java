@@ -1,9 +1,11 @@
 package com.cqgk.shennong.shop.bean.normal;
 
+import java.io.Serializable;
+
 /**
  * Created by duke on 16/5/16.
  */
-public class RechargeResultBean {
+public class RechargeResultBean implements Serializable{
 
     /**
      * payCode : 支付订单号

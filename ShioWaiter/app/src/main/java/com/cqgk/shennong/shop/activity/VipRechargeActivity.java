@@ -154,6 +154,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         CommonDialogView.show("你确认删除此张卡片信息?", new CommonDialogView.DialogClickListener() {
             @Override
             public void doConfirm() {
+                card_id="";
                 reScan();
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
@@ -203,7 +204,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         RequestUtils.vipRecharge(card_id, inputmoney.getText().toString(), new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
-                NavigationHelper.getInstance().startVipPaySelect();
+                NavigationHelper.getInstance().startVipPaySelect(result);
             }
 
             @Override

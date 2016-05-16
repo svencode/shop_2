@@ -190,4 +190,9 @@ public class UrlApi {
      */
     public static String url_queryClerkGoods="goods/queryClerkGoods.do";
 
+    /**
+     * 获取微信支付参数
+     */
+    public static String url_prepareWeixinPay="payment/prepareWeixinPay.do";
+
 }
