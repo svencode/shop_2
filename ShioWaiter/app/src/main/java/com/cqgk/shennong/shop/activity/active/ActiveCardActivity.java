@@ -11,7 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cqgk.shennong.shop.base.AppEnter;
+import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
+import com.cqgk.shennong.shop.http.HttpCallBack;
+import com.cqgk.shennong.shop.http.RequestUtils;
 import com.cqgk.shennong.shop.utils.CheckUtils;
 import com.cqgk.shennong.shop.view.CommonDialogView;
 import com.cqgk.shennong.shop.zxing.CamerBaseActivity;
@@ -61,6 +65,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
     EditText phone;
 
     private boolean hasSurface;
+    private String card_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +100,26 @@ public class ActiveCardActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        String recode = recode(result.toString());
-        scansuccess.setVisibility(View.VISIBLE);
-        cardnum.setText(String.format("卡号:%s", recode));
-        cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
-        captureroot.setVisibility(View.GONE);
-        opencard.setVisibility(View.VISIBLE);
-        reScan();
+        String cid = recode(result.toString());
+        cid = AppEnter.TestCardid;
+
+        RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
+            @Override
+            public void success(CardDtlBean result) {
+                card_id = result.getCard_id();
+                scansuccess.setVisibility(View.VISIBLE);
+                cardnum.setText(String.format("卡号:%s", result.getCard_id()));
+                cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
+                captureroot.setVisibility(View.GONE);
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                reScan();
+                return super.failure(state, msg);
+            }
+        });
     }
 
     @Override
@@ -123,7 +141,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
         CommonDialogView.show("你确认删除此张卡片信息?", new CommonDialogView.DialogClickListener() {
             @Override
             public void doConfirm() {
-                initCamera(capture_preview.getHolder());
+                reScan();
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
             }

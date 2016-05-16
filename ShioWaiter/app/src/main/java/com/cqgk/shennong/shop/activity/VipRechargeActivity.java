@@ -101,8 +101,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
-
         cid = AppEnter.TestCardid;
+
+
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
             public void success(CardDtlBean result) {
