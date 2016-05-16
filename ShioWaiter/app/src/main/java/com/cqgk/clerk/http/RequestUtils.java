@@ -34,7 +34,6 @@ public class RequestUtils {
 
 
     /**
-<<<<<<< HEAD
      * 首页
      * @param callBlack
      */
@@ -43,7 +42,8 @@ public class RequestUtils {
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
-     * 搜索商品
+
+    /* 搜索商品
      * @param keyword
      * @param pageIndex
      * @param callBlack
@@ -109,7 +109,7 @@ public class RequestUtils {
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
-     * 提交订单
+     /* 提交订单
      * @param MCID
      * @param CCID
      * @param goods
