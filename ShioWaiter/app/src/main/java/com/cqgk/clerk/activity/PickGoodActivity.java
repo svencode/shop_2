@@ -9,7 +9,10 @@ import com.cqgk.clerk.adapter.CashieringAdapter;
 import com.cqgk.clerk.adapter.PickGoodAdapter;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.view.CommonDialogView;
 
 import org.xutils.view.annotation.ContentView;
@@ -22,6 +25,8 @@ import org.xutils.view.annotation.ViewInject;
 public class PickGoodActivity extends BusinessBaseActivity{
     @ViewInject(R.id.listView)
     ListView listView;
+
+    private String keyWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +42,22 @@ public class PickGoodActivity extends BusinessBaseActivity{
         });
 
         layoutView();
+
+        getValue();
     }
 
 
     private void layoutView(){
         PickGoodAdapter adapter = new PickGoodAdapter(this);
         listView.setAdapter( adapter);
+    }
+
+    private void getValue(){
+        RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
+            @Override
+            public void success(GoodListBean result) {
+
+            }
+        });
     }
 }

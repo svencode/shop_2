@@ -63,6 +63,7 @@
             android:textSize="@dimen/text_size_l" />
 
         <Button
+            android:id="@+id/goPayBtn"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
