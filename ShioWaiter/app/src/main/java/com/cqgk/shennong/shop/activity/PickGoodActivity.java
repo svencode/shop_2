@@ -1,6 +1,7 @@
 package com.cqgk.shennong.shop.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Created by sven on 16/5/11.
  */
 @ContentView(R.layout.activity_pickgood)
-public class PickGoodActivity extends BusinessBaseActivity{
+public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAdapter.PickGoodDelegate{
     @ViewInject(R.id.listView)
     ListView listView;
 
@@ -48,12 +49,11 @@ public class PickGoodActivity extends BusinessBaseActivity{
         layoutView();
 
         getHotGood();
-        getValue();
     }
 
 
     private void layoutView(){
-        adapter = new PickGoodAdapter(this);
+        adapter = new PickGoodAdapter(this,this);
         listView.setAdapter(adapter);
     }
 
@@ -63,18 +63,7 @@ public class PickGoodActivity extends BusinessBaseActivity{
             public void success(GoodListBean result) {
 
                 result = new GoodListBean();
-                ArrayList<GoodListBean.Item> items = new ArrayList<GoodListBean.Item>();
-                GoodListBean.Item item = null;
 
-                for (int i=0;i<10;i++){
-                    item = new GoodListBean.Item();
-                    item.setGoodsTitle("我是一个商品"+i);
-                    item.setRetailPrice(32.76);
-                    item.setSpecificationDesc("我是一个描述");
-                }
-                items.add(item);
-                adapter.setTopGoodList(result);
-                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -83,8 +72,26 @@ public class PickGoodActivity extends BusinessBaseActivity{
         RequestUtils.queryTopGoodsList(new HttpCallBack<GoodListBean>() {
             @Override
             public void success(GoodListBean result) {
+                ArrayList<GoodListBean.Item> items = new ArrayList<GoodListBean.Item>();
+                GoodListBean.Item item = null;
 
+                for (int i=0;i<9;i++){
+                    item = new GoodListBean.Item();
+                    item.setGoodsTitle("我是一个商品"+i);
+                    item.setRetailPrice(32.76);
+                    item.setSpecificationDesc("我是一个描述");
+                    items.add(item);
+                }
+
+                adapter.getTopGoodList().addAll(items);
+                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+
+    @Override
+    public void topGoodClick(GoodListBean.Item item) {
+
     }
 }
