@@ -8,6 +8,7 @@ import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
+import com.cqgk.shennong.shop.bean.normal.HomeAdsBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
@@ -16,6 +17,7 @@ import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.ProductStandInfoBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
+import com.cqgk.shennong.shop.bean.normal.ShopInfoBean;
 import com.cqgk.shennong.shop.config.Key;
 import com.cqgk.shennong.shop.helper.PreferencesHelper;
 import com.cqgk.shennong.shop.utils.CheckUtils;
@@ -36,6 +38,26 @@ import java.util.List;
  */
 public class RequestUtils {
 
+    /**
+     * 店铺名称
+     * @param callBack
+     */
+    public static void queryServiceNickName(HttpCallBack<ShopInfoBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryServiceNickName));
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
+     * 首页广告
+     * @param callBack
+     */
+    public static void homeads(HttpCallBack<HomeAdsBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryAdsByPosition));
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
 
     /**
      * 用户退出

@@ -55,7 +55,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
         getTitleDelegate().setRightOnClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationHelper.getInstance().startBarCodeFind();
+                NavigationHelper.getInstance().startBarCodeFind(0);
             }
         });
 

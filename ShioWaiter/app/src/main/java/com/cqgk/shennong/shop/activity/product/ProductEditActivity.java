@@ -271,10 +271,10 @@ public class ProductEditActivity extends CamerBaseActivity {
     @Event(R.id.savenow)
     private void savenow_click(View view) {
 
-        if (!CheckUtils.isAvailable(productcode.getText().toString())) {
-            showLongToast("请扫描后输入条形码");
-            return;
-        }
+//        if (!CheckUtils.isAvailable(productcode.getText().toString())) {
+//            showLongToast("请扫描后输入条形码");
+//            return;
+//        }
 
         if (!CheckUtils.isAvailable(productTitle.getText().toString())) {
             showLongToast("请输入商品名称");

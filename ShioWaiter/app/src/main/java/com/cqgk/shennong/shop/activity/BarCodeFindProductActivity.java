@@ -1,5 +1,6 @@
 package com.cqgk.shennong.shop.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
@@ -18,10 +19,13 @@ import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
 import com.cqgk.shennong.shop.view.SearchResultPopView;
 import com.cqgk.shennong.shop.zxing.CamerBaseActivity;
+import com.cqgk.shennong.shop.zxing.decoding.Intents;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.io.Serializable;
 
 /**
  * Created by duke on 16/5/17.
@@ -38,6 +42,8 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     private static final int UPTATE_INTERVAL_TIME = 2000;
     private long lastUpdateTime;
 
+    private int showType = 0;//0-编辑商品1-返回商品
+
 
     private SearchResultPopView searchResultPopView;
 
@@ -47,12 +53,30 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("商品扫描");
+
+        try {
+            showType = getIntent().getIntExtra("showtype", 0);
+        }catch (NullPointerException e){
+
+        }
+
         searchResultPopView = new SearchResultPopView(this);
         searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
-                NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+                if (showType == 0) {
+                    NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+                } else {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dtl", (Serializable) productDtlBean);
+                    Intent intent = new Intent();
+                    intent.putExtras(bundle);
+                    setResult(1, intent);
+                    finish();
+
+                }
             }
         });
     }
@@ -85,7 +109,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result) {
-                if(result==null || result.getList().size()==0){
+                if (result == null || result.getList().size() == 0) {
                     showLongToast("此编号无商品");
                     return;
                 }
