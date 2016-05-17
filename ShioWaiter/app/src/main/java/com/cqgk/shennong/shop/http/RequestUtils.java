@@ -3,6 +3,7 @@ package com.cqgk.shennong.shop.http;
 import android.util.Log;
 
 import com.alipay.mobilesecuritysdk.deviceID.LOG;
+import com.cqgk.shennong.shop.bean.logicbean.OrderSubmitBean;
 import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
@@ -20,6 +21,9 @@ import com.cqgk.shennong.shop.bean.normal.ShopInfoBean;
 import com.cqgk.shennong.shop.config.Key;
 import com.cqgk.shennong.shop.helper.PreferencesHelper;
 import com.cqgk.shennong.shop.utils.CheckUtils;
+import com.cqgk.shennong.shop.utils.GsonUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -334,26 +338,30 @@ public class RequestUtils {
      * @param goods
      * @param callBlack
      */
-    public static void submitOrder(String MCID, String CCID, ArrayList<GoodListBean.Item> goods, HttpCallBack<LoginResultBean> callBlack) {
+    public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
         params = getLoginParams(params);
-        params.addBodyParameter("MCID", MCID);
-        params.addBodyParameter("CCID", CCID);
 
-        HashMap<String ,String > map = null;
-        for (GoodListBean.Item item:goods){
+        ArrayList<OrderSubmitBean.SubmitGood> list = new ArrayList<>();
 
-            map = new HashMap<>();
-            map.put("gsid",item.getId());
-            map.put("price",item.getPrice()+"");
-            map.put("num",item.getNum() + "");
-            params.addParameter("GOODS",map);
+        OrderSubmitBean bean = new OrderSubmitBean();
+        bean.setMCID(MCID);
+        bean.setCCID(CCID);
+
+        for (ProductDtlBean item:goods){
+            OrderSubmitBean.SubmitGood good = new OrderSubmitBean.SubmitGood();
+            good.setGsid(item.getId());
+            good.setPrice(item.getPrice() + "");
+            good.setNum(item.getNum() + "");
+
+            list.add(good);
         }
 
+        bean.setGOODS(list);
 
 
 
-        params.setBodyContent(params.toJSONString());
+        params.setBodyContent(new Gson().toJson(bean));
         RequestHelper.sendPost(true, params, callBlack);
     }
 

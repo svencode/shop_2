@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.R;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.ImageHelper;
 
 import org.w3c.dom.Text;
@@ -25,18 +26,18 @@ import java.util.ArrayList;
 public class CashieringAdapter extends BaseAdapter{
     private Context context;
     private CashieringDelegate delegate;
-    private ArrayList<GoodListBean.Item> myGood;
+    private ArrayList<ProductDtlBean> myGood;
 
     public CashieringAdapter(Context context,CashieringDelegate delegate){
         this.context = context;
         this.delegate = delegate;
     }
 
-    public ArrayList<GoodListBean.Item> getMyGood() {
+    public ArrayList<ProductDtlBean> getMyGood() {
         return myGood;
     }
 
-    public void setMyGood(ArrayList<GoodListBean.Item> myGood) {
+    public void setMyGood(ArrayList<ProductDtlBean> myGood) {
         this.myGood = myGood;
     }
 
@@ -58,7 +59,7 @@ public class CashieringAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        final GoodListBean.Item item = myGood.get(position);
+        final ProductDtlBean item = myGood.get(position);
         view = LayoutInflater.from(context).inflate(R.layout.cell_cashiering, null);
 
         ImageView img = (ImageView)view.findViewById(R.id.imgIV);
@@ -95,7 +96,7 @@ public class CashieringAdapter extends BaseAdapter{
     }
 
     public interface CashieringDelegate{
-        void goodPlus(GoodListBean.Item item);
-        void goodMinus(GoodListBean.Item item);
+        void goodPlus(ProductDtlBean item);
+        void goodMinus(ProductDtlBean item);
     }
 }

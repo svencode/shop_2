@@ -40,9 +40,6 @@ public class SearchResultPopView extends PopupWindow {
 
 
         List<ProductDtlBean> beanList = new ArrayList<>();
-        beanList.add(new ProductDtlBean());
-        beanList.add(new ProductDtlBean());
-        beanList.add(new ProductDtlBean());
         searchResultPopAdapter = new SearchResultPopAdapter(context);
         searchResultPopAdapter.setValuelist(beanList);
         listview.setAdapter(searchResultPopAdapter);

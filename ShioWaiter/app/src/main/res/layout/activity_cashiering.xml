@@ -100,12 +100,20 @@
                 android:id="@+id/rechargeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="充值"/>
+                android:text="充值"
+                android:textColor="@color/color_red"
+                android:background="@drawable/bg_red_border_round"
+                android:textSize="@dimen/text_size_xl"
+                android:layout_marginRight="3dp"/>
             <Button
                 android:id="@+id/couponBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="现金券"/>
+                android:text="现金券"
+                android:textColor="@color/color_red"
+                android:background="@drawable/bg_red_border_round"
+                android:textSize="@dimen/text_size_xl"
+                android:layout_marginLeft="3dp"/>
         </LinearLayout>
 
     </LinearLayout>

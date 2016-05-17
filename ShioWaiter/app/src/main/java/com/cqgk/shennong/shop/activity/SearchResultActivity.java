@@ -7,6 +7,9 @@ import com.cqgk.shennong.shop.adapter.PickGoodAdapter;
 import com.cqgk.shennong.shop.adapter.SearchResultAdapter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.http.HttpCallBack;
+import com.cqgk.shennong.shop.http.RequestUtils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,6 +33,8 @@ public class SearchResultActivity extends BusinessBaseActivity{
 
     private void layoutView(){
         SearchResultAdapter adapter = new SearchResultAdapter(this);
-        listView.setAdapter( adapter);
+        listView.setAdapter(adapter);
     }
+
+
 }
