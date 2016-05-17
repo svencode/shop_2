@@ -340,7 +340,6 @@ public class RequestUtils {
      */
     public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
-        params = getLoginParams(params);
 
         ArrayList<OrderSubmitBean.SubmitGood> list = new ArrayList<>();
 
@@ -377,7 +376,7 @@ public class RequestUtils {
     }
 
     private static CommonParams getLoginParams(CommonParams params){
-        params.setHeader("x_token", PreferencesHelper.find(Key.TOKEN,""));
+//        params.setHeader("x_token", PreferencesHelper.find(Key.TOKEN,""));
         return params;
     }
 
