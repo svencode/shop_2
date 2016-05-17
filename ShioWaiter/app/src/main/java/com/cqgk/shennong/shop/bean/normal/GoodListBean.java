@@ -150,6 +150,21 @@ public class GoodListBean {
             result = 31 * result + num;
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "Item{" +
+                    "id='" + id + '\'' +
+                    ", goodsId='" + goodsId + '\'' +
+                    ", goodsTitle='" + goodsTitle + '\'' +
+                    ", specificationDesc='" + specificationDesc + '\'' +
+                    ", logoImg='" + logoImg + '\'' +
+                    ", photoListImg=" + photoListImg +
+                    ", price=" + price +
+                    ", retailPrice=" + retailPrice +
+                    ", num=" + num +
+                    '}';
+        }
     }
 
 }
