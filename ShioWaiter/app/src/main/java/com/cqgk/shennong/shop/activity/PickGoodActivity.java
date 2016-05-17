@@ -53,13 +53,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("挑选商品");
-        getTitleDelegate().setRightText("确定");
-        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationHelper.getInstance().startPayBill(myGood);
-            }
-        });
+
 
         myGood = new ArrayList<>();
 
@@ -116,6 +110,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                     item = new GoodListBean.Item();
                     item.setLogoImg("http://fs.51xnb.cn/f26228a7-f9e2-4008-9ad0-314b85b650b3.jpg");
                     item.setId("0006de64-5f12-4cbc-9477-06c2a8f5ad2d");
+                    item.setGoodsId("082344bd-3c3c-41ee-855a-08588ab5466f");
                     item.setGoodsTitle("康佳现代 高清蓝光LED电视 LED43H90C");
                     item.setPrice(1490.00);
                     item.setRetailPrice(1699.00);

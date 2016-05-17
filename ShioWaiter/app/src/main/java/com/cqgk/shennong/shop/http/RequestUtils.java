@@ -1,5 +1,8 @@
 package com.cqgk.shennong.shop.http;
 
+import android.util.Log;
+
+import com.alipay.mobilesecuritysdk.deviceID.LOG;
 import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
@@ -23,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -330,11 +334,25 @@ public class RequestUtils {
      * @param goods
      * @param callBlack
      */
-    public static void submitOrder(String MCID, String CCID, ArrayList<String> goods, HttpCallBack<LoginResultBean> callBlack) {
+    public static void submitOrder(String MCID, String CCID, ArrayList<GoodListBean.Item> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
         params = getLoginParams(params);
         params.addBodyParameter("MCID", MCID);
         params.addBodyParameter("CCID", CCID);
+
+        HashMap<String ,String > map = null;
+        for (GoodListBean.Item item:goods){
+
+            map = new HashMap<>();
+            map.put("gsid",item.getId());
+            map.put("price",item.getPrice()+"");
+            map.put("num",item.getNum() + "");
+            params.addParameter("GOODS",map);
+        }
+
+
+
+
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
