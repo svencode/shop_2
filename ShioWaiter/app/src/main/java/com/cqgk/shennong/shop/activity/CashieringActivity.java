@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cqgk.shennong.shop.BuildConfig;
 import com.cqgk.shennong.shop.adapter.CashieringAdapter;
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
@@ -86,13 +87,16 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         enableTitleDelegate();
         getTitleDelegate().setTitle("收银记账");
 
+
         myGood = (ArrayList<ProductDtlBean>) getIntent().getSerializableExtra(MY_GOOD_LIST);
 
 
-        getVipInfo("010148920000001"/*AppEnter.TestCardid*/);
+        if(BuildConfig.DEBUG)
+           getVipInfo(AppEnter.TestCardid);
+
+
 
         layoutView();
-
         refreshPrice();
     }
 
@@ -100,8 +104,24 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String recode = recode(result.toString());
-        showToast(recode);
+        if(BuildConfig.DEBUG){
+            recode = AppEnter.TestCardid;
+        }
+        getVipInfo(recode);
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (hasSurface) {
+            initCamera(capture_preview.getHolder());
+        } else {
+            capture_preview.getHolder().addCallback(this);
+            capture_preview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        }
+    }
+
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
