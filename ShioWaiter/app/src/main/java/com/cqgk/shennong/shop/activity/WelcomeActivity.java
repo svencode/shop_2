@@ -22,7 +22,6 @@ public class WelcomeActivity extends BusinessBaseActivity {
     private final int UI_LOGIN = 2;
     private static final long SPLASH_DELAY_MILLIS = 2000;//延时3秒
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

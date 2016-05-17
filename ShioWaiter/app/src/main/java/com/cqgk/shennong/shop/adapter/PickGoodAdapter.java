@@ -123,8 +123,6 @@ public class PickGoodAdapter extends BaseAdapter{
                 TextView price2 = (TextView)view.findViewById(R.id.price2TV);
                 name2.setText(item2.getGoodsTitle());
 
-
-
                 good2.setVisibility(View.VISIBLE);
                 good2.setOnClickListener(new View.OnClickListener() {
                     @Override
