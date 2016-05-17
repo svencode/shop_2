@@ -1,8 +1,10 @@
 package com.cqgk.shennong.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,11 +16,13 @@ import com.cqgk.shennong.shop.adapter.PickGoodAdapter;
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
 import com.cqgk.shennong.shop.view.CommonDialogView;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.view.SearchResultPopView;
 
 import org.w3c.dom.Text;
 import org.xutils.view.annotation.ContentView;
@@ -41,26 +45,32 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @ViewInject(R.id.et_search)
     EditText et_search;
 
-
-    private String keyWork;
+    SearchResultPopView popView;
 
     PickGoodAdapter adapter;
 
-    private ArrayList<GoodListBean.Item> myGood;
+    private ArrayList<ProductDtlBean> myGood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("挑选商品");
-
+        getTitleDelegate().setRightText("确定");
+        getTitleDelegate().setRightDrawable(R.drawable.icon_qr_scan);
+        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationHelper.getInstance().startBarCodeFind();
+            }
+        });
 
         myGood = new ArrayList<>();
 
         layoutView();
 
         getHotGood();
-        getValue();
+
     }
 
 
@@ -70,16 +80,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         listView.setAdapter(adapter);
     }
 
-    private void getValue(){
-        RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
-            @Override
-            public void success(GoodListBean result) {
 
-                result = new GoodListBean();
-
-            }
-        });
-    }
 
     //去支付事件
     @Event(R.id.goPayBtn)
@@ -94,32 +95,58 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     }
 
     //搜索事件
-    @Event(R.id.searchbtn)
+    @Event(R.id.btn_search)
     private void search(View view){
-        et_search.setText("");
+        search(et_search.getText().toString());
+
     }
+
+    private void search(String keyWork){
+//        if (keyWork.length()==0)return;
+        RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
+            @Override
+            public void success(final GoodListBean result) {
+
+                if (null == popView){
+                    popView = new SearchResultPopView(PickGoodActivity.this);
+                }
+
+                if (popView.isShowing()){
+                    popView.dismiss();
+                }
+
+                popView.getAdapter().setValuelist(result.getList());
+                popView.getAdapter().notifyDataSetChanged();
+                popView.showAsDropDown(et_search);
+                popView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        topGoodClick(result.getList().get(position));
+                        popView.dismiss();
+                    }
+                });
+
+
+
+
+            }
+        });
+    }
+
+
 
     private void getHotGood(){
         RequestUtils.queryTopGoodsList(new HttpCallBack<GoodListBean>() {
             @Override
             public void success(GoodListBean result) {
-                ArrayList<GoodListBean.Item> items = new ArrayList<GoodListBean.Item>();
-                GoodListBean.Item item = null;
-
-                for (int i = 0; i < 1; i++) {
-                    item = new GoodListBean.Item();
-                    item.setLogoImg("http://fs.51xnb.cn/f26228a7-f9e2-4008-9ad0-314b85b650b3.jpg");
-                    item.setId("0006de64-5f12-4cbc-9477-06c2a8f5ad2d");
-                    item.setGoodsId("082344bd-3c3c-41ee-855a-08588ab5466f");
-                    item.setGoodsTitle("康佳现代 高清蓝光LED电视 LED43H90C");
-                    item.setPrice(1490.00);
-                    item.setRetailPrice(1699.00);
-                    item.setSpecificationDesc("我是一个描述");
-                    items.add(item);
+                ArrayList<ProductDtlBean> items = result.getList();
+                if (null != items){
+                    adapter.getTopGoodList().addAll(items);
+                    adapter.notifyDataSetChanged();
                 }
 
-                adapter.getTopGoodList().addAll(items);
-                adapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -129,7 +156,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         int num = 0;
         double price = 0;
 //        android:text="￥0     共0件"
-        for (GoodListBean.Item item:myGood){
+        for (ProductDtlBean item:myGood){
             num += item.getNum();
             price += (item.getNum()*item.getPrice());
         }
@@ -138,9 +165,9 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     }
 
     @Override
-    public void topGoodClick(GoodListBean.Item item) {
+    public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
-        for (GoodListBean.Item item1:myGood){
+        for (ProductDtlBean item1:myGood){
             if (item1.equals(item)){
                 alreadyHad = true;
                 item1.setNum(item1.getNum()+1);
@@ -158,8 +185,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         refreshPrice();
     }
     @Override
-    public void goodPlus(GoodListBean.Item item){
-        for (GoodListBean.Item item1:myGood){
+    public void goodPlus(ProductDtlBean item){
+        for (ProductDtlBean item1:myGood){
             if (item1.equals(item)){
                 item1.setNum(item1.getNum()+1);
                 adapter.setMyGood(myGood);
@@ -172,8 +199,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
     }
     @Override
-    public void goodMinus(GoodListBean.Item item){
-        for (GoodListBean.Item item1:myGood){
+    public void goodMinus(ProductDtlBean item){
+        for (ProductDtlBean item1:myGood){
             if (item1.equals(item)) {
                 item1.setNum(item1.getNum()-1);
                 if (item1.getNum()==0)myGood.remove(item1);
@@ -187,4 +214,12 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==1){
+            ProductDtlBean bean = (ProductDtlBean)data.getSerializableExtra("dtl");
+            topGoodClick(bean);
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestHelper;
@@ -29,6 +30,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.NavigableSet;
 
@@ -71,7 +73,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     private boolean hasSurface;
 
-    private ArrayList<GoodListBean.Item> myGood;
+    private ArrayList<ProductDtlBean> myGood;
 
     private CashieringAdapter adapter;
 
@@ -84,7 +86,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         enableTitleDelegate();
         getTitleDelegate().setTitle("收银记账");
 
-        myGood = (ArrayList<GoodListBean.Item>) getIntent().getSerializableExtra(MY_GOOD_LIST);
+        myGood = (ArrayList<ProductDtlBean>) getIntent().getSerializableExtra(MY_GOOD_LIST);
 
 
         getVipInfo("010148920000001"/*AppEnter.TestCardid*/);
@@ -157,7 +159,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Event(R.id.rechargeBtn)
     private void recharge(View view){
         double price = 0;
-        for (GoodListBean.Item item:myGood){
+        for (ProductDtlBean item:myGood){
             price += (item.getNum()*item.getPrice());
         }
 
@@ -170,12 +172,13 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         double price = 0;
 //        android:text="￥0     共0件"
-        for (GoodListBean.Item item:myGood){
+        for (ProductDtlBean item:myGood){
             price += (item.getNum()*item.getPrice());
         }
 
         if (price>vipInfo.getBalance()){
             recharge(null);
+            return;
         }
 
 
@@ -192,7 +195,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         int num = 0;
         double price = 0;
 //        android:text="￥0     共0件"
-        for (GoodListBean.Item item:myGood){
+        for (ProductDtlBean item:myGood){
             num += item.getNum();
             price += (item.getNum()*item.getPrice());
         }
@@ -207,8 +210,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
     @Override
-    public void goodPlus(GoodListBean.Item item){
-        for (GoodListBean.Item item1:myGood){
+    public void goodPlus(ProductDtlBean item){
+        for (ProductDtlBean item1:myGood){
             if (item1.equals(item)){
                 item1.setNum(item1.getNum()+1);
                 adapter.setMyGood(myGood);
@@ -221,8 +224,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     }
     @Override
-    public void goodMinus(GoodListBean.Item item){
-        for (GoodListBean.Item item1:myGood){
+    public void goodMinus(ProductDtlBean item){
+        for (ProductDtlBean item1:myGood){
             if (item1.equals(item)) {
                 item1.setNum(item1.getNum()-1);
                 if (item1.getNum()==0)myGood.remove(item1);

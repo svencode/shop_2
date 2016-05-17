@@ -23,6 +23,7 @@ import com.cqgk.shennong.shop.activity.product.SeachProductActivity;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.Basic;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 
 import java.io.Serializable;
@@ -126,7 +127,7 @@ public class NavigationHelper extends Basic {
         this.startActivity(getActivity(),i);
     }
 
-    public void startPayBill(ArrayList<GoodListBean.Item> myGood){
+    public void startPayBill(ArrayList<ProductDtlBean> myGood){
         Intent i = new Intent(getActivity(), CashieringActivity.class);
         i.putExtra(CashieringActivity.MY_GOOD_LIST,myGood);
         this.startActivity(getActivity(),i);

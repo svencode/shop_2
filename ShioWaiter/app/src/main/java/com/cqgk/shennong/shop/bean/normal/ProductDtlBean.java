@@ -1,11 +1,12 @@
 package com.cqgk.shennong.shop.bean.normal;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by duke on 16/5/17.
  */
-public class ProductDtlBean {
+public class ProductDtlBean implements Serializable {
 
     /**
      * id : 规格ID
@@ -18,6 +19,8 @@ public class ProductDtlBean {
      * vipPrice : 100.0
      */
 
+    private int num;
+
     private String id;
     private String goodsId;
     private String goodsTitle;
@@ -25,6 +28,7 @@ public class ProductDtlBean {
     private String logoImg;
     private double retailPrice;
     private double vipPrice;
+    private double price;
     private List<String> photoListImg;
 
     public String getId() {
@@ -89,5 +93,21 @@ public class ProductDtlBean {
 
     public void setPhotoListImg(List<String> photoListImg) {
         this.photoListImg = photoListImg;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -18,6 +18,7 @@ import com.cqgk.shennong.shop.BuildConfig;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.ImageHelper;
 import com.cqgk.shennong.shop.http.RequestHelper;
 import com.cqgk.shennong.shop.http.RequestUtils;
@@ -32,8 +33,8 @@ public class PickGoodAdapter extends BaseAdapter{
     private Context context;
     private PickGoodDelegate delegate;
 
-    private ArrayList<GoodListBean.Item> topGoodList;
-    private ArrayList<GoodListBean.Item> myGood;
+    private ArrayList<ProductDtlBean> topGoodList;
+    private ArrayList<ProductDtlBean> myGood;
 
     public  PickGoodAdapter(Context context,PickGoodDelegate delegate){
         this.context = context;
@@ -50,19 +51,19 @@ public class PickGoodAdapter extends BaseAdapter{
         this.context = context;
     }
 
-    public ArrayList<GoodListBean.Item> getTopGoodList() {
+    public ArrayList<ProductDtlBean> getTopGoodList() {
         return topGoodList;
     }
 
-    public void setTopGoodList(ArrayList<GoodListBean.Item> topGoodList) {
+    public void setTopGoodList(ArrayList<ProductDtlBean> topGoodList) {
         this.topGoodList = topGoodList;
     }
 
-    public ArrayList<GoodListBean.Item> getMyGood() {
+    public ArrayList<ProductDtlBean> getMyGood() {
         return myGood;
     }
 
-    public void setMyGood(ArrayList<GoodListBean.Item> myGood) {
+    public void setMyGood(ArrayList<ProductDtlBean> myGood) {
         this.myGood = myGood;
     }
 
@@ -96,7 +97,7 @@ public class PickGoodAdapter extends BaseAdapter{
         }else if (position>0 && position<=(myGood.size()+1)){
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_one, null);
 
-            final GoodListBean.Item item1 = myGood.get(position-1);
+            final ProductDtlBean item1 = myGood.get(position-1);
 
             ImageView img = (ImageView)view.findViewById(R.id.imgIV);
             TextView name = (TextView)view.findViewById(R.id.nameTV);
@@ -139,7 +140,7 @@ public class PickGoodAdapter extends BaseAdapter{
             int index = position-(myGood.size()+2);
 
 
-            final GoodListBean.Item item1 = topGoodList.get(index*2);
+            final ProductDtlBean item1 = topGoodList.get(index*2);
             ImageView img1 = (ImageView)view.findViewById(R.id.img1IV);
             TextView name1 = (TextView)view.findViewById(R.id.name1TV);
             TextView price1 = (TextView)view.findViewById(R.id.price1TV);
@@ -155,7 +156,7 @@ public class PickGoodAdapter extends BaseAdapter{
             });
 
             if (topGoodList.size()>(index*2+1)){
-                final GoodListBean.Item item2 = topGoodList.get(index*2+1);
+                final ProductDtlBean item2 = topGoodList.get(index*2+1);
                 ImageView img2 = (ImageView)view.findViewById(R.id.img2IV);
                 TextView name2 = (TextView)view.findViewById(R.id.name2TV);
                 TextView price2 = (TextView)view.findViewById(R.id.price2TV);
@@ -177,9 +178,9 @@ public class PickGoodAdapter extends BaseAdapter{
     }
 
     public interface PickGoodDelegate{
-        void topGoodClick(GoodListBean.Item item);
-        void goodPlus(GoodListBean.Item item);
-        void goodMinus(GoodListBean.Item item);
+        void topGoodClick(ProductDtlBean item);
+        void goodPlus(ProductDtlBean item);
+        void goodMinus(ProductDtlBean item);
     }
 }
 
