@@ -35,7 +35,7 @@ import java.util.NavigableSet;
  */
 
 @ContentView(R.layout.activity_cashiering)
-public class CashieringActivity extends CamerBaseActivity {
+public class CashieringActivity extends CamerBaseActivity implements CashieringAdapter.CashieringDelegate{
 
     public static final String MY_GOOD_LIST = "my_good_list";
 
@@ -102,7 +102,7 @@ public class CashieringActivity extends CamerBaseActivity {
 
 
     private void layoutView() {
-        adapter = new CashieringAdapter(this);
+        adapter = new CashieringAdapter(this,this);
         adapter.setMyGood(myGood);
         listView.setAdapter(adapter);
     }
@@ -129,6 +129,16 @@ public class CashieringActivity extends CamerBaseActivity {
 
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
+
+    }
+
+    @Override
+    public void goodPlus(GoodListBean.Item item) {
+
+    }
+
+    @Override
+    public void goodMinus(GoodListBean.Item item) {
 
     }
 }
