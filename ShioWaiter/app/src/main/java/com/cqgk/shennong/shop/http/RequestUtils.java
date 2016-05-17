@@ -10,6 +10,7 @@ import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
 import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
+import com.cqgk.shennong.shop.bean.normal.ProductStandInfoBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 import com.cqgk.shennong.shop.config.Key;
 import com.cqgk.shennong.shop.helper.PreferencesHelper;
@@ -27,6 +28,71 @@ import java.util.List;
  */
 public class RequestUtils {
 
+
+    /**
+     * 用户退出
+     * @param callBack
+     */
+    public static void logout(HttpCallBack<String> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_logout));
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
+     * 根据Id查询商品
+     * @param goodsId
+     * @param callBack
+     */
+    public static void queryClerkGoodsById(String goodsId, HttpCallBack<ProductDtlBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsById));
+        params.addParameter("goodsId",goodsId);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+    /**
+     * 使用条码查询店小二上传的商品
+
+     * @param barcode
+     * @param callBack
+     */
+    public static void queryClerkGoodsByBarcode(String barcode, HttpCallBack<MeProductListBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsByBarcode));
+        params.addParameter("barcode",barcode);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+
+    /**
+     * 查询商品标准信息
+     * @param barcode
+     * @param callBack
+     */
+    public static void queryGoodsStandardInfo(String barcode, HttpCallBack<ProductStandInfoBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryGoodsStandardInfo));
+        params.addParameter("barcode",barcode);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
+     * 获取短信验证码
+     * @param verifyCodeType
+     * @param phoneNumber
+     * @param callBack
+     */
+    public static void getVerifyCode(String verifyCodeType,String phoneNumber, HttpCallBack<String> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_randomcode));
+        params.addParameter("verifyCodeType",verifyCodeType);
+        params.addParameter("phoneNumber",phoneNumber);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
 
     /**
      * 获取微信支付参数

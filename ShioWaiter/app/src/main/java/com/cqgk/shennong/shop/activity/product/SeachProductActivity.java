@@ -2,18 +2,22 @@ package com.cqgk.shennong.shop.activity.product;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.cqgk.shennong.shop.adapter.ProductRowAdapter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.ProductRowBean;
+import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
 import com.cqgk.shennong.shop.utils.CheckUtils;
 import com.cqgk.shennong.shop.view.NormalListView;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.view.SearchResultPopView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -35,6 +39,10 @@ public class SeachProductActivity extends BusinessBaseActivity {
     @ViewInject(R.id.keyword)
     EditText keyword;
 
+    @ViewInject(R.id.search_row)
+    LinearLayout search_row;
+
+
     private ProductRowAdapter productRowAdapter;
 
 
@@ -44,9 +52,20 @@ public class SeachProductActivity extends BusinessBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("寻找商品");
         getTitleDelegate().setRightDrawable(R.drawable.icon_scan);
+        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationHelper.getInstance().startBarCodeFind();
+            }
+        });
 
         initView();
         requestData();
+
+
+
+
+
     }
 
     @Override
@@ -96,6 +115,14 @@ public class SeachProductActivity extends BusinessBaseActivity {
     public void initView() {
         super.initView();
 
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ProductDtlBean productDtlBean = productRowAdapter.getItem(i);
+                NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+            }
+        });
+
         productRowAdapter = new ProductRowAdapter(this);
         listview.setAdapter(productRowAdapter);
     }
@@ -103,6 +130,8 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
     @Event(R.id.searchbtn)
     private void searchbtn_click(View view) {
+//        SearchResultPopView  searchResultPopView = new SearchResultPopView(this);
+//        searchResultPopView.showAsDropDown(search_row);
         if (!CheckUtils.isAvailable(keyword.getText().toString())) {
             requestData();
             return;

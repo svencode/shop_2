@@ -32,11 +32,13 @@ public class PayUtil {
     }
 
     // 商户PID
-    public static final String PARTNER = "2088801900305895";
+    public static final String PARTNER = "2088811558700803";
     // 商户收款账号
-    public static final String SELLER = "2088801900305895";
+    public static final String SELLER = "zengxiaotong@cqgk.com.cn";
+
+    public static final String RSA_PRIVATE ="MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANZTK1Xu4tiRd1rNKEedks8BdmgcOW2XrcKYYfIywJDpyT7GymlpbcF/4aR9DvtA3zoC1qSElTzya6jX+p4nngLx4U79XSkGcFRnNj2jNUpb1SW0g7czimnK/SKRwETr8+za8vEqPDRgKBy35LL2rSqtKShXPz83e/MeOhE+GqVnAgMBAAECgYBaOwOIlxzrvjo4gRzPIbi36860wAUxbWUbAtphhBpsJ/CwvDJlNJyflT4i6P+QqdwQ6TcCZksKMKlAmUUKpnUv1L07MOCpFQxdXK+2MyZDow4KRS4+BWHnLJSCYjqi69z1F4tnzgpOCK7MKoMX1lezbpDI1lgp/q2SzKud8BELiQJBAPXasNJqiPx99cC6rRLYnn3qLkKvnwrtx4WlmBwrBEPINMkUiQ4nOYr95PeQcj4uDn7k/g+d67pyxQ0Ruv1B+bMCQQDfK2OEn+/Aj1GyfPxAC0FnV9FO9J9d5flv1KRGMrb2BH/r7yHjABMt5Uyf8fRPIqvtpkomXf1eLhD+3bIonuN9AkAi9JMLd8Y+UBJu8pvFADOYp4EoThwIy8IAiIjWCG+0y3Rl2puZ/Y2661pwsILtwFKjTB+rTMLFYagOsaSqeYTtAkEAkaHP1IlGPGOKTa6wMd7mdFjjVuHdabocd3TNKp4HtS2kiMNJWsf+vBGJWkrbQhT/GxtMAhONtrrbDmZ/z3A4RQJARm64Nt1NbyTcH/0kKx8ueIXII2jNyLYWR8xYJUVI25gKJVO6OUO8Y1xuKCF6vRBpNnQbMjWAe0AkMKl35FPzMQ==";
+
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJ/Dr1+h3bnaiStwth2AYQD/XxYRiK/0KCmKrhCXRufIAqSOztlS1XZepdu1OquGRsRlfYntr1+GpKH1sPYi6K2JMyzSQzNBM/cX8/wJl1Ewk3ERe35iKcW+sSJf0G+HBoWpdDO8ROHorFkKIb/UOs3P/D3o37WSF2ICSo5hW8oNAgMBAAECgYAyWEvvauagJomLMt1wtn/a/J5OKgBU0i/Fx3nKqKEjcRfEG2x7d2rk/jZt4dI3Mv0h7ol86XWWOKuwjefR6HZBmbBA8jmeR60oDBiGXVITM0gqN0KpaV0MgBMTK8QzbxGu0yMDiC/uum6AFf1Sd/G6bVJsu1aueZHIUPqBMBJY0QJBANDPP1Vo8AlfwbgXUogCyE1CNXNuM40+I4s0XMYKb/eQ1OBlIoC9iCFEcnRLKcu1Tlk6irHQDGUcFxpKz2SuWxMCQQDD3ulw0lKsD1DHVfZv35kJDuvLglnOPukw3V66p7ZvBKqHFwRmeYfDX9ZEKBiFhOxPxf0F7l4nE/Y7nI1SacpfAkBkTKinZhim6BAtVUaXfn6oXb0/DRhGKCr6mtRVbH4L9M3MW8gO/vt8v1wa8F/LMfPIeI5WixDpIG0YfAbS3c1xAkEAtGnFYbsIlR1CTWk7pc4xuqs4u2nkaFmAFxdAIvNJ0bZdkDK+RdlZGLdUt9CqzYki1VPLfEQUCzCS1FOdxDRXRwJAXTjH8DYxCwr2/G+6yUvpgsKtALxE8anWl98TJT/l5WzLQlIwQmuN4R2JnBxPaZ6heZmu+98lI4F8t+zGPFxZHw==";
     // 支付宝公钥
     public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
@@ -184,7 +186,7 @@ public class PayUtil {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://m.lingshi.com/app/callback/alipay.php"
+        orderInfo += "&notify_url=" + "\"" + "http://betam.51xnb.cn/clerk/payment/notifyAlipayResult.do"
                 + "\"";
 
         // 服务接口名称， 固定值

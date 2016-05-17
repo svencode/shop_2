@@ -110,6 +110,13 @@
         </activity>
 
         <activity
+            android:name="com.cqgk.shennong.shop.activity.BarCodeFindProductActivity"
+            android:orientation="vertical">
+
+        </activity>
+
+
+        <activity
             android:name="com.cqgk.shennong.shop.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />

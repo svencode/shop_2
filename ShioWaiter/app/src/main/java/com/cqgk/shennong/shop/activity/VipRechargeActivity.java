@@ -68,6 +68,12 @@ public class VipRechargeActivity extends CamerBaseActivity {
         enableTitleDelegate();
         getTitleDelegate().setTitle("会员充值");
 
+        try {
+            card_id = getStringExtra("card_id");
+        }catch (NullPointerException e){
+
+        }
+
 
         inputmoney.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,6 +96,16 @@ public class VipRechargeActivity extends CamerBaseActivity {
         if(BuildConfig.DEBUG){
             card_id=AppEnter.TestCardid;
         }
+
+        requestData();
+    }
+
+    @Override
+    public void requestData() {
+        super.requestData();
+        if(CheckUtils.isAvailable(card_id)){
+            loadCardInfo(card_id);
+        }
     }
 
     @Override
@@ -103,15 +119,8 @@ public class VipRechargeActivity extends CamerBaseActivity {
         }
     }
 
-    @Override
-    public void handleDecode(Result result, Bitmap barcode) {
-        super.handleDecode(result, barcode);
-        String cid = recode(result.toString());
 
-        if(BuildConfig.DEBUG)
-            cid = AppEnter.TestCardid;
-
-
+    private void loadCardInfo(String cid){
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
             public void success(CardDtlBean result) {
@@ -129,6 +138,19 @@ public class VipRechargeActivity extends CamerBaseActivity {
                 return super.failure(state, msg);
             }
         });
+    }
+
+
+    @Override
+    public void handleDecode(Result result, Bitmap barcode) {
+        super.handleDecode(result, barcode);
+        String cid = recode(result.toString());
+
+        if(BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
+
+
+        loadCardInfo(cid);
 
 
     }

@@ -49,11 +49,8 @@ public class LoginActivity extends BusinessBaseActivity {
         getTitleDelegate().setTitle("用户登录");
         getTitleDelegate().hideLeftBtn();
 
-
-
-
         if(BuildConfig.DEBUG){
-            mobile.setText("13939446027");
+            mobile.setText("13739704118");
             pwd.setText("123456");
         }
 
@@ -103,7 +100,23 @@ public class LoginActivity extends BusinessBaseActivity {
 
     @Event(R.id.randomcode)
     private void randomcode_click(View view){
-        time.start();//开始计时
+        if (!CheckUtils.isAvailable(mobile.getText().toString())) {
+            showLongToast("手机号码不能为空");
+            return;
+        }
+        RequestUtils.getVerifyCode("1", mobile.getText().toString(), new HttpCallBack<String>() {
+            @Override
+            public void success(String result) {
+                time.start();//开始计时
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showLongToast(msg);
+                return super.failure(state, msg);
+            }
+        });
+
     }
 
     @Override
