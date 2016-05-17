@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title" />
+
+    <LinearLayout
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/exitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:text="退出"
+            android:textColor="@color/color_gray"
+            android:textSize="@dimen/text_size_xl" />
+
+        <Button
+            android:id="@+id/goOnBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:background="@color/color_red"
+            android:text="继续收款"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_xl" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_color"
+        android:layout_above="@+id/bottomView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/comment_title_bar_layout"
+        android:layout_above="@+id/bottomView"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    </LinearLayout>
+
+</RelativeLayout>
