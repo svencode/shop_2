@@ -61,7 +61,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         getTitleDelegate().setRightOnClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationHelper.getInstance().startBarCodeFind();
+                NavigationHelper.getInstance().startBarCodeFind(1);
             }
         });
 

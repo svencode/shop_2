@@ -341,8 +341,6 @@ public class RequestUtils {
     public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
         params = getLoginParams(params);
-        params.addBodyParameter("MCID", MCID);
-        params.addBodyParameter("CCID", CCID);
 
         ArrayList<OrderSubmitBean.SubmitGood> list = new ArrayList<>();
 
