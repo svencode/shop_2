@@ -40,15 +40,16 @@
                 android:layout_marginTop="5dp"
                 >
                 <Button
+                    android:id="@+id/minusBtn"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-
                     android:background="@drawable/bg_gray_border"
                     android:text="-"
                     android:textColor="@color/color_red"
                     />
 
                 <EditText
+                    android:id="@+id/numET"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:singleLine="true"
@@ -58,6 +59,7 @@
 
 
                 <Button
+                    android:id="@+id/plusBtn"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:background="@drawable/bg_gray_border"

@@ -82,7 +82,8 @@
 
         <activity
             android:name="com.cqgk.shennong.shop.activity.PickGoodActivity"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name="com.cqgk.shennong.shop.activity.InputMoneyActivity"
@@ -112,6 +113,8 @@
             android:name="com.cqgk.shennong.shop.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
+        <activity android:name="com.cqgk.shennong.shop.activity.PayResultActivity"
+            android:orientation="vertical"/>
     </application>
 
 </manifest>

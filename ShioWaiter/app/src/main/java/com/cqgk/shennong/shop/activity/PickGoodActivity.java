@@ -57,7 +57,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         getTitleDelegate().setRightOnClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationHelper.getInstance().startPayBill();
+                NavigationHelper.getInstance().startPayBill(myGood);
             }
         });
 
@@ -66,6 +66,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         layoutView();
 
         getHotGood();
+        getValue();
     }
 
 
@@ -89,7 +90,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     //去支付事件
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
-        NavigationHelper.getInstance().startPayBill();
+        NavigationHelper.getInstance().startPayBill(myGood);
     }
 
     //清楚搜索
@@ -101,7 +102,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     //搜索事件
     @Event(R.id.searchbtn)
     private void search(View view){
-
+        et_search.setText("");
     }
 
     private void getHotGood(){
@@ -111,10 +112,13 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 ArrayList<GoodListBean.Item> items = new ArrayList<GoodListBean.Item>();
                 GoodListBean.Item item = null;
 
-                for (int i=0;i<9;i++){
+                for (int i = 0; i < 1; i++) {
                     item = new GoodListBean.Item();
-                    item.setGoodsTitle("我是一个商品"+i);
-                    item.setRetailPrice(32.76);
+                    item.setLogoImg("http://fs.51xnb.cn/f26228a7-f9e2-4008-9ad0-314b85b650b3.jpg");
+                    item.setId("0006de64-5f12-4cbc-9477-06c2a8f5ad2d");
+                    item.setGoodsTitle("康佳现代 高清蓝光LED电视 LED43H90C");
+                    item.setPrice(1490.00);
+                    item.setRetailPrice(1699.00);
                     item.setSpecificationDesc("我是一个描述");
                     items.add(item);
                 }
@@ -132,7 +136,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 //        android:text="￥0     共0件"
         for (GoodListBean.Item item:myGood){
             num += item.getNum();
-            price += item.getRetailPrice();
+            price += (item.getNum()*item.getPrice());
         }
 
         amountTV.setText("￥" +price + "     共"+num+"件");
@@ -158,6 +162,34 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
         refreshPrice();
     }
+    @Override
+    public void goodPlus(GoodListBean.Item item){
+        for (GoodListBean.Item item1:myGood){
+            if (item1.equals(item)){
+                item1.setNum(item1.getNum()+1);
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
 
+                refreshPrice();
+                return;
+            }
+        }
+
+    }
+    @Override
+    public void goodMinus(GoodListBean.Item item){
+        for (GoodListBean.Item item1:myGood){
+            if (item1.equals(item)) {
+                item1.setNum(item1.getNum()-1);
+                if (item1.getNum()==0)myGood.remove(item1);
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+
+                refreshPrice();
+                return;
+            }
+        }
+
+    }
 
 }

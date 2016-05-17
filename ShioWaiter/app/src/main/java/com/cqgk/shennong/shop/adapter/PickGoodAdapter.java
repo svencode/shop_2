@@ -7,14 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.cqgk.shennong.shop.BuildConfig;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.helper.ImageHelper;
+import com.cqgk.shennong.shop.http.RequestHelper;
+import com.cqgk.shennong.shop.http.RequestUtils;
 
 import java.util.ArrayList;
 
@@ -89,10 +95,39 @@ public class PickGoodAdapter extends BaseAdapter{
             view.setBackgroundResource(R.color.bg_color);
         }else if (position>0 && position<=(myGood.size()+1)){
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_one, null);
+
+            final GoodListBean.Item item1 = myGood.get(position-1);
+
             ImageView img = (ImageView)view.findViewById(R.id.imgIV);
             TextView name = (TextView)view.findViewById(R.id.nameTV);
             TextView desc = (TextView)view.findViewById(R.id.descTV);
             TextView price = (TextView)view.findViewById(R.id.priceTV);
+
+            Button plusBtn = (Button)view.findViewById(R.id.plusBtn);
+            Button minusBtn = (Button)view.findViewById(R.id.minusBtn);
+            EditText numET = (EditText)view.findViewById(R.id.numET);
+
+            ImageHelper.getInstance().display(img,item1.getLogoImg());
+            name.setText(item1.getGoodsTitle());
+            desc.setText(item1.getSpecificationDesc());
+            price.setText(item1.getPrice()+"");
+
+            numET.setText(item1.getNum()+"");
+
+
+            plusBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delegate.goodPlus(item1);
+                }
+            });
+
+            minusBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delegate.goodMinus(item1);
+                }
+            });
 
         }else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -108,7 +143,10 @@ public class PickGoodAdapter extends BaseAdapter{
             ImageView img1 = (ImageView)view.findViewById(R.id.img1IV);
             TextView name1 = (TextView)view.findViewById(R.id.name1TV);
             TextView price1 = (TextView)view.findViewById(R.id.price1TV);
+
+            ImageHelper.getInstance().display(img1,item1.getLogoImg());
             name1.setText(item1.getGoodsTitle());
+            price1.setText(item1.getPrice()+"");
             good1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -121,8 +159,10 @@ public class PickGoodAdapter extends BaseAdapter{
                 ImageView img2 = (ImageView)view.findViewById(R.id.img2IV);
                 TextView name2 = (TextView)view.findViewById(R.id.name2TV);
                 TextView price2 = (TextView)view.findViewById(R.id.price2TV);
-                name2.setText(item2.getGoodsTitle());
 
+                ImageHelper.getInstance().display(img2,item2.getLogoImg());
+                name2.setText(item2.getGoodsTitle());
+                price2.setText(item2.getRetailPrice()+"");
                 good2.setVisibility(View.VISIBLE);
                 good2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -138,6 +178,8 @@ public class PickGoodAdapter extends BaseAdapter{
 
     public interface PickGoodDelegate{
         void topGoodClick(GoodListBean.Item item);
+        void goodPlus(GoodListBean.Item item);
+        void goodMinus(GoodListBean.Item item);
     }
 }
 

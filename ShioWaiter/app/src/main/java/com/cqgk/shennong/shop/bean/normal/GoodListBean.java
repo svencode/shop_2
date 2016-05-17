@@ -33,6 +33,7 @@ public class GoodListBean {
         private String specificationDesc;
         private String logoImg;
         private ArrayList<String> photoListImg;
+        private double price;
         private double retailPrice;
 
         private int num;//选择数量
@@ -101,6 +102,14 @@ public class GoodListBean {
             this.num = num;
         }
 
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -108,6 +117,7 @@ public class GoodListBean {
 
             Item item = (Item) o;
 
+            if (Double.compare(item.price, price) != 0) return false;
             if (Double.compare(item.retailPrice, retailPrice) != 0) return false;
             if (num != item.num) return false;
             if (id != null ? !id.equals(item.id) : item.id != null) return false;
@@ -119,7 +129,7 @@ public class GoodListBean {
                 return false;
             if (logoImg != null ? !logoImg.equals(item.logoImg) : item.logoImg != null)
                 return false;
-            return photoListImg != null ? photoListImg.equals(item.photoListImg) : item.photoListImg == null;
+            return !(photoListImg != null ? !photoListImg.equals(item.photoListImg) : item.photoListImg != null);
 
         }
 
@@ -133,6 +143,8 @@ public class GoodListBean {
             result = 31 * result + (specificationDesc != null ? specificationDesc.hashCode() : 0);
             result = 31 * result + (logoImg != null ? logoImg.hashCode() : 0);
             result = 31 * result + (photoListImg != null ? photoListImg.hashCode() : 0);
+            temp = Double.doubleToLongBits(price);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
             temp = Double.doubleToLongBits(retailPrice);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
             result = 31 * result + num;

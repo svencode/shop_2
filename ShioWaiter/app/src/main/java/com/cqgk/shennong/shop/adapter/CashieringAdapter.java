@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.R;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.helper.ImageHelper;
 
 import org.w3c.dom.Text;
 
@@ -23,10 +24,12 @@ import java.util.ArrayList;
  */
 public class CashieringAdapter extends BaseAdapter{
     private Context context;
+    private CashieringDelegate delegate;
     private ArrayList<GoodListBean.Item> myGood;
 
-    public CashieringAdapter(Context context){
+    public CashieringAdapter(Context context,CashieringDelegate delegate){
         this.context = context;
+        this.delegate = delegate;
     }
 
     public ArrayList<GoodListBean.Item> getMyGood() {
@@ -67,31 +70,32 @@ public class CashieringAdapter extends BaseAdapter{
         Button plusBtn = (Button)view.findViewById(R.id.plusBtn);
         Button minusBtn = (Button)view.findViewById(R.id.minusBtn);
 
+        ImageHelper.getInstance().display(img,item.getLogoImg());
         numET.setText(""+item.getNum());
         name.setText(item.getGoodsTitle());
-        price.setText(""+item.getRetailPrice());
+        price.setText(""+item.getPrice());
+        originalPriceTV.setText(""+item.getRetailPrice());
 
         plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                delegate.goodPlus(item);
 
-                item.setNum(item.getNum()+1);
-                notifyDataSetChanged();
             }
         });
 
         minusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.setNum(item.getNum()-1);
-                if (item.getNum()==0){
-                    myGood.remove(item);
-                }
-
-                notifyDataSetChanged();
+                delegate.goodMinus(item);
             }
         });
 
         return view;
+    }
+
+    public interface CashieringDelegate{
+        void goodPlus(GoodListBean.Item item);
+        void goodMinus(GoodListBean.Item item);
     }
 }

@@ -5,13 +5,12 @@
     android:orientation="vertical">
     <include
         android:id="@+id/comment_title_bar_layout"
-        layout="@layout/layout_bar_title"
-        />
+        layout="@layout/layout_bar_title" />
 
     <include
         android:id="@+id/search_bar"
         layout="@layout/view_search"
-        android:layout_below="@+id/comment_title_bar_layout"/>
+        />
 
 
     <RelativeLayout

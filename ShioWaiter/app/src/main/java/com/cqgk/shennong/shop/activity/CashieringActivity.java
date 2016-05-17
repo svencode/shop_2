@@ -6,9 +6,13 @@ import android.text.Html;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cqgk.shennong.shop.adapter.CashieringAdapter;
+import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
@@ -41,11 +45,25 @@ public class CashieringActivity extends CamerBaseActivity {
     @ViewInject(R.id.capture_preview)
     SurfaceView capture_preview;
 
+    @ViewInject(R.id.captureroot)
+    RelativeLayout captureroot;
+
+    @ViewInject(R.id.vipInfoLL)
+    LinearLayout vipInfoLL;
+    @ViewInject(R.id.nameTV)
+    TextView vipNameTV;
+    @ViewInject(R.id.phontTV)
+    TextView phontTV;
+
+
     private boolean hasSurface;
 
     private ArrayList<GoodListBean.Item> myGood;
 
     private CashieringAdapter adapter;
+
+    private CardDtlBean vipInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +74,7 @@ public class CashieringActivity extends CamerBaseActivity {
         myGood = (ArrayList<GoodListBean.Item>) getIntent().getSerializableExtra(MY_GOOD_LIST);
 
 
+        getVipInfo("010148920000001"/*AppEnter.TestCardid*/);
 
         layoutView();
     }
@@ -83,7 +102,8 @@ public class CashieringActivity extends CamerBaseActivity {
 
 
     private void layoutView() {
-        CashieringAdapter adapter = new CashieringAdapter(this);
+        adapter = new CashieringAdapter(this);
+        adapter.setMyGood(myGood);
         listView.setAdapter(adapter);
     }
 
@@ -91,10 +111,19 @@ public class CashieringActivity extends CamerBaseActivity {
         RequestUtils.cardInfo(cardId, new HttpCallBack<CardDtlBean>() {
             @Override
             public void success(CardDtlBean result) {
-
+                vipInfo = result;
+                showVipInfo();
             }
         });
 
+    }
+
+    private void showVipInfo(){
+
+    }
+
+    private void delVipInfo(){
+        vipInfo = null;
     }
 
 

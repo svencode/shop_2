@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    android:layout_marginTop="55dp">
     <Button
         android:id="@+id/btn_search"
         android:layout_width="60dp"

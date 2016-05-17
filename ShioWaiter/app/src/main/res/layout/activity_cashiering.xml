@@ -47,16 +47,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@id/nameTV"
+                android:id="@+id/nameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="张三"/>
 
             <TextView
+                android:id="@+id/phontTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/nameTV"
+                android:layout_marginLeft="15dp"
                 android:text="13427598820"/>
 
         </RelativeLayout>

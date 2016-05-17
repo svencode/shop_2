@@ -181,8 +181,8 @@ public class RequestUtils {
         }
         params = getLoginParams(params);
         params.addParameter("keyword",keyword);
-        params.addParameter("pageIndex",pageIndex);
-        params.addParameter("pageSize",20);
+        params.addParameter("pageIndex",pageIndex+"");
+        params.addParameter("pageSize",20+"");
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
