@@ -141,8 +141,13 @@ public class NavigationHelper extends Basic {
     }
 
 
-    public void startBarCodeFind(){
+    /**
+     * 0-更新商品1-返回商品
+     * @param showtype
+     */
+    public void startBarCodeFind(int showtype){
         Intent i = new Intent(getActivity(), BarCodeFindProductActivity.class);
+        i.putExtra("showtype",showtype);
         this.startActivityForResult(getActivity(),i,0);
     }
 
