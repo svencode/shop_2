@@ -2,14 +2,18 @@ package com.cqgk.shennong.shop.zxing;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.utils.LogUtil;
+import com.cqgk.shennong.shop.view.CommonDialogView;
 import com.cqgk.shennong.shop.zxing.camera.CameraManager;
 import com.cqgk.shennong.shop.zxing.decoding.CaptureActivityHandler;
 import com.cqgk.shennong.shop.R;
@@ -33,6 +37,7 @@ public class CamerBaseActivity extends BusinessBaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkCamerPower();
         CameraManager.init(getApplication());
     }
 
@@ -114,5 +119,24 @@ public class CamerBaseActivity extends BusinessBaseActivity
             handler = null;
         }
         CameraManager.get().closeDriver();
+    }
+
+    /**
+     * 检测权限
+     */
+    private void checkCamerPower(){
+        PackageManager pkm = getPackageManager();
+        boolean has_permission = (PackageManager.PERMISSION_GRANTED ==
+                pkm.checkPermission("android.permission.CAMERA", this.getPackageName()));
+        if (!has_permission) {
+            CommonDialogView.show("对不起,检测到你还没打开摄像头权限", new CommonDialogView.DialogClickListener() {
+                @Override
+                public void doConfirm() {
+                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                    Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+                    startActivity(intent);
+                }
+            },true,false,"取消","马上设置");
+        }
     }
 }

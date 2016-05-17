@@ -52,7 +52,7 @@ public class BaseApp extends Application {
         galleryfinalInit();
 
         x.Ext.init(this);
-        x.Ext.setDebug(BuildConfig.DEBUG);
+        x.Ext.setDebug(true);
 
     }
 

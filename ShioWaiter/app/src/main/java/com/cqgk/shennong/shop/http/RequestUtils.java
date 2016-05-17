@@ -7,6 +7,7 @@ import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
+import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
@@ -53,7 +54,7 @@ public class RequestUtils {
      * @param pageSize
      * @param callBack
      */
-    public static void queryClerkGoodsByKey(String keyword,String pageIndex, String pageSize, HttpCallBack<List<ProductDtlBean>> callBack){
+    public static void queryClerkGoodsByKey(String keyword,String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack){
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
         params.addParameter("keyword",keyword);
         params.addParameter("pageIndex",pageIndex);
@@ -68,7 +69,7 @@ public class RequestUtils {
      * @param pageSize
      * @param callBack
      */
-    public static void allProdct(String pageIndex, String pageSize, HttpCallBack<List<ProductDtlBean>> callBack){
+    public static void allProdct(String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack){
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
         params.addParameter("pageIndex",pageIndex);
         params.addParameter("pageSize",pageSize);

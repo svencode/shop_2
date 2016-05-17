@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cqgk.shennong.shop.BuildConfig;
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
@@ -84,6 +85,11 @@ public class VipRechargeActivity extends CamerBaseActivity {
                 summoney.setText(String.format("￥%s", inputmoney.getText().toString()));
             }
         });
+
+
+        if(BuildConfig.DEBUG){
+            card_id=AppEnter.TestCardid;
+        }
     }
 
     @Override
@@ -101,7 +107,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
-        cid = AppEnter.TestCardid;
+
+        if(BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
 
 
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
@@ -201,7 +209,8 @@ public class VipRechargeActivity extends CamerBaseActivity {
     }
 
     private void getRechargeCode() {
-        RequestUtils.vipRecharge(card_id, inputmoney.getText().toString(), new HttpCallBack<RechargeResultBean>() {
+        //inputmoney.getText().toString()
+        RequestUtils.vipRecharge(card_id,"0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
                 NavigationHelper.getInstance().startVipPaySelect(result);

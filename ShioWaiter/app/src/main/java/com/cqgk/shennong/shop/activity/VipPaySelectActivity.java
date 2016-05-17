@@ -125,10 +125,11 @@ public class VipPaySelectActivity extends BusinessBaseActivity {
                     payOrderCode.getPayAmount());
         } else if (cur_pay_type == PAY_WEIXIN) {
 
-            RequestUtils.prepareWeixinPay(payOrderCode.getPayCode(), "8", new HttpCallBack<WechatResultBean>() {
+            RequestUtils.prepareWeixinPay(payOrderCode.getPayCode(),
+                    "8", new HttpCallBack<WechatResultBean>() {
                 @Override
                 public void success(WechatResultBean result) {
-                    WXPayHelper.getInstance().genPayReq(
+                    WXPayHelper.getInstance(result.getAppid()).genPayReq(
                             result.getAppid(),
                             result.getPartnerid(),
                             result.getPrepayid(),

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.config.Constant;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -46,7 +47,7 @@ public class WXPayEntryActivity extends BusinessBaseActivity
                 finish();
             }
         });
-        api = WXAPIFactory.createWXAPI(this, Constant.wxAppid);
+        api = WXAPIFactory.createWXAPI(this, AppEnter.wx_appid);
 
         initView();
         api.handleIntent(getIntent(), this);

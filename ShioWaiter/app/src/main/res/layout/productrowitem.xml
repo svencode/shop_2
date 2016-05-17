@@ -14,7 +14,7 @@
             android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ex_product"
+            android:src="@drawable/ic_launcher"
             android:layout_marginLeft="8dp"
             android:id="@+id/gimg"
             android:layout_marginRight="3dp"/>

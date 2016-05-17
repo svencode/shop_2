@@ -3,6 +3,7 @@ package com.cqgk.shennong.shop.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cqgk.shennong.shop.base.AppEnter;
@@ -14,12 +15,15 @@ import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
 import com.cqgk.shennong.shop.view.CommonDialogView;
 import com.cqgk.shennong.shop.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-/**首页
+/**
+ * 首页
  * Created by duke on 16/5/9.
  */
 @ContentView(R.layout.main)
@@ -35,11 +39,14 @@ public class MainActivity extends BusinessBaseActivity {
     @ViewInject(R.id.money_c)
     TextView money_c;
 
+    @ViewInject(R.id.pull_refresh_scrollview)
+    PullToRefreshScrollView mPullRefreshScrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-        getTitleDelegate().setTitle("店小二");
+        getTitleDelegate().setTitle(getResources().getString(R.string.app_name));
         getTitleDelegate().hideLeftBtn();
         getTitleDelegate().setRightText("退出");
         getTitleDelegate().setRightOnClick(new View.OnClickListener() {
@@ -54,6 +61,14 @@ public class MainActivity extends BusinessBaseActivity {
             }
         });
 
+        mPullRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                requestData();
+            }
+        });
+
         requestData();
     }
 
@@ -63,18 +78,32 @@ public class MainActivity extends BusinessBaseActivity {
         RequestUtils.homedata(new HttpCallBack<HomeBean>() {
             @Override
             public void success(HomeBean result) {
-                if(result==null)
+                viewRefresh();
+                if (result == null)
                     return;
 
                 money_a.setText(String.valueOf(result.getTCA()));
                 money_b.setText(String.valueOf(result.getTMA()));
                 money_c.setText(String.valueOf(result.getYTA()));
             }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                viewRefresh();
+                showLongToast(msg);
+                return super.failure(state, msg);
+            }
         });
     }
 
+
+    private void viewRefresh() {
+        if (mPullRefreshScrollView != null)
+            mPullRefreshScrollView.onRefreshComplete();
+    }
+
     @Event(R.id.activecard)
-    private void activecard_click(View view){
+    private void activecard_click(View view) {
         NavigationHelper.getInstance().startActiveCard();
     }
 
@@ -99,7 +128,6 @@ public class MainActivity extends BusinessBaseActivity {
     private void moneyrecord_click(View view) {
         NavigationHelper.getInstance().startCashiering();
     }
-
 
 
 }

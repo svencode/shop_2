@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.cqgk.shennong.shop.adapter.ProductRowAdapter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
+import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.ProductRowBean;
 import com.cqgk.shennong.shop.http.HttpCallBack;
@@ -52,14 +53,14 @@ public class SeachProductActivity extends BusinessBaseActivity {
     public void requestData() {
         super.requestData();
 
-        RequestUtils.allProdct("1", "10", new HttpCallBack<List<ProductDtlBean>>() {
+        RequestUtils.allProdct("1", "10", new HttpCallBack<MeProductListBean>() {
             @Override
-            public void success(List<ProductDtlBean> result) {
-                if(result==null || result.size()==0){
+            public void success(MeProductListBean result) {
+                if(result==null || result.getTotal()==0){
                     showLongToast("对不起,没找到相应的商品");
                     return;
                 }
-                productRowAdapter.setValuelist(result);
+                productRowAdapter.setValuelist(result.getList());
                 productRowAdapter.notifyDataSetChanged();
             }
 
@@ -72,14 +73,14 @@ public class SeachProductActivity extends BusinessBaseActivity {
     }
 
     private void searchByKeyWord(String keyword) {
-        RequestUtils.queryClerkGoodsByKey(keyword, "1", "10", new HttpCallBack<List<ProductDtlBean>>() {
+        RequestUtils.queryClerkGoodsByKey(keyword, "1", "10", new HttpCallBack<MeProductListBean>() {
             @Override
-            public void success(List<ProductDtlBean> result) {
-                if(result==null || result.size()==0){
+            public void success(MeProductListBean result) {
+                if(result==null || result.getTotal()==0){
                     showLongToast("对不起,没找到相应的商品");
                     return;
                 }
-                productRowAdapter.setValuelist(result);
+                productRowAdapter.setValuelist(result.getList());
                 productRowAdapter.notifyDataSetChanged();
             }
 

@@ -4,6 +4,7 @@ package com.cqgk.shennong.shop.helper;
  * Created by duke on 15/12/24.
  */
 
+import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.Basic;
 import com.cqgk.shennong.shop.config.Constant;
 import com.cqgk.shennong.shop.utils.LogUtil;
@@ -27,9 +28,12 @@ public class WXPayHelper extends Basic {
 
     private IWXAPI msgApi = null;
 
-    private static WXPayHelper helper = new WXPayHelper();
+    private static WXPayHelper helper = null;
 
-    public static WXPayHelper getInstance() {
+    public static WXPayHelper getInstance(String app_id) {
+        if (helper == null) {
+            helper = new WXPayHelper(app_id);
+        }
         return helper;
     }
 
@@ -38,15 +42,15 @@ public class WXPayHelper extends Basic {
     PayReq req;
     StringBuffer sb;
 
-    public WXPayHelper() {
+    public WXPayHelper(String app_id) {
+        AppEnter.wx_appid = app_id;
         msgApi = WXAPIFactory.createWXAPI(getActivity(), null);
         req = new PayReq();
-        msgApi.registerApp(Constant.wxAppid);
+        msgApi.registerApp(AppEnter.wx_appid);
         sb = new StringBuffer();
     }
 
     /**
-     *
      * @return
      */
     public Boolean isWxInstall() {
@@ -84,7 +88,8 @@ public class WXPayHelper extends Basic {
 
 
     /**
-     *发起支付
+     * 发起支付
+     *
      * @param appid
      * @param partnerId
      * @param prepayid
@@ -109,14 +114,13 @@ public class WXPayHelper extends Basic {
         req.sign = sign;
 
         sb.append("sign\n" + req.sign + "\n\n");
-
         sendPayReq();
 
     }
 
     private void sendPayReq() {
 
-        msgApi.registerApp(Constant.wxAppid);
+        msgApi.registerApp(AppEnter.wx_appid);
         msgApi.sendReq(req);
     }
 

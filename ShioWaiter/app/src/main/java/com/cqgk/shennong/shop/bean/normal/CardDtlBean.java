@@ -12,16 +12,16 @@ public class CardDtlBean {
      * card_name : 肖传毅
      */
 
-    private int balance;
+    private double balance;
     private String card_mobile;
     private String card_id;
     private String card_name;
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

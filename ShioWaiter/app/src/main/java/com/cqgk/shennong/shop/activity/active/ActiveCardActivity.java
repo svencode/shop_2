@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cqgk.shennong.shop.BuildConfig;
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
@@ -106,9 +107,12 @@ public class ActiveCardActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
-        cid = AppEnter.TestCardid;
-        card_id = cid;
 
+        if(BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
+
+
+        card_id = cid;
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
             public void success(String result) {
@@ -210,7 +214,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
     }
 
     private void getRechargeCode() {
-        RequestUtils.vipRecharge(card_id, "100", new HttpCallBack<RechargeResultBean>() {
+        RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
                 NavigationHelper.getInstance().startVipPaySelect(result);
