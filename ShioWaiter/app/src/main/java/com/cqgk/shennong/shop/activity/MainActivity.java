@@ -10,6 +10,7 @@ import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
+import com.cqgk.shennong.shop.bean.normal.ShopInfoBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
@@ -88,6 +89,19 @@ public class MainActivity extends BusinessBaseActivity {
     @Override
     public void requestData() {
         super.requestData();
+
+
+        //店铺名称
+        RequestUtils.queryServiceNickName(new HttpCallBack<ShopInfoBean>() {
+            @Override
+            public void success(ShopInfoBean result) {
+                if(result==null)
+                    return;
+                getTitleDelegate().setTitle(result.getNickName());
+            }
+        });
+
+        //收益
         RequestUtils.homedata(new HttpCallBack<HomeBean>() {
             @Override
             public void success(HomeBean result) {

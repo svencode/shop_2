@@ -201,4 +201,11 @@ public class UrlApi {
      */
     public static String url_queryGoodsStandardInfo="goods/queryGoodsStandardInfo.do";
 
+
+    /**
+     * 首页广告
+     */
+    public static String url_queryAdsByPosition="ad/queryAdsByPosition.do";
+
+
 }
