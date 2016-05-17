@@ -195,4 +195,10 @@ public class UrlApi {
      */
     public static String url_prepareWeixinPay="payment/prepareWeixinPay.do";
 
+
+    /**
+     * 根据条形码查询商品标准信息
+     */
+    public static String url_queryGoodsStandardInfo="goods/queryGoodsStandardInfo.do";
+
 }

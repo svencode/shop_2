@@ -14,8 +14,11 @@ import android.widget.RelativeLayout;
 import com.baoyz.actionsheet.ActionSheet;
 import com.cqgk.shennong.shop.adapter.ProductEditItemAdapter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
+import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
+import com.cqgk.shennong.shop.bean.normal.ProductStandInfoBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
@@ -80,19 +83,37 @@ public class ProductEditActivity extends CamerBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
 
-        getTitleDelegate().setRightText("商品");
-        getTitleDelegate().setRightOnClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationHelper.getInstance().startSearchProduct();
-            }
-        });
+
+
+
+        try {
+            productId = getStringExtra("productid");
+        } catch (NullPointerException e) {
+
+        }
 
         editBeanList = new ArrayList<>();
         editBeanList.add(new EditBean());
 
 
         initView();
+        requestData();
+    }
+
+    @Override
+    public void requestData() {
+        super.requestData();
+        if (CheckUtils.isAvailable(productId)) {
+            RequestUtils.queryClerkGoodsById(productId, new HttpCallBack<ProductDtlBean>() {
+                @Override
+                public void success(ProductDtlBean result) {
+                    productTitle.setText(result.getGoodsTitle());
+                    vipPrice.setText(String.valueOf(result.getVipPrice()));
+                    retailPrice.setText(String.valueOf(result.getRetailPrice()));
+                }
+            });
+        }
+
     }
 
     @Override
@@ -103,6 +124,13 @@ public class ProductEditActivity extends CamerBaseActivity {
             getTitleDelegate().setTitle("商品更新");
         } else {
             getTitleDelegate().setTitle("商品上传");
+            getTitleDelegate().setRightText("商品");
+            getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavigationHelper.getInstance().startSearchProduct();
+                }
+            });
         }
 
 
@@ -159,7 +187,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                 final PhotoInfo photoInfo = resultList.get(0);
                 File file = new File(photoInfo.getPhotoPath());
-                if(file.length()/1024>1024){
+                if (file.length() / 1024 > 1024) {
                     showLongToast("上传的图片不能大于1M");
                     return;
                 }
@@ -168,22 +196,22 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                 RequestUtils.fileUpload(photoInfo.getPhotoPath(),
                         fileName, new HttpCallBack<FileUploadResultBean>() {
-                    @Override
-                    public void success(FileUploadResultBean result) {
-                        EditBean temp = new EditBean();
-                        temp.setPhotoInfo(photoInfo);
-                        temp.setUploadId(result.getFile_id());
-                        editBeanList.add(temp);
-                        productEditItemAdapter.setValueList(editBeanList);
-                        productEditItemAdapter.notifyDataSetChanged();
-                    }
+                            @Override
+                            public void success(FileUploadResultBean result) {
+                                EditBean temp = new EditBean();
+                                temp.setPhotoInfo(photoInfo);
+                                temp.setUploadId(result.getFile_id());
+                                editBeanList.add(temp);
+                                productEditItemAdapter.setValueList(editBeanList);
+                                productEditItemAdapter.notifyDataSetChanged();
+                            }
 
-                    @Override
-                    public boolean failure(int state, String msg) {
-                        showLongToast(msg);
-                        return super.failure(state, msg);
-                    }
-                });
+                            @Override
+                            public boolean failure(int state, String msg) {
+                                showLongToast(msg);
+                                return super.failure(state, msg);
+                            }
+                        });
 
             }
         }
@@ -220,6 +248,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         String recode = recode(result.toString());
         productcode.setText(recode);
+        queryProductDefInfo();
         reScan();
     }
 
@@ -294,15 +323,31 @@ public class ProductEditActivity extends CamerBaseActivity {
     private String getAllUploadId() {
         String uploadIDS = "";
         for (int i = 0; i < editBeanList.size(); i++) {
-            if(editBeanList.get(i).getPhotoInfo()==null)continue;
+            if (editBeanList.get(i).getPhotoInfo() == null) continue;
 
             String uploadId = editBeanList.get(i).getUploadId();
             if (CheckUtils.isAvailable(uploadId))
                 uploadIDS += uploadId + ",";
         }
 
-        return uploadIDS.length() > 0 ? uploadIDS.substring(0,uploadIDS.length()-1) : "";
+        return uploadIDS.length() > 0 ? uploadIDS.substring(0, uploadIDS.length() - 1) : "";
     }
 
+
+    private void queryProductDefInfo() {
+        RequestUtils.queryGoodsStandardInfo(productcode.getText().toString(), new HttpCallBack<ProductStandInfoBean>() {
+            @Override
+            public void success(ProductStandInfoBean result) {
+
+                if (result == null)
+                    return;
+
+                productTitle.setText(result.getTitle());
+                retailPrice.setText(String.valueOf(result.getRetailPrice()));
+                vipPrice.setText(String.valueOf(result.getVipPrice()));
+            }
+
+        });
+    }
 
 }

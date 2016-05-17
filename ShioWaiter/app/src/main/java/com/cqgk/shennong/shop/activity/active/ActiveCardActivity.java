@@ -108,7 +108,7 @@ public class ActiveCardActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
 
-        if(BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG)
             cid = AppEnter.TestCardid;
 
 
@@ -200,7 +200,8 @@ public class ActiveCardActivity extends CamerBaseActivity {
                                 new CommonDialogView.DialogClickListener() {
                                     @Override
                                     public void doConfirm() {
-                                        getRechargeCode();
+                                        NavigationHelper.getInstance().startVipRecharge(card_id);
+                                        //getRechargeCode();
                                     }
                                 }, true, false, "取消", "去充值");
                     }

@@ -8,9 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
-import com.cqgk.shennong.shop.bean.normal.ProductRowBean;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.ImageHelper;
 import com.cqgk.shennong.shop.utils.ViewHolderUtil;
 import com.cqgk.shennong.shop.view.PricesTextView;
@@ -18,18 +17,18 @@ import com.cqgk.shennong.shop.view.PricesTextView;
 import java.util.List;
 
 /**
- * Created by sven on 16/5/9.
+ * Created by duke on 16/5/17.
  */
-public class ProductRowAdapter extends BaseAdapter {
+public class SearchResultPopAdapter extends BaseAdapter {
     private Context context;
 
     private List<ProductDtlBean> valuelist;
 
-    public ProductRowAdapter(Context context) {
+    public SearchResultPopAdapter(Context context) {
         this.context = context;
     }
 
-    public ProductRowAdapter(Context context,List<ProductDtlBean> valuelist) {
+    public SearchResultPopAdapter(Context context, List<ProductDtlBean> valuelist) {
         this.context = context;
         this.valuelist = valuelist;
     }
@@ -57,7 +56,7 @@ public class ProductRowAdapter extends BaseAdapter {
 
     @Override
     public ProductDtlBean getItem(int position) {
-        return valuelist==null?null:valuelist.get(position);
+        return valuelist == null ? null : valuelist.get(position);
     }
 
     @Override
@@ -68,21 +67,13 @@ public class ProductRowAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.productrowitem, null);
+            view = LayoutInflater.from(context).inflate(R.layout.poplistitem, null);
         }
 
         ProductDtlBean item = valuelist.get(position);
 
-        ImageView imageView = ViewHolderUtil.get(view,R.id.gimg);
-        TextView title = ViewHolderUtil.get(view,R.id.title);
-        TextView desc = ViewHolderUtil.get(view,R.id.desc);
-        PricesTextView price = ViewHolderUtil.get(view,R.id.price);
-
-        ImageHelper.getInstance().display(imageView,item.getLogoImg());
-        title.setText(item.getGoodsTitle());
-        desc.setText(item.getSpecificationDesc());
-        price.setText(String.valueOf(item.getRetailPrice()));
-
+        TextView productname = ViewHolderUtil.get(view, R.id.productname);
+        productname.setText(item.getGoodsTitle());
         return view;
     }
 }

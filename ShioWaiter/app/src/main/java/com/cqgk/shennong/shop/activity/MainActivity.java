@@ -55,7 +55,20 @@ public class MainActivity extends BusinessBaseActivity {
                 CommonDialogView.show("你要退出店小二账号?", new CommonDialogView.DialogClickListener() {
                     @Override
                     public void doConfirm() {
-                        AppEnter.exitAccount();
+                        RequestUtils.logout(new HttpCallBack<String>() {
+                            @Override
+                            public void success(String result) {
+                                AppEnter.exitAccount();
+                            }
+
+                            @Override
+                            public boolean failure(int state, String msg) {
+                                showLongToast(msg);
+                                AppEnter.exitAccount();
+                                return super.failure(state, msg);
+                            }
+                        });
+
                     }
                 });
             }
@@ -109,13 +122,13 @@ public class MainActivity extends BusinessBaseActivity {
 
     @Event(R.id.uploadprodct)
     private void uploadprodct_click(View view) {
-        NavigationHelper.getInstance().startUploadProduct();
+        NavigationHelper.getInstance().startUploadProduct("");
     }
 
 
     @Event(R.id.viprecharge)
     private void viprecharge_click(View view) {
-        NavigationHelper.getInstance().startVipRecharge();
+        NavigationHelper.getInstance().startVipRecharge("");
     }
 
     @Event(R.id.ad_1)

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.cqgk.shennong.shop.activity.BarCodeFindProductActivity;
 import com.cqgk.shennong.shop.activity.CashieringActivity;
 import com.cqgk.shennong.shop.activity.InputMoneyActivity;
 import com.cqgk.shennong.shop.activity.LoginActivity;
@@ -80,13 +81,15 @@ public class NavigationHelper extends Basic {
         this.startActivity(getActivity(),i);
     }
 
-    public void startUploadProduct(){
+    public void startUploadProduct(String product_id){
         Intent i = new Intent(getActivity(), ProductEditActivity.class);
+        i.putExtra("productid",product_id);
         this.startActivity(getActivity(),i);
     }
 
-    public void startVipRecharge(){
+    public void startVipRecharge(String card_id){
         Intent i = new Intent(getActivity(), VipRechargeActivity.class);
+        i.putExtra("card_id",card_id);
         this.startActivity(getActivity(),i);
     }
 
@@ -132,6 +135,12 @@ public class NavigationHelper extends Basic {
         bundle.putSerializable("ordercode", (Serializable) bean);
         i.putExtras(bundle);
         this.startActivity(getActivity(),i);
+    }
+
+
+    public void startBarCodeFind(){
+        Intent i = new Intent(getActivity(), BarCodeFindProductActivity.class);
+        this.startActivityForResult(getActivity(),i,0);
     }
 
 }

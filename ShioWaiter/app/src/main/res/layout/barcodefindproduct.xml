@@ -86,85 +86,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:text="请扫描未使用会员卡上的二维码"
-                android:layout_marginBottom="5dp"
+                android:text="请扫描商品条码"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_m" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <TextView
-                android:id="@+id/row_1_title"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="充值金额"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m" />
-
-            <EditText
-                android:id="@+id/inputmoney"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/row_1_title"
-                android:hint="请输入100整倍数"
-                android:textColorHint="@color/font_color_4"
-                android:inputType="numberDecimal"
-                android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m"
-                android:maxLength="9"
-                android:digits="0123456789"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/inputmoney"
-                android:text="元" />
+                android:layout_marginBottom="5dp"/>
 
         </RelativeLayout>
-
-        <View style="@style/magic_h_line" />
 
 
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:paddingLeft="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="￥0.0"
-            android:textSize="@dimen/text_size_m"
-            android:id="@+id/summoney"/>
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@color/glo_nav_bar_bg"
-            android:gravity="center"
-            android:text="充值"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_m"
-            android:id="@+id/congnow"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>

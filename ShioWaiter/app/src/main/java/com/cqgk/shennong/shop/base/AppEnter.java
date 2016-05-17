@@ -31,7 +31,7 @@ public class AppEnter extends BaseApp {
     public static Fragment MainFragment;
 
 
-    public static String TestCardid="010180340000032";
+    public static String TestCardid="010148920000001";
 
     public static String wx_appid;
 
