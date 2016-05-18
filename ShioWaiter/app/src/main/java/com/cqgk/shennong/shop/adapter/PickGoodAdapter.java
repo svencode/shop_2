@@ -111,7 +111,7 @@ public class PickGoodAdapter extends BaseAdapter{
             ImageHelper.getInstance().display(img,item1.getLogoImg());
             name.setText(item1.getGoodsTitle());
             desc.setText(item1.getSpecificationDesc());
-            price.setText(item1.getRetailPrice()+"");
+            price.setText("￥"+item1.getRetailPrice());
 
             numET.setText(item1.getNum()+"");
 
@@ -147,7 +147,7 @@ public class PickGoodAdapter extends BaseAdapter{
 
             ImageHelper.getInstance().display(img1,item1.getLogoImg());
             name1.setText(item1.getGoodsTitle());
-            price1.setText(item1.getRetailPrice()+"");
+            price1.setText("￥"+item1.getRetailPrice());
             good1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -163,7 +163,7 @@ public class PickGoodAdapter extends BaseAdapter{
 
                 ImageHelper.getInstance().display(img2,item2.getLogoImg());
                 name2.setText(item2.getGoodsTitle());
-                price2.setText(item2.getRetailPrice()+"");
+                price2.setText("￥"+item2.getRetailPrice());
                 good2.setVisibility(View.VISIBLE);
                 good2.setOnClickListener(new View.OnClickListener() {
                     @Override

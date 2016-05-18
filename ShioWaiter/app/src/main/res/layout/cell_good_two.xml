@@ -27,6 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="卡布奇诺 智能手机2S 全网通 屏幕5.0吋 内存2G+..."
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/text_size_m"
                 android:maxLines="3"/>
 
             <TextView
@@ -35,7 +37,9 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/color_red"
-                android:text="￥28.80"/>
+                android:textSize="@dimen/text_size_m"
+                android:text="￥28.80"
+                android:layout_marginTop="2dp"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -64,7 +68,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="卡布奇诺 智能手机2S 全网通 屏幕5.0吋 内存2G+..."
-                android:maxLines="3"/>
+                android:maxLines="3"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/text_size_m"/>
 
             <TextView
                 android:id="@+id/price2TV"
@@ -72,7 +78,9 @@
                 android:layout_height="wrap_content"
                 android:text="￥28.80"
                 android:textColor="@color/color_red"
-                android:singleLine="true"/>
+                android:textSize="@dimen/text_size_m"
+                android:singleLine="true"
+                android:layout_marginTop="2dp"/>
 
         </LinearLayout>
     </LinearLayout>

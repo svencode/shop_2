@@ -1,8 +1,12 @@
 package com.cqgk.shennong.shop.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -17,6 +21,7 @@ import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.JIesuanReturnBean;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
@@ -33,6 +38,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NavigableSet;
 
 /**
@@ -78,7 +84,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     private CashieringAdapter adapter;
 
-    private CardDtlBean vipInfo;
+    private JIesuanReturnBean vipInfo;
+    private JIesuanReturnBean couponInfo;
 
 
     @Override
@@ -145,26 +152,40 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
     private void getVipInfo(String cardId){
-        RequestUtils.cardInfo(cardId, new HttpCallBack<CardDtlBean>() {
+        RequestUtils.settleReCalculate(cardId, null, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
-            public void success(CardDtlBean result) {
+            public void success(JIesuanReturnBean result) {
                 vipInfo = result;
                 showVipInfo();
             }
         });
-
     }
 
     private void showVipInfo(){
         captureroot.setVisibility(View.GONE);
         vipInfoLL.setVisibility(View.VISIBLE);
 
-        vipNameTV.setText(vipInfo.getCard_name());
-        phontTV.setText(vipInfo.getCard_mobile());
-        cardNumberTV.setText("NO." + vipInfo.getCard_id());
-        blanceTV.setText("余额：￥" + vipInfo.getBalance());
+        vipNameTV.setText(vipInfo.getMembercard().getName());
+        phontTV.setText(vipInfo.getMembercard().getPhoneNumber());
+        cardNumberTV.setText("NO." + vipInfo.getMembercard().getMemberCardId());
+
+        SpannableString blance = new SpannableString("余额：￥" + vipInfo.getMembercard().getBalance());
+        blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        blanceTV.setText(blance);
 
         couponTV.setVisibility(View.GONE);
+
+        HashMap<String,String> newPrice = vipInfo.getAmountMap().getNewGoodsPrice();
+        for (String key:newPrice.keySet()){
+
+            for (ProductDtlBean good:myGood){
+                if (good.getId().equals(key)){
+                    good.setVipPrice(Double.parseDouble(newPrice.get(key)));
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     private void delVipInfo(){
@@ -183,7 +204,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             price += (item.getNum()*item.getPrice());
         }
 
-        NavigationHelper.getInstance().startVipRecharge(vipInfo.getCard_id());
+        NavigationHelper.getInstance().startVipRecharge(vipInfo.getMembercard().getMemberCardId());
     }
 
     @Event(R.id.goPayBtn)
@@ -196,13 +217,13 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             price += (item.getNum()*item.getPrice());
         }
 
-        if (price>vipInfo.getBalance()){
+        if (price>Double.parseDouble(vipInfo.getMembercard().getBalance())){
             recharge(null);
             return;
         }
 
 
-        RequestUtils.submitOrder(vipInfo.getCard_id(), "", myGood, new HttpCallBack<LoginResultBean>() {
+        RequestUtils.submitOrder(vipInfo.getMembercard().getMemberCardId(), "", myGood, new HttpCallBack<LoginResultBean>() {
             @Override
             public void success(LoginResultBean result) {
 

@@ -42,17 +42,20 @@
         android:layout_below="@+id/captureroot"
         android:background="@android:color/white"
         android:padding="5dp"
-        android:visibility="gone">
+        android:visibility="visible">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/nameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="张三"/>
+                android:text="张三"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/text_size_xl"/>
 
             <TextView
                 android:id="@+id/phontTV"
@@ -60,26 +63,34 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/nameTV"
                 android:layout_marginLeft="15dp"
-                android:text="13427598820"/>
+                android:text="13427598820"
+                android:textColor="@color/color_gray_2"
+                android:textSize="@dimen/text_size_l"/>
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
             <TextView
                 android:id="@+id/blanceTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="余额不足：￥100"/>
+                android:text="余额：￥100"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/text_size_xl"/>
 
             <TextView
                 android:id="@+id/cardNumberTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="NO.4383273468372"/>
+                android:text="NO.4383273468372"
+                android:textSize="@dimen/text_size_l"
+                android:textColor="@color/color_gray_2"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -89,7 +100,11 @@
             android:id="@+id/couponTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="现金券抵扣：20元"/>
+            android:text="现金券抵扣：20元"
+            android:textColor="@color/color_gray_2"
+            android:textSize="@dimen/text_size_l"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,8 +113,8 @@
             android:gravity="center">
             <Button
                 android:id="@+id/rechargeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:text="充值"
                 android:textColor="@color/color_red"
                 android:background="@drawable/bg_red_border_round"
@@ -107,8 +122,8 @@
                 android:layout_marginRight="3dp"/>
             <Button
                 android:id="@+id/couponBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:text="现金券"
                 android:textColor="@color/color_red"
                 android:background="@drawable/bg_red_border_round"
