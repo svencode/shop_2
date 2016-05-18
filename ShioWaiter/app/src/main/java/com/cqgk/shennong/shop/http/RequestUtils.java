@@ -11,6 +11,8 @@ import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
 import com.cqgk.shennong.shop.bean.normal.HomeAdsBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.JieSuanScanMemberResultBean;
+import com.cqgk.shennong.shop.bean.normal.JiesuanScanSubmit;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
 import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
@@ -38,11 +40,51 @@ import java.util.List;
  */
 public class RequestUtils {
 
+
+    /**
+     * 提交数据：
+     * {
+     * "barCode":"会员卡二维码",
+     * "GOODS":[
+     * {
+     * "gsid"："商品规格编号"，
+     * "price"："商品价格（手动修改后的价格，没有修改则传空）"，
+     * "num" ："商品数量"
+     * },
+     * {
+     * "gsid"："商品规格编号"，
+     * "price"："商品价格（手动修改后的价格，没有修改则传空）"，
+     * "num" ："商品数量"
+     * }
+     * ...
+     * ]
+     * }
+     */
+    public static void settleScanMemberCard(String barcode, List<ProductDtlBean> goods, HttpCallBack<JieSuanScanMemberResultBean> callBack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleScanMemberCard));
+
+        JiesuanScanSubmit jiesuanScanSubmit = new JiesuanScanSubmit();
+        jiesuanScanSubmit.setBarCode(barcode);
+
+        List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
+        for (int i = 0; i < goods.size(); i++) {
+            JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
+            item.setGsid(goods.get(i).getGoodsId());
+            item.setNum(String.valueOf(goods.get(i).getNum()));
+            item.setPrice(String.valueOf(goods.get(i).getPrice()));
+        }
+        jiesuanScanSubmit.setGOODS(entityList);
+
+        params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
     /**
      * 店铺名称
+     *
      * @param callBack
      */
-    public static void queryServiceNickName(HttpCallBack<ShopInfoBean> callBack){
+    public static void queryServiceNickName(HttpCallBack<ShopInfoBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryServiceNickName));
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
@@ -51,9 +93,10 @@ public class RequestUtils {
 
     /**
      * 首页广告
+     *
      * @param callBack
      */
-    public static void homeads(HttpCallBack<HomeAdsBean> callBack){
+    public static void homeads(HttpCallBack<HomeAdsBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryAdsByPosition));
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
@@ -61,9 +104,10 @@ public class RequestUtils {
 
     /**
      * 用户退出
+     *
      * @param callBack
      */
-    public static void logout(HttpCallBack<String> callBack){
+    public static void logout(HttpCallBack<String> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_logout));
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
@@ -72,39 +116,40 @@ public class RequestUtils {
 
     /**
      * 根据Id查询商品
+     *
      * @param goodsId
      * @param callBack
      */
-    public static void queryClerkGoodsById(String goodsId, HttpCallBack<ProductDtlBean> callBack){
+    public static void queryClerkGoodsById(String goodsId, HttpCallBack<ProductDtlBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsById));
-        params.addParameter("goodsId",goodsId);
+        params.addParameter("goodsId", goodsId);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
     /**
      * 使用条码查询店小二上传的商品
-
+     *
      * @param barcode
      * @param callBack
      */
-    public static void queryClerkGoodsByBarcode(String barcode, HttpCallBack<MeProductListBean> callBack){
+    public static void queryClerkGoodsByBarcode(String barcode, HttpCallBack<MeProductListBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsByBarcode));
-        params.addParameter("barcode",barcode);
+        params.addParameter("barcode", barcode);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
 
-
     /**
      * 查询商品标准信息
+     *
      * @param barcode
      * @param callBack
      */
-    public static void queryGoodsStandardInfo(String barcode, HttpCallBack<ProductStandInfoBean> callBack){
+    public static void queryGoodsStandardInfo(String barcode, HttpCallBack<ProductStandInfoBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryGoodsStandardInfo));
-        params.addParameter("barcode",barcode);
+        params.addParameter("barcode", barcode);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
@@ -112,63 +157,63 @@ public class RequestUtils {
 
     /**
      * 获取短信验证码
+     *
      * @param verifyCodeType
      * @param phoneNumber
      * @param callBack
      */
-    public static void getVerifyCode(String verifyCodeType,String phoneNumber, HttpCallBack<String> callBack){
+    public static void getVerifyCode(String verifyCodeType, String phoneNumber, HttpCallBack<String> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_randomcode));
-        params.addParameter("verifyCodeType",verifyCodeType);
-        params.addParameter("phoneNumber",phoneNumber);
+        params.addParameter("verifyCodeType", verifyCodeType);
+        params.addParameter("phoneNumber", phoneNumber);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
     /**
      * 获取微信支付参数
+     *
      * @param payCode
      * @param gateway
-     * @param callBack
-     *  - 10：店小二微信支付通道
-    - 8：农掌柜微信支付通道
-    - 9：新农宝微信支付通道
-
+     * @param callBack - 10：店小二微信支付通道
+     *                 - 8：农掌柜微信支付通道
+     *                 - 9：新农宝微信支付通道
      */
-    public static void prepareWeixinPay(String payCode,String gateway, HttpCallBack<WechatResultBean> callBack){
+    public static void prepareWeixinPay(String payCode, String gateway, HttpCallBack<WechatResultBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_prepareWeixinPay));
-        params.addParameter("payCode",payCode);
-        params.addParameter("gateway",gateway);
+        params.addParameter("payCode", payCode);
+        params.addParameter("gateway", gateway);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
 
     /**
-     *
      * @param keyword
      * @param pageIndex
      * @param pageSize
      * @param callBack
      */
-    public static void queryClerkGoodsByKey(String keyword,String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack){
+    public static void queryClerkGoodsByKey(String keyword, String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
-        params.addParameter("keyword",keyword);
-        params.addParameter("pageIndex",pageIndex);
-        params.addParameter("pageSize",pageSize);
+        params.addParameter("keyword", keyword);
+        params.addParameter("pageIndex", pageIndex);
+        params.addParameter("pageSize", pageSize);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
     /**
      * 查询上传所有的商品
+     *
      * @param pageIndex
      * @param pageSize
      * @param callBack
      */
-    public static void allProdct(String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack){
+    public static void allProdct(String pageIndex, String pageSize, HttpCallBack<MeProductListBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoods));
-        params.addParameter("pageIndex",pageIndex);
-        params.addParameter("pageSize",pageSize);
+        params.addParameter("pageIndex", pageIndex);
+        params.addParameter("pageSize", pageSize);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
@@ -176,6 +221,7 @@ public class RequestUtils {
 
     /**
      * 会员开卡
+     *
      * @param card_id
      * @param card_name
      * @param card_mobile
@@ -188,13 +234,13 @@ public class RequestUtils {
                                      String card_mobile,
                                      String card_idcard,
                                      String card_password,
-                                     HttpCallBack<MembercardActBean> callBack){
+                                     HttpCallBack<MembercardActBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_membercardActivate));
-        params.addParameter("card_id",card_id);
-        params.addParameter("card_name",card_name);
-        params.addParameter("card_mobile",card_mobile);
-        params.addParameter("card_idcard",card_idcard);
-        params.addParameter("card_password",card_password);
+        params.addParameter("card_id", card_id);
+        params.addParameter("card_name", card_name);
+        params.addParameter("card_mobile", card_mobile);
+        params.addParameter("card_idcard", card_idcard);
+        params.addParameter("card_password", card_password);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
 
@@ -202,14 +248,15 @@ public class RequestUtils {
 
     /**
      * 会员卡充值->获取paycode
+     *
      * @param card_id
      * @param amount
      * @param callBack
      */
-    public static void vipRecharge(String card_id,String amount,HttpCallBack<RechargeResultBean> callBack){
+    public static void vipRecharge(String card_id, String amount, HttpCallBack<RechargeResultBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_recharge));
-        params.addParameter("card_id",card_id);
-        params.addParameter("amount",amount);
+        params.addParameter("card_id", card_id);
+        params.addParameter("amount", amount);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
@@ -217,24 +264,26 @@ public class RequestUtils {
 
     /**
      * 卡信息
+     *
      * @param card_id
      * @param callBlack
      */
-    public static void cardInfo(String card_id,HttpCallBack<CardDtlBean> callBlack){
+    public static void cardInfo(String card_id, HttpCallBack<CardDtlBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_getCardInfo));
-        params.addParameter("card_id",card_id);
+        params.addParameter("card_id", card_id);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
 
     /**
      * 检测卡有效性
+     *
      * @param card_id
      * @param callBlack
      */
-    public static void checkCardState(String card_id,HttpCallBack<String> callBlack){
+    public static void checkCardState(String card_id, HttpCallBack<String> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_checkCardStatus));
-        params.addParameter("card_id",card_id);
+        params.addParameter("card_id", card_id);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
@@ -242,14 +291,15 @@ public class RequestUtils {
 
     /**
      * 用户登录
+     *
      * @param username
      * @param password
      * @param callBlack
      */
     public static void userlogin(String username, String password, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_login));
-        params.addParameter("username",username);
-        params.addParameter("password",password);
+        params.addParameter("username", username);
+        params.addParameter("password", password);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
@@ -257,6 +307,7 @@ public class RequestUtils {
 
     /**
      * 首页
+     *
      * @param callBlack
      */
     public static void homedata(HttpCallBack<HomeBean> callBlack) {
@@ -272,30 +323,31 @@ public class RequestUtils {
      */
     public static void searchGood(String keyword, int pageIndex, HttpCallBack<GoodListBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsListPageByKeys));
-        if (null == keyword){
+        if (null == keyword) {
             keyword = "";
         }
         params = getLoginParams(params);
-        params.addParameter("keyword",keyword);
-        params.addParameter("pageIndex",pageIndex+"");
-        params.addParameter("pageSize",20+"");
+        params.addParameter("keyword", keyword);
+        params.addParameter("pageIndex", pageIndex + "");
+        params.addParameter("pageSize", 20 + "");
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
 
     /**
      * 文件上传
+     *
      * @param file
      * @param filename
      * @param callBlack
      */
-    public static void fileUpload(String filepath, String filename , HttpCallBack<FileUploadResultBean> callBlack ){
+    public static void fileUpload(String filepath, String filename, HttpCallBack<FileUploadResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_appUpload));
-        params.setHeader("x_file_name",filename);
+        params.setHeader("x_file_name", filename);
         params.setMultipart(true);
         try {
-        params.addBodyParameter("file",
-                new FileInputStream(new File(filepath)),null,filename);
+            params.addBodyParameter("file",
+                    new FileInputStream(new File(filepath)), null, filename);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -304,14 +356,14 @@ public class RequestUtils {
 
     /**
      * {
-     "id":"商品ID",
-     "barCode":"商品的条形码",
-     "title":"商品的名称",
-     "retailPrice":"商品零售价",
-     "vipPrice":"商品的会员价",
-     "logoId":"商品主图文件ID",
-     "photoIdList":"商品附图文件ID列表"
-     }
+     * "id":"商品ID",
+     * "barCode":"商品的条形码",
+     * "title":"商品的名称",
+     * "retailPrice":"商品零售价",
+     * "vipPrice":"商品的会员价",
+     * "logoId":"商品主图文件ID",
+     * "photoIdList":"商品附图文件ID列表"
+     * }
      */
     public static void productUpdate(String id,
                                      String barcode,
@@ -320,24 +372,25 @@ public class RequestUtils {
                                      String vipPrice,
                                      String logoId,
                                      String iphoneIds,
-                                     HttpCallBack<String> callBlack){
+                                     HttpCallBack<String> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_doSaveGoods));
-        params.addParameter("id", CheckUtils.isAvailable(id)?id:"");
-        params.addParameter("barCode",barcode);
-        params.addParameter("title",title);
-        params.addParameter("retailPrice",retailPrice);
-        params.addParameter("vipPrice",vipPrice);
-        params.addParameter("logoId",logoId);
-        params.addParameter("iphotoIdListd",iphoneIds);
+        params.addParameter("id", CheckUtils.isAvailable(id) ? id : "");
+        params.addParameter("barCode", barcode);
+        params.addParameter("title", title);
+        params.addParameter("retailPrice", retailPrice);
+        params.addParameter("vipPrice", vipPrice);
+        params.addParameter("logoId", logoId);
+        params.addParameter("iphotoIdListd", iphoneIds);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
-     /* 提交订单
-     * @param MCID
-     * @param CCID
-     * @param goods
-     * @param callBlack
-     */
+
+    /* 提交订单
+    * @param MCID
+    * @param CCID
+    * @param goods
+    * @param callBlack
+    */
     public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<LoginResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
 
@@ -347,7 +400,7 @@ public class RequestUtils {
         bean.setMCID(MCID);
         bean.setCCID(CCID);
 
-        for (ProductDtlBean item:goods){
+        for (ProductDtlBean item : goods) {
             OrderSubmitBean.SubmitGood good = new OrderSubmitBean.SubmitGood();
             good.setGsid(item.getId());
             good.setPrice(item.getPrice() + "");
@@ -357,9 +410,6 @@ public class RequestUtils {
         }
 
         bean.setGOODS(list);
-
-
-
         params.setBodyContent(new Gson().toJson(bean));
         RequestHelper.sendPost(true, params, callBlack);
     }
@@ -367,6 +417,7 @@ public class RequestUtils {
 
     /**
      * 查询本店热销商品
+     *
      * @param callBlack
      */
     public static void queryTopGoodsList(HttpCallBack<GoodListBean> callBlack) {
@@ -375,7 +426,7 @@ public class RequestUtils {
         RequestHelper.sendPost(true, params, callBlack);
     }
 
-    private static CommonParams getLoginParams(CommonParams params){
+    private static CommonParams getLoginParams(CommonParams params) {
 //        params.setHeader("x_token", PreferencesHelper.find(Key.TOKEN,""));
         return params;
     }

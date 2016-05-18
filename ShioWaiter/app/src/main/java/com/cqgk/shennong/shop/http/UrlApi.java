@@ -208,4 +208,10 @@ public class UrlApi {
     public static String url_queryAdsByPosition="ad/queryAdsByPosition.do";
 
 
+    /**
+     * 结算扫描会员卡
+     */
+    public static String url_settleScanMemberCard="order/settleScanMemberCard.do";
+
+
 }
