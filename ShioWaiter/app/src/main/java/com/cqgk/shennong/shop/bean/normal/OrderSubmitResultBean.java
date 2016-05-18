@@ -1,11 +1,12 @@
 package com.cqgk.shennong.shop.bean.normal;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by sven on 16/5/18.
  */
-public class OrderSubmitResultBean {
+public class OrderSubmitResultBean implements Serializable{
     private String totalAmount;
     private String bonus;
     private String code;

@@ -18,6 +18,7 @@ import com.cqgk.shennong.shop.bean.normal.JiesuanScanSubmit;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
 import com.cqgk.shennong.shop.bean.normal.MeProductListBean;
 import com.cqgk.shennong.shop.bean.normal.MembercardActBean;
+import com.cqgk.shennong.shop.bean.normal.OrderSubmitResultBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.ProductStandInfoBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
@@ -62,12 +63,14 @@ public class RequestUtils {
         List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
         for (int i = 0; i < goods.size(); i++) {
             JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
-            item.setGsid(goods.get(i).getGoodsId());
+            item.setGsid(goods.get(i).getId());
             item.setNum(String.valueOf(goods.get(i).getNum()));
             item.setPrice(String.valueOf(goods.get(i).getPrice()));
+            entityList.add(item);
         }
         jiesuanScanSubmit.setGOODS(entityList);
         params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
+
         RequestHelper.sendPost(true, params, callBack);
     }
 
@@ -423,7 +426,7 @@ public class RequestUtils {
     * @param goods
     * @param callBlack
     */
-    public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<LoginResultBean> callBlack) {
+    public static void submitOrder(String MCID, String CCID, ArrayList<ProductDtlBean> goods, HttpCallBack<OrderSubmitResultBean> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_submitOrder));
 
         ArrayList<OrderSubmitBean.SubmitGood> list = new ArrayList<>();
@@ -435,7 +438,7 @@ public class RequestUtils {
         for (ProductDtlBean item : goods) {
             OrderSubmitBean.SubmitGood good = new OrderSubmitBean.SubmitGood();
             good.setGsid(item.getId());
-            good.setPrice(item.getPrice() + "");
+
             good.setNum(item.getNum() + "");
 
             list.add(good);
@@ -443,6 +446,7 @@ public class RequestUtils {
 
         bean.setGOODS(list);
         params.setBodyContent(new Gson().toJson(bean));
+        Log.e("content",params.getBodyContent());
         RequestHelper.sendPost(true, params, callBlack);
     }
 

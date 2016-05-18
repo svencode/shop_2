@@ -36,14 +36,24 @@ public class PayResultActivity extends BusinessBaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-        getTitleDelegate().setTitle("选择支付方式");
+        getTitleDelegate().setTitle("支付成功");
         resultBean = (OrderSubmitResultBean)getIntent().getSerializableExtra(ORDER_RESULT);
         showInfo(resultBean);
     }
 
     private void showInfo(OrderSubmitResultBean bean){
         orderAmountTV.setText("￥"+resultBean.getTotalAmount());
-        jfTV.setText("用户活的"+resultBean.getBonus()+"积分");
+        jfTV.setText("用户获得"+resultBean.getBonus()+"积分");
+
+        String couponStr = "";
+        if (null != resultBean.getCoupon()){
+            for (String key:resultBean.getCoupon().keySet()){
+                couponStr = couponStr+resultBean.getCoupon().get(key)+"张"+key+"元";
+            }
+            couponTV.setText(couponStr);
+        }
+
+
     }
 
     @Event(R.id.exitBtn)

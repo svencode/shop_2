@@ -61,7 +61,6 @@
             android:id="@+id/orderAmountTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:textColor="@color/color_red"
             android:textSize="@dimen/text_size_xxxxl"
             android:gravity="center"
@@ -70,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="会员卡支付"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="20dp"
             android:textColor="@color/color_gray"
             android:textSize="@dimen/text_size_l"/>
@@ -79,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="请赠送以下现金券给该客户"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="10dp"
             android:textColor="@color/color_gray"
             android:textSize="@dimen/text_size_l"/>
@@ -87,7 +86,7 @@
             android:id="@+id/couponTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="10dp"
             android:textColor="@color/color_gray"
             android:textSize="@dimen/text_size_l"/>
@@ -96,7 +95,7 @@
             android:id="@+id/jfTV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="bottom|center_horizontal"
             android:layout_marginBottom="30dp"
             android:textColor="@color/color_gray_2"
             android:textSize="@dimen/text_size_m"/>

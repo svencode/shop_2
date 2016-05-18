@@ -11,6 +11,7 @@ import com.cqgk.shennong.shop.activity.CashieringActivity;
 import com.cqgk.shennong.shop.activity.InputMoneyActivity;
 import com.cqgk.shennong.shop.activity.LoginActivity;
 import com.cqgk.shennong.shop.activity.MainActivity;
+import com.cqgk.shennong.shop.activity.PayResultActivity;
 import com.cqgk.shennong.shop.activity.PaySelectActivity;
 import com.cqgk.shennong.shop.activity.PickGoodActivity;
 import com.cqgk.shennong.shop.activity.ScanProductActivity;
@@ -23,6 +24,7 @@ import com.cqgk.shennong.shop.activity.product.SeachProductActivity;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.Basic;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.OrderSubmitResultBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 
@@ -150,6 +152,14 @@ public class NavigationHelper extends Basic {
         Intent i = new Intent(getActivity(), BarCodeFindProductActivity.class);
         i.putExtra("showtype",showtype);
         this.startActivityForResult(getActivity(),i,0);
+    }
+
+    public void startOrderResult(OrderSubmitResultBean bean){
+        Intent i = new Intent(getActivity(), PayResultActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PayResultActivity.ORDER_RESULT, bean);
+        i.putExtras(bundle);
+        this.startActivity(getActivity(),i);
     }
 
 }
