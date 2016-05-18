@@ -158,7 +158,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 //        android:text="￥0     共0件"
         for (ProductDtlBean item:myGood){
             num += item.getNum();
-            price += (item.getNum()*item.getPrice());
+            price += (item.getNum()*item.getRetailPrice());
         }
 
         amountTV.setText("￥" +price + "     共"+num+"件");
