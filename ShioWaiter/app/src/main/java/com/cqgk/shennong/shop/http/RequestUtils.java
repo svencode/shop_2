@@ -469,7 +469,7 @@ public class RequestUtils {
      *
      * @param callBlack
      */
-    public static void queryTopGoodsList(HttpCallBack<GoodListBean> callBlack) {
+    public static void queryTopGoodsList(HttpCallBack<List<ProductDtlBean>> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkTopGoodsList));
         RequestHelper.sendPost(true, params, callBlack);
     }
