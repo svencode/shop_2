@@ -50,7 +50,7 @@ public class LoginActivity extends BusinessBaseActivity {
         getTitleDelegate().hideLeftBtn();
 
         if(BuildConfig.DEBUG){
-            mobile.setText("13739704118");
+            mobile.setText("13510371652");
             pwd.setText("123456");
         }
 
