@@ -156,10 +156,11 @@ public class NavigationHelper extends Basic {
         this.startActivityForResult(getActivity(),i,0);
     }
 
-    public void startOrderResult(OrderSubmitResultBean bean) {
+    public void startOrderResult(OrderSubmitResultBean bean,boolean isVipPay) {
         Intent i = new Intent(getActivity(), PayResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(PayResultActivity.ORDER_RESULT, bean);
+        bundle.putBoolean(PayResultActivity.IS_VIP_PAY,isVipPay);
         i.putExtras(bundle);
         this.startActivity(getActivity(), i);
     }
