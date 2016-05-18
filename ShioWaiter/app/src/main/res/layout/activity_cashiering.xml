@@ -42,7 +42,7 @@
         android:layout_below="@+id/captureroot"
         android:background="@android:color/white"
         android:padding="5dp"
-        android:visibility="visible">
+        android:visibility="gone">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +104,8 @@
             android:textColor="@color/color_gray_2"
             android:textSize="@dimen/text_size_l"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"

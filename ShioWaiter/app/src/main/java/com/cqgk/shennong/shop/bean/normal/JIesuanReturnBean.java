@@ -65,18 +65,19 @@ public class JIesuanReturnBean {
     }
 
     public static class MembercardBean {
-        private String memberCardId;
+
+        private String id;
         private String name;
         private String phoneNumber;
         private String barCode;
         private String balance;
 
-        public String getMemberCardId() {
-            return memberCardId;
+        public String getId() {
+            return id;
         }
 
-        public void setMemberCardId(String memberCardId) {
-            this.memberCardId = memberCardId;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getName() {

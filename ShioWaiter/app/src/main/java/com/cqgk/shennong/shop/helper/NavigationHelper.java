@@ -13,6 +13,7 @@ import com.cqgk.shennong.shop.activity.FindPwdActivity;
 import com.cqgk.shennong.shop.activity.InputMoneyActivity;
 import com.cqgk.shennong.shop.activity.LoginActivity;
 import com.cqgk.shennong.shop.activity.MainActivity;
+import com.cqgk.shennong.shop.activity.PayResultActivity;
 import com.cqgk.shennong.shop.activity.PaySelectActivity;
 import com.cqgk.shennong.shop.activity.PickGoodActivity;
 import com.cqgk.shennong.shop.activity.ScanProductActivity;
@@ -25,6 +26,7 @@ import com.cqgk.shennong.shop.activity.product.SeachProductActivity;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.Basic;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.OrderSubmitResultBean;
 import com.cqgk.shennong.shop.bean.normal.ProductDtlBean;
 import com.cqgk.shennong.shop.bean.normal.RechargeResultBean;
 
@@ -154,6 +156,14 @@ public class NavigationHelper extends Basic {
         this.startActivityForResult(getActivity(),i,0);
     }
 
+<<<<<<< HEAD
+    public void startOrderResult(OrderSubmitResultBean bean){
+        Intent i = new Intent(getActivity(), PayResultActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PayResultActivity.ORDER_RESULT, bean);
+        i.putExtras(bundle);
+        this.startActivity(getActivity(),i);
+=======
     public void startFindPwd(){
         Intent i = new Intent(getActivity(), FindPwdActivity.class);
         this.startActivityForResult(getActivity(),i,0);
@@ -162,6 +172,7 @@ public class NavigationHelper extends Basic {
     public void startCouponScan(){
         Intent i = new Intent(getActivity(), BarCodeFindCashActivity.class);
         this.startActivityForResult(getActivity(),i,0);
+>>>>>>> ec7ea914c427c44ae4eff0dff1c94e2842625919
     }
 
 }

@@ -211,7 +211,7 @@ public class UrlApi {
     /**
      * 结算统一借口
      */
-    public static String url_settleRecalculate="order/settleRecalculate.do";
+    public static String url_settleRecalculate="order/settleReCalculate.do";
 
 
 
