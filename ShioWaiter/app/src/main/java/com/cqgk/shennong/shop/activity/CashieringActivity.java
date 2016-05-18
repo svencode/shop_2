@@ -1,8 +1,12 @@
 package com.cqgk.shennong.shop.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -162,7 +166,10 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         vipNameTV.setText(vipInfo.getCard_name());
         phontTV.setText(vipInfo.getCard_mobile());
         cardNumberTV.setText("NO." + vipInfo.getCard_id());
-        blanceTV.setText("余额：￥" + vipInfo.getBalance());
+
+        SpannableString blance = new SpannableString("余额：￥" + vipInfo.getBalance());
+        blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        blanceTV.setText(blance);
 
         couponTV.setVisibility(View.GONE);
     }
