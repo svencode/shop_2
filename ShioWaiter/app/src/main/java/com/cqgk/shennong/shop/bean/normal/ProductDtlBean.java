@@ -19,7 +19,7 @@ public class ProductDtlBean implements Serializable {
      * vipPrice : 100.0
      */
 
-    private int num;
+    private double num;
 
     private String id;
     private String goodsId;
@@ -99,11 +99,11 @@ public class ProductDtlBean implements Serializable {
         this.photoListImg = photoListImg;
     }
 
-    public int getNum() {
+    public double getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(double num) {
         this.num = num;
     }
 

@@ -72,7 +72,7 @@ public class CashieringAdapter extends BaseAdapter{
         final EditText price = (EditText)view.findViewById(R.id.priceET);
         TextView originalPriceTV = (TextView)view.findViewById(R.id.originalPriceTV);
 
-        EditText numET = (EditText)view.findViewById(R.id.numET);
+        final EditText numET = (EditText)view.findViewById(R.id.numET);
         Button plusBtn = (Button)view.findViewById(R.id.plusBtn);
         Button minusBtn = (Button)view.findViewById(R.id.minusBtn);
 
@@ -89,10 +89,12 @@ public class CashieringAdapter extends BaseAdapter{
         }
 //        originalPriceTV.setText("￥"+item.getRetailPrice());
 
-        if (1 == item.getIsAllowedModifyPrice()){
+        if (0 == item.getIsAllowedModifyPrice()){
             price.setEnabled(true);
+            numET.setEnabled(true);
         }else {
             price.setEnabled(false);
+            numET.setEnabled(false);
         }
 
         plusBtn.setOnClickListener(new View.OnClickListener() {
@@ -116,10 +118,27 @@ public class CashieringAdapter extends BaseAdapter{
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     double newPrice = Double.parseDouble(price.getText().toString().replace("￥", ""));
-                    if (newPrice>0){
+                    if (newPrice > 0) {
                         delegate.goodPriceEdit(item, newPrice);
-                    }else {
-                        ((BusinessBaseActivity)context).showToast("请输入价格");
+                    } else {
+                        ((BusinessBaseActivity) context).showToast("请输入价格");
+                    }
+
+                }
+                return false;
+            }
+        });
+
+
+        numET.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    double num = Double.parseDouble(numET.getText().toString());
+                    if (num > 0) {
+                        delegate.goodNunEdit(item, num);
+                    } else {
+                        ((BusinessBaseActivity) context).showToast("数量需要大于0");
                     }
 
                 }
@@ -135,5 +154,6 @@ public class CashieringAdapter extends BaseAdapter{
         void goodPlus(ProductDtlBean item);
         void goodMinus(ProductDtlBean item);
         void goodPriceEdit(ProductDtlBean item,double newPrice);
+        void goodNunEdit(ProductDtlBean item,double num);
     }
 }

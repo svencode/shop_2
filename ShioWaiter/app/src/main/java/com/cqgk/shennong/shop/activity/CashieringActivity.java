@@ -318,8 +318,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     public void goodMinus(ProductDtlBean item){
         for (ProductDtlBean item1:myGood){
             if (item1.equals(item)) {
-                item1.setNum(item1.getNum()-1);
-                if (item1.getNum()==0)myGood.remove(item1);
+                item1.setNum(item1.getNum() - 1);
+                if (item1.getNum()<=0)myGood.remove(item1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
 
@@ -336,6 +336,21 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         for (ProductDtlBean item1:myGood){
             if (item1.equals(item)) {
                 item1.setUserPrice(newPrice);
+
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+                refreshPrice();
+                getVipInfo(vipNumber,couponNumber);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void goodNunEdit(ProductDtlBean item, double num) {
+        for (ProductDtlBean item1:myGood){
+            if (item1.equals(item)) {
+                item1.setNum(num);
 
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
