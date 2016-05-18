@@ -7,17 +7,26 @@ import java.util.List;
  */
 public class JiesuanScanSubmit {
 
-    private String barCode;
+    private String memberBarCode;
+    private String couponBarCode;
 
     private List<ProductInfoEntity> GOODS;
 
 
-    public String getBarCode() {
-        return barCode;
+    public String getMemberBarCode() {
+        return memberBarCode;
     }
 
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
+    public void setMemberBarCode(String memberBarCode) {
+        this.memberBarCode = memberBarCode;
+    }
+
+    public String getCouponBarCode() {
+        return couponBarCode;
+    }
+
+    public void setCouponBarCode(String couponBarCode) {
+        this.couponBarCode = couponBarCode;
     }
 
     public List<ProductInfoEntity> getGOODS() {

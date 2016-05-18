@@ -83,21 +83,21 @@
         <activity
             android:name="com.cqgk.shennong.shop.activity.PickGoodActivity"
             android:orientation="vertical"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.cqgk.shennong.shop.activity.InputMoneyActivity"
-            android:orientation="vertical"></activity>
+            android:orientation="vertical" />
         <activity
             android:name="com.cqgk.shennong.shop.activity.PaySelectActivity"
-            android:orientation="vertical"></activity>
+            android:orientation="vertical" />
         <activity
             android:name="com.cqgk.shennong.shop.activity.WebViewActivity"
-            android:orientation="vertical"></activity>
+            android:orientation="vertical" />
         <activity
             android:name="com.cqgk.shennong.shop.activity.product.SeachProductActivity"
             android:orientation="vertical"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.cqgk.shennong.shop.activity.ScanProductActivity"
             android:orientation="vertical">
@@ -105,9 +105,7 @@
         </activity>
         <activity
             android:name="com.cqgk.shennong.shop.activity.VipPaySelectActivity"
-            android:orientation="vertical">
-
-        </activity>
+            android:orientation="vertical"></activity>
 
         <activity
             android:name="com.cqgk.shennong.shop.activity.BarCodeFindProductActivity"
@@ -120,8 +118,9 @@
             android:name="com.cqgk.shennong.shop.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <activity android:name="com.cqgk.shennong.shop.activity.PayResultActivity"
-            android:orientation="vertical"/>
+        <activity
+            android:name="com.cqgk.shennong.shop.activity.PayResultActivity"
+            android:orientation="vertical" />
     </application>
 
 </manifest>

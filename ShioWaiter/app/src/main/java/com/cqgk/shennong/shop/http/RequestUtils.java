@@ -5,12 +5,14 @@ import android.util.Log;
 import com.alipay.mobilesecuritysdk.deviceID.LOG;
 import com.cqgk.shennong.shop.bean.logicbean.OrderSubmitBean;
 import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
+import com.cqgk.shennong.shop.bean.normal.AdsBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
 import com.cqgk.shennong.shop.bean.normal.HomeAdsBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
+import com.cqgk.shennong.shop.bean.normal.JIesuanReturnBean;
 import com.cqgk.shennong.shop.bean.normal.JieSuanScanMemberResultBean;
 import com.cqgk.shennong.shop.bean.normal.JiesuanScanSubmit;
 import com.cqgk.shennong.shop.bean.normal.LoginResultBean;
@@ -42,6 +44,34 @@ public class RequestUtils {
 
 
     /**
+     *结算价格改变
+     *
+     */
+    public static void settleReCalculate(String memberBarCode, String couponBarCode,List<ProductDtlBean> goods,
+                                         HttpCallBack<JIesuanReturnBean> callBack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleRecalculate));
+        JiesuanScanSubmit jiesuanScanSubmit = new JiesuanScanSubmit();
+        if(CheckUtils.isAvailable(memberBarCode)){
+          jiesuanScanSubmit.setMemberBarCode(memberBarCode);
+        }
+
+        if(CheckUtils.isAvailable(couponBarCode)){
+            jiesuanScanSubmit.setMemberBarCode(couponBarCode);
+        }
+
+        List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
+        for (int i = 0; i < goods.size(); i++) {
+            JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
+            item.setGsid(goods.get(i).getGoodsId());
+            item.setNum(String.valueOf(goods.get(i).getNum()));
+            item.setPrice(String.valueOf(goods.get(i).getPrice()));
+        }
+        jiesuanScanSubmit.setGOODS(entityList);
+        params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+    /**
      * 提交数据：
      * {
      * "barCode":"会员卡二维码",
@@ -60,24 +90,24 @@ public class RequestUtils {
      * ]
      * }
      */
-    public static void settleScanMemberCard(String barcode, List<ProductDtlBean> goods, HttpCallBack<JieSuanScanMemberResultBean> callBack) {
-        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleScanMemberCard));
-
-        JiesuanScanSubmit jiesuanScanSubmit = new JiesuanScanSubmit();
-        jiesuanScanSubmit.setBarCode(barcode);
-
-        List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
-        for (int i = 0; i < goods.size(); i++) {
-            JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
-            item.setGsid(goods.get(i).getGoodsId());
-            item.setNum(String.valueOf(goods.get(i).getNum()));
-            item.setPrice(String.valueOf(goods.get(i).getPrice()));
-        }
-        jiesuanScanSubmit.setGOODS(entityList);
-
-        params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
-        RequestHelper.sendPost(true, params, callBack);
-    }
+//    public static void settleScanMemberCard(String barcode, List<ProductDtlBean> goods, HttpCallBack<JieSuanScanMemberResultBean> callBack) {
+//        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleScanMemberCard));
+//
+//        JiesuanScanSubmit jiesuanScanSubmit = new JiesuanScanSubmit();
+//        jiesuanScanSubmit.setBarCode(barcode);
+//
+//        List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
+//        for (int i = 0; i < goods.size(); i++) {
+//            JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
+//            item.setGsid(goods.get(i).getGoodsId());
+//            item.setNum(String.valueOf(goods.get(i).getNum()));
+//            item.setPrice(String.valueOf(goods.get(i).getPrice()));
+//        }
+//        jiesuanScanSubmit.setGOODS(entityList);
+//
+//        params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
+//        RequestHelper.sendPost(true, params, callBack);
+//    }
 
     /**
      * 店铺名称
@@ -91,12 +121,14 @@ public class RequestUtils {
     }
 
 
+
+
     /**
      * 首页广告
      *
      * @param callBack
      */
-    public static void homeads(HttpCallBack<HomeAdsBean> callBack) {
+    public static void homeads(HttpCallBack<List<AdsBean>> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryAdsByPosition));
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);

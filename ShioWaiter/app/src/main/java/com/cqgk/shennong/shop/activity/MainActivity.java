@@ -3,25 +3,31 @@ package com.cqgk.shennong.shop.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cqgk.shennong.shop.base.AppEnter;
 import com.cqgk.shennong.shop.base.BaseApp;
 import com.cqgk.shennong.shop.base.BusinessBaseActivity;
+import com.cqgk.shennong.shop.bean.normal.AdsBean;
 import com.cqgk.shennong.shop.bean.normal.HomeBean;
 import com.cqgk.shennong.shop.bean.normal.ShopInfoBean;
 import com.cqgk.shennong.shop.helper.NavigationHelper;
 import com.cqgk.shennong.shop.http.HttpCallBack;
 import com.cqgk.shennong.shop.http.RequestUtils;
+import com.cqgk.shennong.shop.utils.AppUtil;
 import com.cqgk.shennong.shop.view.CommonDialogView;
 import com.cqgk.shennong.shop.R;
+import com.cqgk.shennong.shop.view.SlideShowView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.List;
 
 /**
  * 首页
@@ -42,6 +48,9 @@ public class MainActivity extends BusinessBaseActivity {
 
     @ViewInject(R.id.pull_refresh_scrollview)
     PullToRefreshScrollView mPullRefreshScrollView;
+
+    @ViewInject(R.id.slideshow)
+    SlideShowView slideshow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +92,17 @@ public class MainActivity extends BusinessBaseActivity {
             }
         });
 
+
+        initView();
         requestData();
+    }
+
+    @Override
+    public void initView() {
+        super.initView();
+        int width = AppUtil.getDisplayWidth();
+        slideshow.setLayoutParams(new LinearLayout.LayoutParams(width, width * 165 / 320));
+
     }
 
     @Override
@@ -119,6 +138,15 @@ public class MainActivity extends BusinessBaseActivity {
                 viewRefresh();
                 showLongToast(msg);
                 return super.failure(state, msg);
+            }
+        });
+
+        //首页轮播
+        RequestUtils.homeads(new HttpCallBack<List<AdsBean>>() {
+            @Override
+            public void success(List<AdsBean> result) {
+                slideshow.setImageUrls(result);
+                slideshow.initUI(AppEnter.getInstance());
             }
         });
     }
