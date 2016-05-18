@@ -45,7 +45,7 @@ public class SlideShowView extends FrameLayout {
     //轮播图图片数量
     private final static int IMAGE_COUNT = 5;
     //自动轮播的时间间隔
-    private final static int TIME_INTERVAL = 3;
+    private final static int TIME_INTERVAL = 6;
     //自动轮播启用开关
     private final static boolean isAutoPlay = true;
 
