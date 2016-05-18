@@ -190,11 +190,11 @@ public class ProductEditActivity extends CamerBaseActivity {
             if (resultList != null) {
 
                 final PhotoInfo photoInfo = resultList.get(0);
-                File file = new File(photoInfo.getPhotoPath());
-                if (file.length() / 1024 > 1024) {
-                    showLongToast("上传的图片不能大于1M");
-                    return;
-                }
+//                File file = new File(photoInfo.getPhotoPath());
+//                if (file.length() / 1024 > 1024) {
+//                    showLongToast("上传的图片不能大于1M");
+//                    return;
+//                }
 
                 String fileName = AppUtil.getFileName(photoInfo.getPhotoPath());
 
@@ -294,7 +294,7 @@ public class ProductEditActivity extends CamerBaseActivity {
             return;
         }
 
-        if (editBeanList == null || editBeanList.size() == 0) {
+        if (editBeanList == null || editBeanList.size() == 1) {
             showLongToast("请上传商品图片");
             return;
         }
@@ -307,7 +307,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                 productTitle.getText().toString(),
                 retailPrice.getText().toString(),
                 vipPrice.getText().toString(),
-                editBeanList.get(0).getUploadId(),
+                editBeanList.get(1).getUploadId(),
                 ids, new HttpCallBack<String>() {
                     @Override
                     public void success(String result) {
