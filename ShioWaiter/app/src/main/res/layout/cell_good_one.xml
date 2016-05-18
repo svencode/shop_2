@@ -57,6 +57,7 @@
                     android:background="@drawable/bg_gray_border_topandbottom"
                     android:gravity="center"
                     android:singleLine="true"
+                    android:enabled="false"
                     android:text="0" />
 
 
