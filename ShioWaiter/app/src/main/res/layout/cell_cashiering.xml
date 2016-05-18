@@ -36,14 +36,16 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:paddingLeft="5dp">
-        <TextView
-            android:id="@+id/priceTV"
+        <EditText
+            android:id="@+id/priceET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="￥3333.00"
+            android:text="￥"
             android:singleLine="true"
             android:textColor="@color/color_red"
-            android:textSize="@dimen/text_size_m"/>
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/text_size_m"
+            android:imeOptions="actionDone"/>
         <TextView
             android:id="@+id/originalPriceTV"
             android:layout_width="match_parent"

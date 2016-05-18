@@ -86,6 +86,10 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     //去支付事件
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
+        if (0 == myGood.size()){
+            showToast("未选择商品");
+            return;
+        }
         NavigationHelper.getInstance().startPayBill(myGood);
     }
 
@@ -108,6 +112,11 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             @Override
             public void success(final GoodListBean result) {
 
+                if (null == result.getList() || result.getList().size() == 0){
+                    showToast("搜索不到该商品");
+                    return;
+                }
+
                 if (null == popView){
                     popView = new SearchResultPopView(PickGoodActivity.this);
                 }
@@ -115,6 +124,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 if (popView.isShowing()){
                     popView.dismiss();
                 }
+
+
 
                 popView.getAdapter().setValuelist(result.getList());
                 popView.getAdapter().notifyDataSetChanged();

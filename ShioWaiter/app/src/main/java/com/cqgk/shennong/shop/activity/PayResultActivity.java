@@ -27,10 +27,14 @@ public class PayResultActivity extends BusinessBaseActivity{
     TextView couponTV;
     @ViewInject(R.id.jfTV)
     TextView jfTV;
+    @ViewInject(R.id.payTypeTV)
+    TextView payTypeTV;
 
     private OrderSubmitResultBean resultBean;
+    private boolean isVipPay;
 
     public static final String ORDER_RESULT = "order_result";
+    public static final String IS_VIP_PAY = "is_vip_pay";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class PayResultActivity extends BusinessBaseActivity{
         enableTitleDelegate();
         getTitleDelegate().setTitle("支付成功");
         resultBean = (OrderSubmitResultBean)getIntent().getSerializableExtra(ORDER_RESULT);
+        isVipPay = getIntent().getBooleanExtra(IS_VIP_PAY,false);
         showInfo(resultBean);
     }
 
@@ -54,6 +59,11 @@ public class PayResultActivity extends BusinessBaseActivity{
         }
 
 
+        if (isVipPay){
+            payTypeTV.setText("会员卡支付");
+        }else {
+            payTypeTV.setText("现金支付");
+        }
     }
 
     @Event(R.id.exitBtn)
@@ -64,5 +74,6 @@ public class PayResultActivity extends BusinessBaseActivity{
     @Event(R.id.goOnBtn)
     private void goOn(View view){
         //跳回
+        finish();
     }
 }

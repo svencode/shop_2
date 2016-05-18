@@ -82,7 +82,12 @@ public class RequestUtils {
             JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
             item.setGsid(goods.get(i).getId());
             item.setNum(String.valueOf(goods.get(i).getNum()));
-            item.setPrice(String.valueOf(goods.get(i).getPrice()));
+            if (goods.get(i).getUserPrice()>0){
+                item.setPrice(String.valueOf(goods.get(i).getUserPrice()));
+            }else {
+
+            }
+//            item.setPrice(String.valueOf(goods.get(i).getPrice()));
             entityList.add(item);
         }
         jiesuanScanSubmit.setGOODS(entityList);

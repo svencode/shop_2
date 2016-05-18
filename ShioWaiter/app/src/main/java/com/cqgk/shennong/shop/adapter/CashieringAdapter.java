@@ -1,6 +1,10 @@
 package com.cqgk.shennong.shop.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cqgk.shennong.shop.base.BusinessBaseActivity;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.R;
 import com.cqgk.shennong.shop.bean.normal.GoodListBean;
@@ -64,23 +69,31 @@ public class CashieringAdapter extends BaseAdapter{
 
         ImageView img = (ImageView)view.findViewById(R.id.imgIV);
         TextView name = (TextView)view.findViewById(R.id.nameTV);
-        TextView price = (TextView)view.findViewById(R.id.priceTV);
+        final EditText price = (EditText)view.findViewById(R.id.priceET);
         TextView originalPriceTV = (TextView)view.findViewById(R.id.originalPriceTV);
 
         EditText numET = (EditText)view.findViewById(R.id.numET);
         Button plusBtn = (Button)view.findViewById(R.id.plusBtn);
         Button minusBtn = (Button)view.findViewById(R.id.minusBtn);
 
-        ImageHelper.getInstance().display(img,item.getLogoImg());
-        numET.setText(""+item.getNum());
+        ImageHelper.getInstance().display(img, item.getLogoImg());
+        numET.setText("" + item.getNum());
         name.setText(item.getGoodsTitle());
 
-        if(item.getVipPrice()>0){
+        if (item.getUserPrice()>0){
+            price.setText("￥"+item.getUserPrice());
+        }else if(item.getVipPrice()>0){
             price.setText("￥"+item.getVipPrice());
         }else {
             price.setText("￥"+item.getRetailPrice());
         }
 //        originalPriceTV.setText("￥"+item.getRetailPrice());
+
+        if (0 == item.getIsAllowedModifyPrice()){
+            price.setEnabled(true);
+        }else {
+            price.setEnabled(false);
+        }
 
         plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,11 +110,30 @@ public class CashieringAdapter extends BaseAdapter{
             }
         });
 
+
+        price.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    double newPrice = Double.parseDouble(price.getText().toString().replace("￥", ""));
+                    if (newPrice>0){
+                        delegate.goodPriceEdit(item, newPrice);
+                    }else {
+                        ((BusinessBaseActivity)context).showToast("请输入价格");
+                    }
+
+                }
+                return false;
+            }
+        });
+
+
         return view;
     }
 
     public interface CashieringDelegate{
         void goodPlus(ProductDtlBean item);
         void goodMinus(ProductDtlBean item);
+        void goodPriceEdit(ProductDtlBean item,double newPrice);
     }
 }
