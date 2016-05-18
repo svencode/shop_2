@@ -89,7 +89,7 @@ public class CashieringAdapter extends BaseAdapter{
         }
 //        originalPriceTV.setText("￥"+item.getRetailPrice());
 
-        if (0 == item.getIsAllowedModifyPrice()){
+        if (1 == item.getIsAllowedModifyPrice()){
             price.setEnabled(true);
             numET.setEnabled(true);
         }else {
