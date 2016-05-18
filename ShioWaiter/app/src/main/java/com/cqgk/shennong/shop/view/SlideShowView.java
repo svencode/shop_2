@@ -204,41 +204,42 @@ public class SlideShowView extends FrameLayout {
             AdsBean imagead = imageAdList.get(position);
             final ImageView imageView = imageViewsList.get(position);
             String realPath = imagead.getImgUrl();
-            ImageHelper.getInstance().displayZhan(imageView, realPath,new SimpleImageLoadingListener(){
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                    super.onLoadingComplete(imageUri, view, bitmap);
-                    if (null != bitmap){
-                        imageView.setScaleType(ScaleType.FIT_XY);
-                        final int width =( 0==SlideShowView.this.getWidth()? AppUtil.getDisplayWidth():SlideShowView.this.getWidth() );
-                        final int height = width*bitmap.getHeight()/bitmap.getWidth();
-                        imageView.setImageBitmap(bitmap);
-                        imageView.invalidate();
-                        if (height>SlideShowView.this.getHeight()) {
-                            SlideShowView.this.setLayoutParams(new LinearLayout.LayoutParams(width, height>800?800:height));
-                            invalidate();
-                            Log.e("imGsize", "width" + width + "  height" + height);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (height > SlideShowView.this.getHeight()) {
-                                        SlideShowView.this.setLayoutParams(new LinearLayout.LayoutParams(width,  height>800?800:height));
-                                    }
-                                }
-
-                            }, 1000);
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    super.onLoadingStarted(imageUri, view);
-                    imageView.setScaleType(ScaleType.CENTER_INSIDE);
-                }
-
-            });
+            ImageHelper.getInstance().displayZhan(imageView,realPath);
+//            ImageHelper.getInstance().displayZhan(imageView, realPath,new SimpleImageLoadingListener(){
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
+//                    super.onLoadingComplete(imageUri, view, bitmap);
+//                    if (null != bitmap){
+//                        imageView.setScaleType(ScaleType.FIT_XY);
+//                        final int width =( 0==SlideShowView.this.getWidth()? AppUtil.getDisplayWidth():SlideShowView.this.getWidth() );
+//                        final int height = width*bitmap.getHeight()/bitmap.getWidth();
+//                        imageView.setImageBitmap(bitmap);
+//                        imageView.invalidate();
+//                        if (height>SlideShowView.this.getHeight()) {
+//                            SlideShowView.this.setLayoutParams(new LinearLayout.LayoutParams(width, height>800?800:height));
+//                            invalidate();
+//                            Log.e("imGsize", "width" + width + "  height" + height);
+//                            new Handler().postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (height > SlideShowView.this.getHeight()) {
+//                                        SlideShowView.this.setLayoutParams(new LinearLayout.LayoutParams(width,  height>800?800:height));
+//                                    }
+//                                }
+//
+//                            }, 1000);
+//                        }
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onLoadingStarted(String imageUri, View view) {
+//                    super.onLoadingStarted(imageUri, view);
+//                    imageView.setScaleType(ScaleType.CENTER_INSIDE);
+//                }
+//
+//            });
 
 
 
