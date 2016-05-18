@@ -82,6 +82,7 @@
             android:text="0"
             android:background="@drawable/bg_gray_border_topandbottom"
             android:enabled="false"
+            android:inputType="numberDecimal"
             android:gravity="center"/>
 
         <Button
