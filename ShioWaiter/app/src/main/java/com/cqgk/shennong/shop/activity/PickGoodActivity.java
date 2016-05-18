@@ -30,6 +30,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sven on 16/5/11.
@@ -137,10 +138,10 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
 
     private void getHotGood(){
-        RequestUtils.queryTopGoodsList(new HttpCallBack<GoodListBean>() {
+        RequestUtils.queryTopGoodsList(new HttpCallBack<List<ProductDtlBean>>() {
             @Override
-            public void success(GoodListBean result) {
-                ArrayList<ProductDtlBean> items = result.getList();
+            public void success(List<ProductDtlBean> result) {
+                List<ProductDtlBean> items = result;
                 if (null != items){
                     adapter.getTopGoodList().addAll(items);
                     adapter.notifyDataSetChanged();

@@ -108,6 +108,10 @@
             android:orientation="vertical"></activity>
 
         <activity
+            android:name="com.cqgk.shennong.shop.activity.FindPwdActivity"
+            android:orientation="vertical"></activity>
+
+        <activity
             android:name="com.cqgk.shennong.shop.activity.BarCodeFindProductActivity"
             android:orientation="vertical">
 
@@ -121,6 +125,10 @@
         <activity
             android:name="com.cqgk.shennong.shop.activity.PayResultActivity"
             android:orientation="vertical" />
+
+        <activity
+            android:name="com.cqgk.shennong.shop.activity.BarCodeFindCashActivity"
+            android:orientation="vertical"></activity>
     </application>
 
 </manifest>

@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.cqgk.shennong.shop.activity.BarCodeFindCashActivity;
 import com.cqgk.shennong.shop.activity.BarCodeFindProductActivity;
 import com.cqgk.shennong.shop.activity.CashieringActivity;
+import com.cqgk.shennong.shop.activity.FindPwdActivity;
 import com.cqgk.shennong.shop.activity.InputMoneyActivity;
 import com.cqgk.shennong.shop.activity.LoginActivity;
 import com.cqgk.shennong.shop.activity.MainActivity;
@@ -154,12 +156,23 @@ public class NavigationHelper extends Basic {
         this.startActivityForResult(getActivity(),i,0);
     }
 
+<<<<<<< HEAD
     public void startOrderResult(OrderSubmitResultBean bean){
         Intent i = new Intent(getActivity(), PayResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(PayResultActivity.ORDER_RESULT, bean);
         i.putExtras(bundle);
         this.startActivity(getActivity(),i);
+=======
+    public void startFindPwd(){
+        Intent i = new Intent(getActivity(), FindPwdActivity.class);
+        this.startActivityForResult(getActivity(),i,0);
+    }
+
+    public void startCouponScan(){
+        Intent i = new Intent(getActivity(), BarCodeFindCashActivity.class);
+        this.startActivityForResult(getActivity(),i,0);
+>>>>>>> ec7ea914c427c44ae4eff0dff1c94e2842625919
     }
 
 }

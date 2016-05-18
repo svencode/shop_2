@@ -45,6 +45,23 @@ public class RequestUtils {
 
 
     /**
+     *
+     * @param phoneNumber
+     * @param verifyCode
+     * @param newpwd
+     * @param callBack
+     */
+    public static void findPwd(String phoneNumber,String verifyCode,String newpwd, HttpCallBack<String> callBack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_findPwd));
+        params.addParameter("phoneNumber",phoneNumber);
+        params.addParameter("verifyCode",verifyCode);
+        params.addParameter("password",newpwd);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
+
+
+    /**
      *结算价格改变
      *
      */
@@ -456,9 +473,8 @@ public class RequestUtils {
      *
      * @param callBlack
      */
-    public static void queryTopGoodsList(HttpCallBack<GoodListBean> callBlack) {
+    public static void queryTopGoodsList(HttpCallBack<List<ProductDtlBean>> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkTopGoodsList));
-        params = getLoginParams(params);
         RequestHelper.sendPost(true, params, callBlack);
     }
 
