@@ -74,7 +74,12 @@ public class CashieringAdapter extends BaseAdapter{
         ImageHelper.getInstance().display(img,item.getLogoImg());
         numET.setText(""+item.getNum());
         name.setText(item.getGoodsTitle());
-        price.setText("￥"+item.getRetailPrice());
+
+        if(item.getVipPrice()>0){
+            price.setText("￥"+item.getVipPrice());
+        }else {
+            price.setText("￥"+item.getRetailPrice());
+        }
 //        originalPriceTV.setText("￥"+item.getRetailPrice());
 
         plusBtn.setOnClickListener(new View.OnClickListener() {
