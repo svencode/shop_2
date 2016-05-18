@@ -84,6 +84,7 @@ public class LoginActivity extends BusinessBaseActivity {
                 PreferencesHelper.save(Key.TOKEN, result.getToken());
                 PreferencesHelper.save(Key.USERID, result.getUserid());
                 NavigationHelper.getInstance().startMain();
+                finish();
 
             }
 
@@ -117,6 +118,12 @@ public class LoginActivity extends BusinessBaseActivity {
             }
         });
 
+    }
+
+
+    @Event(R.id.findpwd)
+    private void findpwd_click(View view){
+        NavigationHelper.getInstance().startFindPwd();
     }
 
     @Override

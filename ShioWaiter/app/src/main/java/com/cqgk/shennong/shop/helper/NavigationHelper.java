@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.cqgk.shennong.shop.activity.BarCodeFindProductActivity;
 import com.cqgk.shennong.shop.activity.CashieringActivity;
+import com.cqgk.shennong.shop.activity.FindPwdActivity;
 import com.cqgk.shennong.shop.activity.InputMoneyActivity;
 import com.cqgk.shennong.shop.activity.LoginActivity;
 import com.cqgk.shennong.shop.activity.MainActivity;
@@ -149,6 +150,11 @@ public class NavigationHelper extends Basic {
     public void startBarCodeFind(int showtype){
         Intent i = new Intent(getActivity(), BarCodeFindProductActivity.class);
         i.putExtra("showtype",showtype);
+        this.startActivityForResult(getActivity(),i,0);
+    }
+
+    public void startFindPwd(){
+        Intent i = new Intent(getActivity(), FindPwdActivity.class);
         this.startActivityForResult(getActivity(),i,0);
     }
 

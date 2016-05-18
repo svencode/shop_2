@@ -108,6 +108,10 @@
             android:orientation="vertical"></activity>
 
         <activity
+            android:name="com.cqgk.shennong.shop.activity.FindPwdActivity"
+            android:orientation="vertical"></activity>
+
+        <activity
             android:name="com.cqgk.shennong.shop.activity.BarCodeFindProductActivity"
             android:orientation="vertical">
 
