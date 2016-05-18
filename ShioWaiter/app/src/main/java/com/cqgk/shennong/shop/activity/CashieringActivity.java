@@ -85,6 +85,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     private CashieringAdapter adapter;
 
     private JIesuanReturnBean vipInfo;
+    private JIesuanReturnBean couponInfo;
 
 
     @Override
@@ -203,7 +204,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             price += (item.getNum()*item.getPrice());
         }
 
-        NavigationHelper.getInstance().startVipRecharge(vipInfo.getCard_id());
+        NavigationHelper.getInstance().startVipRecharge(vipInfo.getMembercard().getMemberCardId());
     }
 
     @Event(R.id.goPayBtn)
@@ -216,7 +217,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             price += (item.getNum()*item.getPrice());
         }
 
-        if (price>vipInfo.getBalance()){
+        if (price>Double.parseDouble(vipInfo.getMembercard().getBalance())){
             recharge(null);
             return;
         }
