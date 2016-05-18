@@ -216,9 +216,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         vipInfo = null;
     }
 
-    @Event(R.id.couponTV)
+    @Event(R.id.couponBtn)
     private void coupon(View view){
-
+        NavigationHelper.getInstance().startCouponScan();
     }
 
     @Event(R.id.rechargeBtn)
@@ -294,6 +294,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 adapter.notifyDataSetChanged();
 
                 refreshPrice();
+
+                getVipInfo(vipNumber,couponNumber);
                 return;
             }
         }
@@ -309,6 +311,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 adapter.notifyDataSetChanged();
 
                 refreshPrice();
+                getVipInfo(vipNumber,couponNumber);
                 return;
             }
         }
