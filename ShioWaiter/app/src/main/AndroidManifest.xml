@@ -129,6 +129,18 @@
         <activity
             android:name="com.cqgk.shennong.shop.activity.BarCodeFindCashActivity"
             android:orientation="vertical"></activity>
+
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
     </application>
 
 </manifest>
