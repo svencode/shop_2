@@ -156,14 +156,13 @@ public class NavigationHelper extends Basic {
         this.startActivityForResult(getActivity(),i,0);
     }
 
-<<<<<<< HEAD
-    public void startOrderResult(OrderSubmitResultBean bean){
+    public void startOrderResult(OrderSubmitResultBean bean) {
         Intent i = new Intent(getActivity(), PayResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(PayResultActivity.ORDER_RESULT, bean);
         i.putExtras(bundle);
-        this.startActivity(getActivity(),i);
-=======
+        this.startActivity(getActivity(), i);
+    }
     public void startFindPwd(){
         Intent i = new Intent(getActivity(), FindPwdActivity.class);
         this.startActivityForResult(getActivity(),i,0);
@@ -172,7 +171,6 @@ public class NavigationHelper extends Basic {
     public void startCouponScan(){
         Intent i = new Intent(getActivity(), BarCodeFindCashActivity.class);
         this.startActivityForResult(getActivity(),i,0);
->>>>>>> ec7ea914c427c44ae4eff0dff1c94e2842625919
     }
 
 }
