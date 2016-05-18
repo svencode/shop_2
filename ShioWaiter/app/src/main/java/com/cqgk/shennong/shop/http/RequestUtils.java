@@ -5,6 +5,7 @@ import android.util.Log;
 import com.alipay.mobilesecuritysdk.deviceID.LOG;
 import com.cqgk.shennong.shop.bean.logicbean.OrderSubmitBean;
 import com.cqgk.shennong.shop.bean.logicbean.WechatResultBean;
+import com.cqgk.shennong.shop.bean.normal.AdsBean;
 import com.cqgk.shennong.shop.bean.normal.CardDtlBean;
 import com.cqgk.shennong.shop.bean.normal.EditBean;
 import com.cqgk.shennong.shop.bean.normal.FileUploadResultBean;
@@ -91,12 +92,14 @@ public class RequestUtils {
     }
 
 
+
+
     /**
      * 首页广告
      *
      * @param callBack
      */
-    public static void homeads(HttpCallBack<HomeAdsBean> callBack) {
+    public static void homeads(HttpCallBack<List<AdsBean>> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryAdsByPosition));
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);

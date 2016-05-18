@@ -208,6 +208,11 @@ public class UrlApi {
     public static String url_queryAdsByPosition="ad/queryAdsByPosition.do";
 
 
+    /**
+     * 结算统一借口
+     */
+    public static String url_settleRecalculate="order/settleRecalculate.do";
+
 
 
 }
