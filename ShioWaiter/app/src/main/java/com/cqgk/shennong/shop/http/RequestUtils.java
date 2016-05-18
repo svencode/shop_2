@@ -87,7 +87,7 @@ public class RequestUtils {
         }
         jiesuanScanSubmit.setGOODS(entityList);
         params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
-
+        Log.e("content",params.getBodyContent());
         RequestHelper.sendPost(true, params, callBack);
     }
 
