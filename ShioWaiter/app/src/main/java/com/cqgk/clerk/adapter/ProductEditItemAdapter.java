@@ -87,7 +87,11 @@ public class ProductEditItemAdapter extends BaseAdapter {
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.product_selitem, null);
             ImageView myimg = ViewHolderUtil.get(view, R.id.myimg);
-            ImageHelper.getInstance().displayFile(myimg, "file://"+editBean.getPhotoInfo().getPhotoPath());
+            String imgpath = editBean.getPhotoInfo().getPhotoPath();
+            if(imgpath.indexOf("http://")==-1){
+                imgpath="file://"+imgpath;
+            }
+            ImageHelper.getInstance().displayFile(myimg, imgpath);
         }
         return view;
     }
