@@ -199,12 +199,13 @@ public class ProductEditActivity extends CamerBaseActivity {
         selview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (productEditItemAdapter.getCount() >= 4) {
-                    showLongToast("最多只能上传3张图片");
-                    return;
-                }
+
                 EditBean editBean = productEditItemAdapter.getItem(i);
                 if (editBean.getPhotoInfo() == null) {
+                    if (productEditItemAdapter.getCount() >= 4) {
+                        showLongToast("最多只能上传3张图片");
+                        return;
+                    }
                     startActionSheet();
                 } else {
                     editBeanList.remove(i);

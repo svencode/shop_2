@@ -119,7 +119,7 @@ public class WXPayEntryActivity extends BusinessBaseActivity
     public void onResp(BaseResp resp) {
         switch (resp.errCode) {
             case 0://支付成功
-                //showToast("充值成功");
+                showToast("充值成功");
                 showmsgicon.setText("支付成功");
                 if (!CheckUtils.isAvailable(PreferencesHelper.find(Key.FIRST_PAY_OK, ""))) {
                     CommonDialogView.show(AppEnter.user_msg, new CommonDialogView.DialogClickListener() {
