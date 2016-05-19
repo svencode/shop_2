@@ -509,6 +509,7 @@ public class RequestUtils {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleCheckCardPwd));
         params.addBodyParameter("memberCardId",cardId);
         params.addBodyParameter("cardPwd",pwd);
+        params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
 

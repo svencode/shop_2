@@ -68,6 +68,10 @@ public final class CaptureActivityHandler extends Handler {
 	public void handleMessage(Message message) {
 		
 		switch (message.what) {
+			case R.id.stop_preview:
+				Log.d(TAG, "stop_preview");
+				CameraManager.get().stopPreview();
+				break;
 	      case R.id.auto_focus:
 	        //Log.d(TAG, "Got auto-focus message");
 	        // When one auto focus pass finishes, start another. This is the closest thing to

@@ -2,6 +2,7 @@ package com.cqgk.clerk.base;
 
 import android.app.Application;
 import android.app.NotificationManager;
+import android.os.Debug;
 
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.helper.PreferencesHelper;
@@ -52,7 +53,7 @@ public class BaseApp extends Application {
         galleryfinalInit();
 
         x.Ext.init(this);
-        x.Ext.setDebug(true);
+        x.Ext.setDebug(BuildConfig.DEBUG);
 
     }
 

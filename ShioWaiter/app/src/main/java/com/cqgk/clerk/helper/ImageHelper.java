@@ -70,7 +70,17 @@ public class ImageHelper extends Basic {
     }
 
     public <T extends View> void display(ImageView into, String picPath, @DrawableRes int drawableRes) {
-        display(into, picPath, options);
+        DisplayImageOptions temp_options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(drawableRes)
+                .showImageForEmptyUri(drawableRes)
+                .showImageOnFail(drawableRes)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        display(into, picPath, temp_options);
 
     }
 

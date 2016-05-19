@@ -153,6 +153,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
+        reScan();
         long currentUpdateTime = System.currentTimeMillis();
         long timeInterval = currentUpdateTime - lastUpdateTime;
         if (timeInterval < UPTATE_INTERVAL_TIME) {
@@ -161,6 +162,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         lastUpdateTime = currentUpdateTime;
 
         String cid = recode(result.toString());
+
 
         if (BuildConfig.DEBUG)
             cid = AppEnter.TestCardid;
@@ -175,6 +177,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
                 opencard.setVisibility(View.VISIBLE);
+                onPause();
             }
 
             /**
@@ -187,10 +190,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
              */
             @Override
             public boolean failure(int state, String msg) {
-                showLongToast(msg);
-                if(state==601 || state==602){
-                    reScan();
-                }
+                showToast(msg);
                 return super.failure(state, msg);
             }
         });
@@ -221,6 +221,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 memeber_name.setText("");
                 phone.setText("");
                 row_4_pwd.setText("");
+                onResume();
             }
         });
 

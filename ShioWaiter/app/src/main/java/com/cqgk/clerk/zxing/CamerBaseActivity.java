@@ -111,6 +111,12 @@ public class CamerBaseActivity extends BusinessBaseActivity
         }
     }
 
+    protected void stop(){
+        if(handler!=null){
+            handler.sendEmptyMessage(R.id.stop_preview);
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();

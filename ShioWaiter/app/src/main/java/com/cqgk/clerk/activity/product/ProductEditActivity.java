@@ -1,8 +1,11 @@
 package com.cqgk.clerk.activity.product;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -22,11 +25,14 @@ import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.ProductStandInfoBean;
+import com.cqgk.clerk.helper.BitmapHelper;
+import com.cqgk.clerk.helper.FileSizeHelper;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
@@ -36,8 +42,14 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +104,8 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
     private String productId;//商品ID
+    private static final int UPTATE_INTERVAL_TIME = 2000;
+    private long lastUpdateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +183,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                                 @Override
                                 public void success(String result) {
                                     showToast("删除成功.");
+                                    NavigationHelper.getInstance().GoHome();
                                 }
 
                                 @Override
@@ -245,45 +260,75 @@ public class ProductEditActivity extends CamerBaseActivity {
                 .show();
     }
 
+    @Override
+    public void onBackProcessHandleMessage(Message msg) {
+        super.onBackProcessHandleMessage(msg);
+        PhotoInfo photoInfo = (PhotoInfo) msg.getData().get("photoinfo");
+        String newpath = BitmapHelper.compressBitmap(ProductEditActivity.this, photoInfo.getPhotoPath(),
+                photoInfo.getWidth(), photoInfo.getHeight(),
+                false);
+
+        photoInfo.setPhotoPath(newpath);
+
+        double size = FileSizeHelper.getFileOrFilesSize(newpath, 3);
+        LogUtil.e(String.format("_________%s",size));
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("photoinfo", photoInfo);
+        sendHandler(getUIHandler(), 0, bundle);
+
+
+    }
+
+    @Override
+    public void onUIHandleMessage(Message msg) {
+        super.onUIHandleMessage(msg);
+
+        final PhotoInfo photoInfo = (PhotoInfo) msg.getData().get("photoinfo");
+        String fileName = AppUtil.getFileName(photoInfo.getPhotoPath());
+
+
+        RequestUtils.fileUpload(photoInfo.getPhotoPath(),
+                fileName, new HttpCallBack<FileUploadResultBean>() {
+                    @Override
+                    public void success(FileUploadResultBean result) {
+                        EditBean temp = new EditBean();
+                        temp.setPhotoInfo(photoInfo);
+                        temp.setUploadId(result.getFile_id());
+                        editBeanList.add(temp);
+                        productEditItemAdapter.setValueList(editBeanList);
+                        productEditItemAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+    }
+
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
 
                 final PhotoInfo photoInfo = resultList.get(0);
-//                File file = new File(photoInfo.getPhotoPath());
-//                if (file.length() / 1024 > 1024) {
-//                    showLongToast("上传的图片不能大于1M");
-//                    return;
-//                }
+                double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
+                LogUtil.e(String.format("_________%s",size));
 
-                String fileName = AppUtil.getFileName(photoInfo.getPhotoPath());
 
-                RequestUtils.fileUpload(photoInfo.getPhotoPath(),
-                        fileName, new HttpCallBack<FileUploadResultBean>() {
-                            @Override
-                            public void success(FileUploadResultBean result) {
-                                EditBean temp = new EditBean();
-                                temp.setPhotoInfo(photoInfo);
-                                temp.setUploadId(result.getFile_id());
-                                editBeanList.add(temp);
-                                productEditItemAdapter.setValueList(editBeanList);
-                                productEditItemAdapter.notifyDataSetChanged();
-                            }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("photoinfo", photoInfo);
+                sendHandler(getBackProcessHandler(), 0, bundle);
 
-                            @Override
-                            public boolean failure(int state, String msg) {
-                                showLongToast(msg);
-                                return super.failure(state, msg);
-                            }
-                        });
 
             }
         }
 
         @Override
         public void onHanlderFailure(int requestCode, String errorMsg) {
-            showToast("errorMsg");
+            //showToast("errorMsg");
         }
     };
 
@@ -311,10 +356,18 @@ public class ProductEditActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
+        reScan();
+        long currentUpdateTime = System.currentTimeMillis();
+        long timeInterval = currentUpdateTime - lastUpdateTime;
+        if (timeInterval < UPTATE_INTERVAL_TIME) {
+            return;
+        }
+        lastUpdateTime = currentUpdateTime;
+
+
         String recode = recode(result.toString());
         productcode.setText(recode);
         queryProductDefInfo();
-        reScan();
     }
 
     @Override
@@ -414,5 +467,4 @@ public class ProductEditActivity extends CamerBaseActivity {
 
         });
     }
-
 }

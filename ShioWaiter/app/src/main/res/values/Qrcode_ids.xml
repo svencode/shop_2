@@ -22,5 +22,6 @@
     <item name="restart_preview" type="id"/>
     <item name="return_scan_result" type="id"/>
     <item name="decode_error" type="id"/>
+    <item name="stop_preview" type="id"/>
 
 </resources>
