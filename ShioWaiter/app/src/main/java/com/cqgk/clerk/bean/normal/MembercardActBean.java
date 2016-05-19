@@ -18,6 +18,15 @@ public class MembercardActBean {
     private String card_mobile;
     private String card_idcard;
     private String card_balance;
+    private String user_msg;
+
+    public String getUser_msg() {
+        return user_msg;
+    }
+
+    public void setUser_msg(String user_msg) {
+        this.user_msg = user_msg;
+    }
 
     public String getCard_id() {
         return card_id;

@@ -230,6 +230,12 @@ public class VipRechargeActivity extends CamerBaseActivity {
             return;
         }
 
+        if(imoney<=0){
+            showLongToast("充值金额必须为100元的整倍数");
+            return;
+        }
+
+
 
         CommonDialogView.show("请确定您收到客户的现金后再进行充值", new CommonDialogView.DialogClickListener() {
             @Override
@@ -245,6 +251,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         RequestUtils.vipRecharge(card_id,"0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
+                AppEnter.user_msg =result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }
 

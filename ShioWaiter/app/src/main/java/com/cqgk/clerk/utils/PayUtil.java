@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.bean.logicbean.WechatPayBean;
 import com.cqgk.clerk.config.Key;
 import com.cqgk.clerk.helper.NavigationHelper;
@@ -136,7 +137,7 @@ public class PayUtil {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         if (!CheckUtils.isAvailable(PreferencesHelper.find(Key.FIRST_PAY_OK, ""))) {
-                            CommonDialogView.show("请赠送1张10元现金劵开卡客户", new CommonDialogView.DialogClickListener() {
+                            CommonDialogView.show(AppEnter.user_msg, new CommonDialogView.DialogClickListener() {
                                 @Override
                                 public void doConfirm() {
                                     NavigationHelper.getInstance().GoHome();

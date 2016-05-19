@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentrel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/glo_bg_color"
-    android:orientation="vertical"
-    android:id="@+id/parentrel">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/comment_title_bar_layout"
@@ -14,15 +14,33 @@
         android:layout_alignParentTop="true" />
 
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/glo_nav_bar_bg"
-        android:text="保存"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_l"
-        android:id="@+id/savenow"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/font_color_4"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_l"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/savenow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/glo_nav_bar_bg"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_l" />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -43,8 +61,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:background="@drawable/mo_scanner_bg"/>
-
+                android:background="@drawable/mo_scanner_bg" />
 
 
             <TextView
@@ -52,10 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
                 android:text="请扫描商品条码"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_m"
-                android:layout_marginBottom="8dp"/>
+                android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
 
@@ -77,14 +94,14 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
+                android:id="@+id/productcode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_1_title"
                 android:background="@android:color/transparent"
                 android:hint="请扫描或输入商品条码"
-                android:textColorHint="@color/font_color_4"
-                android:id="@+id/productcode"
                 android:textColor="@color/font_color_3"
+                android:textColorHint="@color/font_color_4"
                 android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
@@ -109,15 +126,15 @@
                 android:textSize="@dimen/text_size_m" />
 
             <EditText
+                android:id="@+id/productTitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_2_title"
                 android:background="@android:color/transparent"
-                android:textColorHint="@color/font_color_4"
                 android:hint="请输入商品名称"
                 android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m"
-                android:id="@+id/productTitle"/>
+                android:textColorHint="@color/font_color_4"
+                android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
 
@@ -146,13 +163,12 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_3_title"
                 android:background="@android:color/transparent"
-                android:textColorHint="@color/font_color_4"
-                android:hint="请输入商品零售价"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m"
-                android:inputType="numberDecimal"
                 android:digits="0123456789."
-                />
+                android:hint="请输入商品零售价"
+                android:inputType="numberDecimal"
+                android:textColor="@color/font_color_3"
+                android:textColorHint="@color/font_color_4"
+                android:textSize="@dimen/text_size_m" />
 
             <TextView
                 android:layout_width="80dp"
@@ -190,12 +206,12 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_4_title"
                 android:background="@android:color/transparent"
-                android:textColorHint="@color/font_color_4"
+                android:digits="0123456789."
                 android:hint="请输入商品会员价"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_m"
                 android:inputType="numberDecimal"
-                android:digits="0123456789."/>
+                android:textColor="@color/font_color_3"
+                android:textColorHint="@color/font_color_4"
+                android:textSize="@dimen/text_size_m" />
 
             <TextView
                 android:layout_width="80dp"

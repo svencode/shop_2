@@ -43,6 +43,17 @@ import java.util.List;
  */
 public class RequestUtils {
 
+    /**
+     * 删除商品
+     * @param goodsid
+     * @param callBack
+     */
+    public static void deleteClerkGoods(String goodsid,HttpCallBack<String> callBack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_deleteClerkGoods));
+        params.addParameter("goodsId",goodsid);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBack);
+    }
 
     /**
      *

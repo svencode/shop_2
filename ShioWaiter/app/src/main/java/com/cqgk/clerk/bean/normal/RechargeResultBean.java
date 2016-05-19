@@ -16,6 +16,15 @@ public class RechargeResultBean implements Serializable{
     private String payCode;
     private String payMsg;
     private String payAmount;
+    private String userMsg;
+
+    public String getUserMsg() {
+        return userMsg;
+    }
+
+    public void setUserMsg(String userMsg) {
+        this.userMsg = userMsg;
+    }
 
     public String getPayCode() {
         return payCode;
