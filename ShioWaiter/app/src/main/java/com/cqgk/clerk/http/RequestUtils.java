@@ -85,7 +85,7 @@ public class RequestUtils {
         }
 
         if(CheckUtils.isAvailable(couponBarCode)){
-            jiesuanScanSubmit.setMemberBarCode(couponBarCode);
+            jiesuanScanSubmit.setCouponBarCode(couponBarCode);
         }
 
         List<JiesuanScanSubmit.ProductInfoEntity> entityList = new ArrayList<>();
