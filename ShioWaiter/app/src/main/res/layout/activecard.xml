@@ -231,15 +231,18 @@
         <View style="@style/magic_h_line" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:scaleType="centerInside"
-        android:src="@drawable/open"
+        android:background="@color/font_color_4"
+        android:textColor="@color/white"
         android:layout_below="@+id/scanResultarea"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:text="开卡"
         android:id="@+id/opencard"
-        android:visibility="gone"/>
+        />
 
 
 </RelativeLayout>

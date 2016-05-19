@@ -2,6 +2,7 @@ package com.cqgk.clerk.activity.product;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baoyz.actionsheet.ActionSheet;
 import com.cqgk.clerk.adapter.ProductEditItemAdapter;
@@ -68,6 +70,12 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.vipPrice)
     EditText vipPrice;
 
+    @ViewInject(R.id.row_2_title)
+    TextView row_2_title;
+    @ViewInject(R.id.row_3_title)
+    TextView row_3_title;
+    @ViewInject(R.id.row_4_title)
+    TextView row_4_title;
 
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
@@ -82,7 +90,9 @@ public class ProductEditActivity extends CamerBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-
+        row_2_title.setText(Html.fromHtml("名称<font color=\"red\">*</font>"));
+        row_3_title.setText(Html.fromHtml("零售价<font color=\"red\">*</font>"));
+        row_4_title.setText(Html.fromHtml("会员价<font color=\"red\">*</font>"));
 
 
 

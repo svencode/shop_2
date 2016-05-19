@@ -55,6 +55,7 @@ public class MainActivity extends BusinessBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppEnter.MainActivity = this;
         enableTitleDelegate();
         getTitleDelegate().setTitle(getResources().getString(R.string.app_name));
         getTitleDelegate().hideLeftBtn();

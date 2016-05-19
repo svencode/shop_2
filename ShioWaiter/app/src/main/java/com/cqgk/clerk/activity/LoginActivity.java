@@ -41,6 +41,7 @@ public class LoginActivity extends BusinessBaseActivity {
     Button randomcode;
 
     private TimeCount time;
+    private boolean getCodeed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +106,11 @@ public class LoginActivity extends BusinessBaseActivity {
             showLongToast("手机号码不能为空");
             return;
         }
-        RequestUtils.getVerifyCode("0", mobile.getText().toString(), new HttpCallBack<String>() {
+        RequestUtils.getVerifyCode(getCodeed?"1":"0", mobile.getText().toString(), new HttpCallBack<String>() {
             @Override
             public void success(String result) {
                 time.start();//开始计时
+                getCodeed=true;
             }
 
             @Override

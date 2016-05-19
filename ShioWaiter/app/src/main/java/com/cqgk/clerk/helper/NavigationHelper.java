@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.cqgk.clerk.R;
 import com.cqgk.clerk.activity.BarCodeFindCashActivity;
 import com.cqgk.clerk.activity.BarCodeFindProductActivity;
 import com.cqgk.clerk.activity.CashieringActivity;
@@ -23,6 +24,7 @@ import com.cqgk.clerk.activity.WebViewActivity;
 import com.cqgk.clerk.activity.active.ActiveCardActivity;
 import com.cqgk.clerk.activity.product.ProductEditActivity;
 import com.cqgk.clerk.activity.product.SeachProductActivity;
+import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
 import com.cqgk.clerk.bean.normal.GoodListBean;
@@ -63,6 +65,13 @@ public class NavigationHelper extends Basic {
         context.startActivityForResult(intent, RequestCode);
     }
 
+
+    public void GoHome() {
+        if (AppEnter.MainActivity != null) {
+            MainActivity mainTabActivity = (MainActivity) AppEnter.MainActivity;
+            AppEnter.exitAllActivityButOne(mainTabActivity);
+        }
+    }
 
     /**
      * 登录界面

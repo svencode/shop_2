@@ -2,10 +2,13 @@ package com.cqgk.clerk.activity.active;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,7 +37,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by duke on 16/5/11.
  */
 @ContentView(R.layout.activecard)
-public class ActiveCardActivity extends CamerBaseActivity {
+public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher{
 
     @ViewInject(R.id.scansuccess)
     RelativeLayout scansuccess;
@@ -61,14 +64,25 @@ public class ActiveCardActivity extends CamerBaseActivity {
     @ViewInject(R.id.row_4_pwd)
     EditText row_4_pwd;
 
-    @ViewInject(R.id.opencard)
-    ImageView opencard;
 
     @ViewInject(R.id.phone)
     EditText phone;
 
     @ViewInject(R.id.card_idcard)
     EditText card_idcard;
+
+    @ViewInject(R.id.opencard)
+    Button opencard;
+
+
+    @ViewInject(R.id.row_1_title)
+    TextView row_1_title;
+    @ViewInject(R.id.row_2_title)
+    TextView row_2_title;
+    @ViewInject(R.id.row_3_title)
+    TextView row_3_title;
+    @ViewInject(R.id.row_4_title)
+    TextView row_4_title;
 
     private boolean hasSurface;
     private String card_id;
@@ -80,8 +94,39 @@ public class ActiveCardActivity extends CamerBaseActivity {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("会员开卡");
+
+        row_1_title.setText(Html.fromHtml("会员姓名<font color=\"red\">*<font/>"));
+        row_2_title.setText(Html.fromHtml("会员手机号<font color=\"red\">*<font/>"));
+        //row_3_title.setText(Html.fromHtml("会员身份证号<font color=\"red\">*<font/>"));
+        row_4_title.setText(Html.fromHtml("密码<font color=\"red\">*<font/>"));
+        opencard.setEnabled(false);
+
+
+        memeber_name.addTextChangedListener(this);
+        phone.addTextChangedListener(this);
+        row_4_pwd.addTextChangedListener(this);
     }
 
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+          if(CheckUtils.isAvailable(memeber_name.getText().toString())&&
+                  CheckUtils.isAvailable(phone.getText().toString())&&
+                  CheckUtils.isAvailable(row_4_pwd.getText().toString())){
+              opencard.setBackgroundColor(getResources().getColor(R.color.font_color_1));
+              opencard.setEnabled(true);
+          }
+    }
 
     @Override
     public void onResume() {
@@ -136,7 +181,6 @@ public class ActiveCardActivity extends CamerBaseActivity {
             @Override
             public boolean failure(int state, String msg) {
                 showLongToast(msg);
-                reScan();
                 return super.failure(state, msg);
             }
         });
@@ -164,6 +208,9 @@ public class ActiveCardActivity extends CamerBaseActivity {
                 reScan();
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
+                memeber_name.setText("");
+                phone.setText("");
+                row_4_pwd.setText("");
             }
         });
 
@@ -183,6 +230,11 @@ public class ActiveCardActivity extends CamerBaseActivity {
         }
 
         if (!CheckUtils.isAvailable(row_4_pwd.getText().toString())) {
+            showLongToast("请输入6位密码");
+            return;
+        }
+
+        if(row_4_pwd.getText().toString().trim().length()!=6){
             showLongToast("请输入6位密码");
             return;
         }
