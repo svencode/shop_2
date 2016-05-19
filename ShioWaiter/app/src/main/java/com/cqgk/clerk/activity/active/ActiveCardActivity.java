@@ -37,7 +37,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by duke on 16/5/11.
  */
 @ContentView(R.layout.activecard)
-public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher{
+public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher {
 
     @ViewInject(R.id.scansuccess)
     RelativeLayout scansuccess;
@@ -120,12 +120,12 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable editable) {
-          if(CheckUtils.isAvailable(memeber_name.getText().toString())&&
-                  CheckUtils.isAvailable(phone.getText().toString())&&
-                  CheckUtils.isAvailable(row_4_pwd.getText().toString())){
-              opencard.setBackgroundColor(getResources().getColor(R.color.font_color_1));
-              opencard.setEnabled(true);
-          }
+        if (CheckUtils.isAvailable(memeber_name.getText().toString()) &&
+                CheckUtils.isAvailable(phone.getText().toString()) &&
+                CheckUtils.isAvailable(row_4_pwd.getText().toString())) {
+            opencard.setBackgroundColor(getResources().getColor(R.color.font_color_1));
+            opencard.setEnabled(true);
+        }
     }
 
     @Override
@@ -153,7 +153,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
         long currentUpdateTime = System.currentTimeMillis();
         long timeInterval = currentUpdateTime - lastUpdateTime;
         if (timeInterval < UPTATE_INTERVAL_TIME) {
@@ -178,9 +177,20 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 opencard.setVisibility(View.VISIBLE);
             }
 
+            /**
+             * 200：可用
+             601：会员卡不存在
+             602：会员卡已被使用
+             * @param state
+             * @param msg
+             * @return
+             */
             @Override
             public boolean failure(int state, String msg) {
                 showLongToast(msg);
+                if(state==601 || state==602){
+                    reScan();
+                }
                 return super.failure(state, msg);
             }
         });
@@ -234,7 +244,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             return;
         }
 
-        if(row_4_pwd.getText().toString().trim().length()!=6){
+        if (row_4_pwd.getText().toString().trim().length() != 6) {
             showLongToast("请输入6位密码");
             return;
         }
@@ -280,6 +290,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
+                AppEnter.user_msg =result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }
 

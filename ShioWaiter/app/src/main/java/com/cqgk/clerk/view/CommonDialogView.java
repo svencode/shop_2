@@ -25,13 +25,13 @@ public class CommonDialogView extends Basic {
     }
 
     public static void show(String content, final DialogClickListener dialogClickListener) {
-        show(content, dialogClickListener, true, false,"","");
+        show(content, dialogClickListener, true, false, "", "");
     }
 
     /**
      *
      */
-    public static void showLoginDialog(){
+    public static void showLoginDialog() {
         show("你的操作需要登录,是否马上进行登录?", new CommonDialogView.DialogClickListener() {
             @Override
             public void doConfirm() {
@@ -41,11 +41,10 @@ public class CommonDialogView extends Basic {
     }
 
     /**
-     *
-     * @param content 对话框内容
+     * @param content             对话框内容
      * @param dialogClickListener 确认按钮回调事件
-     * @param isChoice 是否显示选择模式对话框
-     * @param isHtmlContent 是否显示html格式内容
+     * @param isChoice            是否显示选择模式对话框
+     * @param isHtmlContent       是否显示html格式内容
      */
     public static void show(String content,
                             final DialogClickListener dialogClickListener,
@@ -53,8 +52,8 @@ public class CommonDialogView extends Basic {
                             boolean isHtmlContent,
                             String cancelText,
                             String confirmText) {
-        
-        if (getActivity() != null && getActivity().isFinishing()){
+
+        if (getActivity() != null && getActivity().isFinishing()) {
             AppUtil.showToast("窗口已关闭");
             return;
         }
@@ -75,12 +74,12 @@ public class CommonDialogView extends Basic {
                 if (dialogClickListener != null) dialogClickListener.doConfirm();
             }
         });
-        if(CheckUtils.isAvailable(confirmText)){
-           Button button = (Button)dlg.getWindow().findViewById(R.id.btn_confirm);
+        if (CheckUtils.isAvailable(confirmText)) {
+            Button button = (Button) dlg.getWindow().findViewById(R.id.btn_confirm);
             button.setText(confirmText);
         }
-        if(CheckUtils.isAvailable(cancelText)){
-            Button button = (Button)dlg.getWindow().findViewById(R.id.btn_cancel);
+        if (CheckUtils.isAvailable(cancelText)) {
+            Button button = (Button) dlg.getWindow().findViewById(R.id.btn_cancel);
             button.setText(cancelText);
         }
         if (isChoice) {
@@ -98,8 +97,6 @@ public class CommonDialogView extends Basic {
         } else {
             content_tv.setText(content);
         }
-
-
 
 
     }

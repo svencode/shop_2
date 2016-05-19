@@ -35,6 +35,8 @@ public class AppEnter extends BaseApp {
 
     public static String wx_appid;
 
+    public static String user_msg;
+
 
 
 

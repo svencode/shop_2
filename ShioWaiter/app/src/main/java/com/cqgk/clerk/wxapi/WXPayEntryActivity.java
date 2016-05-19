@@ -122,7 +122,7 @@ public class WXPayEntryActivity extends BusinessBaseActivity
                 //showToast("充值成功");
                 showmsgicon.setText("支付成功");
                 if (!CheckUtils.isAvailable(PreferencesHelper.find(Key.FIRST_PAY_OK, ""))) {
-                    CommonDialogView.show("请赠送1张10元现金劵开卡客户", new CommonDialogView.DialogClickListener() {
+                    CommonDialogView.show(AppEnter.user_msg, new CommonDialogView.DialogClickListener() {
                         @Override
                         public void doConfirm() {
                             NavigationHelper.getInstance().GoHome();

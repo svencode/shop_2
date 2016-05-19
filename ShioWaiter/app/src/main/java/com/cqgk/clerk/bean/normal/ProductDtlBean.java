@@ -30,6 +30,15 @@ public class ProductDtlBean implements Serializable {
     private double vipPrice;
     private double price;
     private double userPrice;
+    private String barCode;
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
 
     private int isAllowedModifyPrice;
 

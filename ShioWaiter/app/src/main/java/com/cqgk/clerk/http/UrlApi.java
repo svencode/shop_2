@@ -218,4 +218,25 @@ public class UrlApi {
      */
     public static String url_settleCheckCardPwd="order/settleCheckCardPwd.do";
 
+
+    /**
+     *  接口：deleteClerkGoods
+     匿名访问：不支持
+     URL：http://betam.51xnb.cn/clerk/goods/deleteClerkGoods.do
+
+     提交数据：
+     {
+     "goodsId":"12345678"
+     }
+
+     返回结果：
+     {
+     "code": 200,
+     "msg": "成功",
+     }
+
+     注意：提交的是商品ID，不是规格ID
+     */
+    public static String url_deleteClerkGoods="goods/deleteGoodsForClerk.do";
+
 }

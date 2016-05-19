@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
 import com.google.zxing.Result;
@@ -70,6 +72,9 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.vipPrice)
     EditText vipPrice;
 
+    @ViewInject(R.id.delete)
+    Button delete;
+
     @ViewInject(R.id.row_2_title)
     TextView row_2_title;
     @ViewInject(R.id.row_3_title)
@@ -93,7 +98,6 @@ public class ProductEditActivity extends CamerBaseActivity {
         row_2_title.setText(Html.fromHtml("名称<font color=\"red\">*</font>"));
         row_3_title.setText(Html.fromHtml("零售价<font color=\"red\">*</font>"));
         row_4_title.setText(Html.fromHtml("会员价<font color=\"red\">*</font>"));
-
 
 
         try {
@@ -120,6 +124,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                     productTitle.setText(result.getGoodsTitle());
                     vipPrice.setText(String.valueOf(result.getVipPrice()));
                     retailPrice.setText(String.valueOf(result.getRetailPrice()));
+                    productcode.setText(result.getBarCode());
                 }
             });
         }
@@ -132,6 +137,30 @@ public class ProductEditActivity extends CamerBaseActivity {
 
         if (CheckUtils.isAvailable(productId)) {
             getTitleDelegate().setTitle("商品更新");
+            delete.setVisibility(View.VISIBLE);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CommonDialogView.show("你确定要删除?", new CommonDialogView.DialogClickListener() {
+                        @Override
+                        public void doConfirm() {
+                            RequestUtils.deleteClerkGoods(productId, new HttpCallBack<String>() {
+                                @Override
+                                public void success(String result) {
+                                    showToast("删除成功.");
+                                }
+
+                                @Override
+                                public boolean failure(int state, String msg) {
+                                    showLongToast(msg);
+                                    return super.failure(state, msg);
+                                }
+                            });
+                        }
+                    });
+
+                }
+            });
         } else {
             getTitleDelegate().setTitle("商品上传");
             getTitleDelegate().setRightText("商品");
@@ -149,7 +178,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         selview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(productEditItemAdapter.getCount()>=3){
+                if (productEditItemAdapter.getCount() >= 3) {
                     showLongToast("最多只能上传3张图片");
                     return;
                 }

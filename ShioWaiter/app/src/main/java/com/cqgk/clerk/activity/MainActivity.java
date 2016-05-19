@@ -129,8 +129,8 @@ public class MainActivity extends BusinessBaseActivity {
                 if (result == null)
                     return;
 
-                money_a.setText(String.valueOf(result.getTCA()));
-                money_b.setText(String.valueOf(result.getTMA()));
+                money_a.setText(String.valueOf(result.getTMA()));
+                money_b.setText(String.valueOf(result.getTCA()));
                 money_c.setText(String.valueOf(result.getYTA()));
             }
 
