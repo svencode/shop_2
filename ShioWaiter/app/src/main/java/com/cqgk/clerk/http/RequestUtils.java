@@ -448,7 +448,7 @@ public class RequestUtils {
         params.addParameter("retailPrice", retailPrice);
         params.addParameter("vipPrice", vipPrice);
         params.addParameter("logoId", logoId);
-        params.addParameter("iphotoIdListd", iphoneIds);
+        params.addParameter("photoIdList", iphoneIds);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }

@@ -20,7 +20,6 @@ public class ProductDtlBean implements Serializable {
      */
 
     private double num;
-
     private String id;
     private String goodsId;
     private String goodsTitle;
@@ -31,6 +30,11 @@ public class ProductDtlBean implements Serializable {
     private double price;
     private double userPrice;
     private String barCode;
+
+
+    private List<String> goodsPhotoIdList;
+
+
 
     public String getBarCode() {
         return barCode;
