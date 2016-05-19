@@ -78,6 +78,7 @@
             android:textSize="@dimen/text_size_l"/>
 
         <TextView
+            android:id="@+id/descTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="请赠送以下现金券给该客户"
