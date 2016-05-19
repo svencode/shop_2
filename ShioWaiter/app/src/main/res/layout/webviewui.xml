@@ -9,7 +9,7 @@
         android:id="@+id/comment_title_bar_layout"
         layout="@layout/layout_bar_title" />
 
-    <com.cqgk.shennong.shop.view.ProgressWebView
+    <com.cqgk.clerk.view.ProgressWebView
         android:id="@+id/webview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
