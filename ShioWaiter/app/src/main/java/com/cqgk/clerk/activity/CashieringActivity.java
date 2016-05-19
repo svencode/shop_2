@@ -223,10 +223,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     @Event(R.id.rechargeBtn)
     private void recharge(View view){
-        double price = 0;
-        for (ProductDtlBean item:myGood){
-            price += (item.getNum()*item.getPrice());
-        }
 
         NavigationHelper.getInstance().startVipRecharge(vipInfo.getMembercard().getBarCode());
     }
@@ -238,7 +234,14 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         double price = 0;
 //        android:text="￥0     共0件"
         for (ProductDtlBean item:myGood){
-            price += (item.getNum()*item.getPrice());
+            if (item.getUserPrice()>0){
+                price += (item.getNum()*item.getUserPrice());
+            }else if (item.getVipPrice()>0){
+                price += (item.getNum()*item.getVipPrice());
+            }else {
+                price += (item.getNum()*item.getRetailPrice());
+            }
+
         }
 
         if (null != vipInfo&& null != vipInfo.getMembercard()){
