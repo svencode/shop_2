@@ -39,7 +39,9 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
@@ -125,6 +127,25 @@ public class ProductEditActivity extends CamerBaseActivity {
                     vipPrice.setText(String.valueOf(result.getVipPrice()));
                     retailPrice.setText(String.valueOf(result.getRetailPrice()));
                     productcode.setText(result.getBarCode());
+
+                    if (result.getPhotoList() != null) {
+                        Iterator iter = result.getPhotoList().entrySet().iterator();
+                        while (iter.hasNext()) {
+
+                            Map.Entry entry = (Map.Entry) iter.next();
+                            String key = (String) entry.getKey();
+                            String val = (String) entry.getValue();
+
+                            EditBean editBean = new EditBean();
+                            editBean.setUploadId(key);
+                            PhotoInfo photoInfo = new PhotoInfo();
+                            photoInfo.setPhotoPath(val);
+                            editBean.setPhotoInfo(photoInfo);
+                            editBeanList.add(editBean);
+                            productEditItemAdapter.setValueList(editBeanList);
+                            productEditItemAdapter.notifyDataSetChanged();
+                        }
+                    }
                 }
             });
         }

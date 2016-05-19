@@ -1,6 +1,7 @@
 package com.cqgk.clerk.bean.normal;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,10 +33,15 @@ public class ProductDtlBean implements Serializable {
     private double userPrice;
     private String barCode;
 
+private HashMap<String,String> photoList;
 
-    private List<String> goodsPhotoIdList;
+    public HashMap<String, String> getPhotoList() {
+        return photoList;
+    }
 
-
+    public void setPhotoList(HashMap<String, String> photoList) {
+        this.photoList = photoList;
+    }
 
     public String getBarCode() {
         return barCode;

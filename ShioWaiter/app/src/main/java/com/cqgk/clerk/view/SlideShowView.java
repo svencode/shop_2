@@ -25,6 +25,7 @@ import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.UrlApi;
 import com.cqgk.clerk.utils.AppUtil;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
@@ -292,6 +293,9 @@ public class SlideShowView extends FrameLayout {
 
             @Override
             public void onClick(View view) {
+                if(CheckUtils.isAvailable(url)){
+                    NavigationHelper.getInstance().startWebView(url);
+                }
                // NavigationHelper.getInstance().urlJump(url);
             }
         }
