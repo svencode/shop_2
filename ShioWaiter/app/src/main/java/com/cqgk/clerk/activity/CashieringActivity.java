@@ -32,6 +32,7 @@ import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.view.PayPwdDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
 import com.google.zxing.Result;
@@ -269,7 +270,31 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         String vipNo = null;
         if (null!=vipInfo && null!=vipInfo.getMembercard()){
             vipNo = vipInfo.getMembercard().getId();
+
+            //大于100要输入支付密码
+            if (price>100){
+                PayPwdDialogView.show(new PayPwdDialogView.PwdDialogClickListener() {
+                    @Override
+                    public void doConfirm(String text) {
+                        RequestUtils.verifyPwd(vipInfo.getMembercard().getId(), text, new HttpCallBack<String>() {
+                            @Override
+                            public void success(String result) {
+                                payRequest(vipInfo.getMembercard().getId());
+                            }
+                        });
+                    }
+                },true,"取消","确定");
+
+                return;
+            }
+
         }
+
+
+        payRequest(vipNo);
+    }
+
+    private void payRequest(String vipNo){
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
             public void success(OrderSubmitResultBean result) {
@@ -279,7 +304,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 NavigationHelper.getInstance().startOrderResult(result,isVipPay);
             }
         });
-
     }
 
     private void refreshPrice(){

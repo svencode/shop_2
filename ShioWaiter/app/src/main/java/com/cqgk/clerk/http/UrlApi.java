@@ -213,6 +213,9 @@ public class UrlApi {
      */
     public static String url_settleRecalculate="order/settleReCalculate.do";
 
-
+    /**
+     * 校验会员卡密码
+     */
+    public static String url_settleCheckCardPwd="order/settleCheckCardPwd.do";
 
 }

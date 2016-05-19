@@ -488,4 +488,17 @@ public class RequestUtils {
         return params;
     }
 
+    /**
+     *  校验支付密码
+     * @param cardId
+     * @param pwd
+     * @param callBlack
+     */
+    public static void verifyPwd(String cardId,String pwd,HttpCallBack<String> callBlack){
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleCheckCardPwd));
+        params.addBodyParameter("memberCardId",cardId);
+        params.addBodyParameter("cardPwd",pwd);
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
 }
