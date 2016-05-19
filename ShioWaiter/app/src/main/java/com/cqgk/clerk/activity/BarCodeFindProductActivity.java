@@ -8,9 +8,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
@@ -37,6 +40,9 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     @ViewInject(R.id.capture_preview)
     SurfaceView capture_preview;
 
+    @ViewInject(R.id.resulttitle)
+    LinearLayout resulttitle;
+
     private boolean hasSurface;
 
     private static final int UPTATE_INTERVAL_TIME = 2000;
@@ -56,14 +62,14 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
 
         try {
             showType = getIntent().getIntExtra("showtype", 0);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
         }
 
-        searchResultPopView = new SearchResultPopView(this);
-        searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchResultPopView = new SearchResultPopView(this, showType);
+        searchResultPopView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void itemClick(int i) {
                 ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
                 if (showType == 0) {
                     NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
@@ -79,6 +85,12 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 }
             }
         });
+//        searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//            }
+//        });
     }
 
 
@@ -114,9 +126,10 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                     return;
                 }
 
+                resulttitle.setVisibility(View.VISIBLE);
                 searchResultPopView.getAdapter().setValuelist(result.getList());
                 searchResultPopView.getAdapter().notifyDataSetChanged();
-                searchResultPopView.showAsDropDown(capture_preview);
+                searchResultPopView.showAsDropDown(resulttitle);
 
             }
         });

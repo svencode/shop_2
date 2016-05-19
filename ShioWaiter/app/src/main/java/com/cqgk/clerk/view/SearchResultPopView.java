@@ -26,7 +26,12 @@ public class SearchResultPopView extends PopupWindow {
     private SearchResultPopAdapter searchResultPopAdapter;
 
 
-    public SearchResultPopView(Context context) {
+    /**
+     * //0编辑商品1-挑选商品
+     * @param context
+     * @param showtype
+     */
+    public SearchResultPopView(Context context,int showtype) {
         // 获取自定义布局文件poplayout.xml的视图
         LayoutInflater layoutInflater = (LayoutInflater) (context)
                 .getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -41,6 +46,7 @@ public class SearchResultPopView extends PopupWindow {
 
         List<ProductDtlBean> beanList = new ArrayList<>();
         searchResultPopAdapter = new SearchResultPopAdapter(context);
+        searchResultPopAdapter.setShowtype(showtype);
         searchResultPopAdapter.setValuelist(beanList);
         listview.setAdapter(searchResultPopAdapter);
 

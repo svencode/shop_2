@@ -45,46 +45,45 @@ public class RequestUtils {
 
     /**
      * 删除商品
+     *
      * @param goodsid
      * @param callBack
      */
-    public static void deleteClerkGoods(String goodsid,HttpCallBack<String> callBack) {
+    public static void deleteClerkGoods(String goodsid, HttpCallBack<String> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_deleteClerkGoods));
-        params.addParameter("goodsId",goodsid);
+        params.addParameter("goodsId", goodsid);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
     /**
-     *
      * @param phoneNumber
      * @param verifyCode
      * @param newpwd
      * @param callBack
      */
-    public static void findPwd(String phoneNumber,String verifyCode,String newpwd, HttpCallBack<String> callBack) {
+    public static void findPwd(String phoneNumber, String verifyCode, String newpwd, HttpCallBack<String> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_findPwd));
-        params.addParameter("phoneNumber",phoneNumber);
-        params.addParameter("verifyCode",verifyCode);
-        params.addParameter("password",newpwd);
+        params.addParameter("phoneNumber", phoneNumber);
+        params.addParameter("verifyCode", verifyCode);
+        params.addParameter("password", newpwd);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
 
 
     /**
-     *结算价格改变
-     *
+     * 结算价格改变
      */
-    public static void settleReCalculate(String memberBarCode, String couponBarCode,List<ProductDtlBean> goods,
-                                         HttpCallBack<JIesuanReturnBean> callBack){
+    public static void settleReCalculate(String memberBarCode, String couponBarCode, List<ProductDtlBean> goods,
+                                         HttpCallBack<JIesuanReturnBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleRecalculate));
         JiesuanScanSubmit jiesuanScanSubmit = new JiesuanScanSubmit();
-        if(CheckUtils.isAvailable(memberBarCode)){
-          jiesuanScanSubmit.setMemberBarCode(memberBarCode);
+        if (CheckUtils.isAvailable(memberBarCode)) {
+            jiesuanScanSubmit.setMemberBarCode(memberBarCode);
         }
 
-        if(CheckUtils.isAvailable(couponBarCode)){
+        if (CheckUtils.isAvailable(couponBarCode)) {
             jiesuanScanSubmit.setCouponBarCode(couponBarCode);
         }
 
@@ -93,9 +92,9 @@ public class RequestUtils {
             JiesuanScanSubmit.ProductInfoEntity item = new JiesuanScanSubmit.ProductInfoEntity();
             item.setGsid(goods.get(i).getId());
             item.setNum(String.valueOf(goods.get(i).getNum()));
-            if (goods.get(i).getUserPrice()>0){
+            if (goods.get(i).getUserPrice() > 0) {
                 item.setPrice(String.valueOf(goods.get(i).getUserPrice()));
-            }else {
+            } else {
 
             }
 //            item.setPrice(String.valueOf(goods.get(i).getPrice()));
@@ -103,7 +102,7 @@ public class RequestUtils {
         }
         jiesuanScanSubmit.setGOODS(entityList);
         params.setBodyContent(new Gson().toJson(jiesuanScanSubmit));
-        Log.e("content",params.getBodyContent());
+        Log.e("content", params.getBodyContent());
         RequestHelper.sendPost(true, params, callBack);
     }
 
@@ -155,8 +154,6 @@ public class RequestUtils {
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
     }
-
-
 
 
     /**
@@ -397,7 +394,7 @@ public class RequestUtils {
         params = getLoginParams(params);
         params.addParameter("keyword", keyword);
         params.addParameter("pageIndex", pageIndex + "");
-        params.addParameter("pageSize", 200 + "");
+        params.addParameter("pageSize", 10 + "");
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
@@ -479,7 +476,7 @@ public class RequestUtils {
 
         bean.setGOODS(list);
         params.setBodyContent(new Gson().toJson(bean));
-        Log.e("content",params.getBodyContent());
+        Log.e("content", params.getBodyContent());
         RequestHelper.sendPost(true, params, callBlack);
     }
 
@@ -500,15 +497,16 @@ public class RequestUtils {
     }
 
     /**
-     *  校验支付密码
+     * 校验支付密码
+     *
      * @param cardId
      * @param pwd
      * @param callBlack
      */
-    public static void verifyPwd(String cardId,String pwd,HttpCallBack<String> callBlack){
+    public static void verifyPwd(String cardId, String pwd, HttpCallBack<String> callBlack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleCheckCardPwd));
-        params.addBodyParameter("memberCardId",cardId);
-        params.addBodyParameter("cardPwd",pwd);
+        params.addBodyParameter("memberCardId", cardId);
+        params.addBodyParameter("cardPwd", pwd);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }
