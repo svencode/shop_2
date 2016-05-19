@@ -84,14 +84,16 @@ public class CashieringAdapter extends BaseAdapter{
         name.setText(item.getGoodsTitle());
 
         if (item.getUserPrice()>0){
-            price.setText("￥"+item.getUserPrice());
+            price.setText("￥" + item.getUserPrice());
         }else if(item.getReturnPrice()>0){
             price.setText("￥"+item.getReturnPrice());
         }else {
             price.setText("￥"+item.getRetailPrice());
         }
 
-        if(item.getReturnPrice()>0){
+
+
+        if (item.getReturnPrice()!=item.getRetailPrice()){
             SpannableString sp = new SpannableString("￥"+item.getRetailPrice());
             sp.setSpan(new StrikethroughSpan(), 0, sp.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             originalPriceTV.setText(sp);
