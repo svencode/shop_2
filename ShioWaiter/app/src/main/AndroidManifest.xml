@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cqgk.shennong.shop"
+    package="com.cqgk.clerk"
     android:versionCode="1"
     android:versionName="1.1">
 
@@ -39,13 +39,13 @@
 
 
     <application
-        android:name="com.cqgk.shennong.shop.base.AppEnter"
+        android:name="com.cqgk.clerk.base.AppEnter"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.cqgk.shennong.shop.activity.WelcomeActivity"
+            android:name="com.cqgk.clerk.activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:orientation="vertical"
@@ -61,73 +61,73 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cqgk.shennong.shop.activity.LoginActivity"
+            android:name="com.cqgk.clerk.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.MainActivity"
+            android:name="com.cqgk.clerk.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.product.ProductEditActivity"
+            android:name="com.cqgk.clerk.activity.product.ProductEditActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.CashieringActivity"
+            android:name="com.cqgk.clerk.activity.CashieringActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.VipRechargeActivity"
+            android:name="com.cqgk.clerk.activity.VipRechargeActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.active.ActiveCardActivity"
+            android:name="com.cqgk.clerk.activity.active.ActiveCardActivity"
             android:orientation="vertical" />
 
         <activity
-            android:name="com.cqgk.shennong.shop.activity.PickGoodActivity"
+            android:name="com.cqgk.clerk.activity.PickGoodActivity"
             android:orientation="vertical"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.cqgk.shennong.shop.activity.InputMoneyActivity"
+            android:name="com.cqgk.clerk.activity.InputMoneyActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.PaySelectActivity"
+            android:name="com.cqgk.clerk.activity.PaySelectActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.WebViewActivity"
+            android:name="com.cqgk.clerk.activity.WebViewActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.product.SeachProductActivity"
+            android:name="com.cqgk.clerk.activity.product.SeachProductActivity"
             android:orientation="vertical"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.ScanProductActivity"
+            android:name="com.cqgk.clerk.activity.ScanProductActivity"
             android:orientation="vertical">
 
         </activity>
         <activity
-            android:name="com.cqgk.shennong.shop.activity.VipPaySelectActivity"
+            android:name="com.cqgk.clerk.activity.VipPaySelectActivity"
             android:orientation="vertical"></activity>
 
         <activity
-            android:name="com.cqgk.shennong.shop.activity.FindPwdActivity"
+            android:name="com.cqgk.clerk.activity.FindPwdActivity"
             android:orientation="vertical"></activity>
 
         <activity
-            android:name="com.cqgk.shennong.shop.activity.BarCodeFindProductActivity"
+            android:name="com.cqgk.clerk.activity.BarCodeFindProductActivity"
             android:orientation="vertical">
 
         </activity>
 
 
         <activity
-            android:name="com.cqgk.shennong.shop.wxapi.WXPayEntryActivity"
+            android:name="com.cqgk.clerk.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.cqgk.shennong.shop.activity.PayResultActivity"
+            android:name="com.cqgk.clerk.activity.PayResultActivity"
             android:orientation="vertical" />
 
         <activity
-            android:name="com.cqgk.shennong.shop.activity.BarCodeFindCashActivity"
+            android:name="com.cqgk.clerk.activity.BarCodeFindCashActivity"
             android:orientation="vertical"></activity>
 
 

@@ -43,7 +43,7 @@
             android:layout_marginTop="5dp"
             android:layout_below="@+id/title"/>
 
-        <com.cqgk.shennong.shop.view.PricesTextView
+        <com.cqgk.clerk.view.PricesTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"

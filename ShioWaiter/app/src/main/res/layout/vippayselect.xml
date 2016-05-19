@@ -217,7 +217,7 @@
         android:background="@color/white"
         android:paddingLeft="10dp">
 
-        <com.cqgk.shennong.shop.view.PricesTextView
+        <com.cqgk.clerk.view.PricesTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

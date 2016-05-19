@@ -65,7 +65,7 @@
         android:textColor="@color/font_color_3"
         android:textSize="@dimen/text_size_l" />
 
-    <com.cqgk.shennong.shop.view.NormalListView
+    <com.cqgk.clerk.view.NormalListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
