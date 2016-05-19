@@ -13,6 +13,11 @@ import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.config.Constant;
+import com.cqgk.clerk.config.Key;
+import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.helper.PreferencesHelper;
+import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.view.CommonDialogView;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -114,8 +119,24 @@ public class WXPayEntryActivity extends BusinessBaseActivity
     public void onResp(BaseResp resp) {
         switch (resp.errCode) {
             case 0://支付成功
-                showToast("充值成功");
-                showmsgicon.setText("充值成功");
+                //showToast("充值成功");
+                showmsgicon.setText("支付成功");
+                if (!CheckUtils.isAvailable(PreferencesHelper.find(Key.FIRST_PAY_OK, ""))) {
+                    CommonDialogView.show("请赠送1张10元现金劵开卡客户", new CommonDialogView.DialogClickListener() {
+                        @Override
+                        public void doConfirm() {
+                            NavigationHelper.getInstance().GoHome();
+                        }
+                    }, false, false, "", "");
+                    PreferencesHelper.save(Key.FIRST_PAY_OK, "first");
+                } else {
+                    CommonDialogView.show("支付成功", new CommonDialogView.DialogClickListener() {
+                        @Override
+                        public void doConfirm() {
+                            NavigationHelper.getInstance().GoHome();
+                        }
+                    }, false, false, "", "");
+                }
                 break;
             case -1://支付失败
                 showToast("支付失败");

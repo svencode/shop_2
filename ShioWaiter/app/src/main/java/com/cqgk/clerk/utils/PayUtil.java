@@ -11,8 +11,12 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.cqgk.clerk.bean.logicbean.WechatPayBean;
+import com.cqgk.clerk.config.Key;
+import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.helper.PreferencesHelper;
 import com.cqgk.clerk.utils.aliUtil.PayResult;
 import com.cqgk.clerk.utils.aliUtil.SignUtils;
+import com.cqgk.clerk.view.CommonDialogView;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -36,7 +40,7 @@ public class PayUtil {
     // 商户收款账号
     public static final String SELLER = "zengxiaotong@cqgk.com.cn";
 
-    public static final String RSA_PRIVATE ="MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANZTK1Xu4tiRd1rNKEedks8BdmgcOW2XrcKYYfIywJDpyT7GymlpbcF/4aR9DvtA3zoC1qSElTzya6jX+p4nngLx4U79XSkGcFRnNj2jNUpb1SW0g7czimnK/SKRwETr8+za8vEqPDRgKBy35LL2rSqtKShXPz83e/MeOhE+GqVnAgMBAAECgYBaOwOIlxzrvjo4gRzPIbi36860wAUxbWUbAtphhBpsJ/CwvDJlNJyflT4i6P+QqdwQ6TcCZksKMKlAmUUKpnUv1L07MOCpFQxdXK+2MyZDow4KRS4+BWHnLJSCYjqi69z1F4tnzgpOCK7MKoMX1lezbpDI1lgp/q2SzKud8BELiQJBAPXasNJqiPx99cC6rRLYnn3qLkKvnwrtx4WlmBwrBEPINMkUiQ4nOYr95PeQcj4uDn7k/g+d67pyxQ0Ruv1B+bMCQQDfK2OEn+/Aj1GyfPxAC0FnV9FO9J9d5flv1KRGMrb2BH/r7yHjABMt5Uyf8fRPIqvtpkomXf1eLhD+3bIonuN9AkAi9JMLd8Y+UBJu8pvFADOYp4EoThwIy8IAiIjWCG+0y3Rl2puZ/Y2661pwsILtwFKjTB+rTMLFYagOsaSqeYTtAkEAkaHP1IlGPGOKTa6wMd7mdFjjVuHdabocd3TNKp4HtS2kiMNJWsf+vBGJWkrbQhT/GxtMAhONtrrbDmZ/z3A4RQJARm64Nt1NbyTcH/0kKx8ueIXII2jNyLYWR8xYJUVI25gKJVO6OUO8Y1xuKCF6vRBpNnQbMjWAe0AkMKl35FPzMQ==";
+    public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANZTK1Xu4tiRd1rNKEedks8BdmgcOW2XrcKYYfIywJDpyT7GymlpbcF/4aR9DvtA3zoC1qSElTzya6jX+p4nngLx4U79XSkGcFRnNj2jNUpb1SW0g7czimnK/SKRwETr8+za8vEqPDRgKBy35LL2rSqtKShXPz83e/MeOhE+GqVnAgMBAAECgYBaOwOIlxzrvjo4gRzPIbi36860wAUxbWUbAtphhBpsJ/CwvDJlNJyflT4i6P+QqdwQ6TcCZksKMKlAmUUKpnUv1L07MOCpFQxdXK+2MyZDow4KRS4+BWHnLJSCYjqi69z1F4tnzgpOCK7MKoMX1lezbpDI1lgp/q2SzKud8BELiQJBAPXasNJqiPx99cC6rRLYnn3qLkKvnwrtx4WlmBwrBEPINMkUiQ4nOYr95PeQcj4uDn7k/g+d67pyxQ0Ruv1B+bMCQQDfK2OEn+/Aj1GyfPxAC0FnV9FO9J9d5flv1KRGMrb2BH/r7yHjABMt5Uyf8fRPIqvtpkomXf1eLhD+3bIonuN9AkAi9JMLd8Y+UBJu8pvFADOYp4EoThwIy8IAiIjWCG+0y3Rl2puZ/Y2661pwsILtwFKjTB+rTMLFYagOsaSqeYTtAkEAkaHP1IlGPGOKTa6wMd7mdFjjVuHdabocd3TNKp4HtS2kiMNJWsf+vBGJWkrbQhT/GxtMAhONtrrbDmZ/z3A4RQJARm64Nt1NbyTcH/0kKx8ueIXII2jNyLYWR8xYJUVI25gKJVO6OUO8Y1xuKCF6vRBpNnQbMjWAe0AkMKl35FPzMQ==";
 
     // 商户私钥，pkcs8格式
     // 支付宝公钥
@@ -131,8 +135,22 @@ public class PayUtil {
 
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(context, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+                        if (!CheckUtils.isAvailable(PreferencesHelper.find(Key.FIRST_PAY_OK, ""))) {
+                            CommonDialogView.show("请赠送1张10元现金劵开卡客户", new CommonDialogView.DialogClickListener() {
+                                @Override
+                                public void doConfirm() {
+                                    NavigationHelper.getInstance().GoHome();
+                                }
+                            }, false, false, "", "");
+                            PreferencesHelper.save(Key.FIRST_PAY_OK, "first");
+                        } else {
+                            CommonDialogView.show("支付成功", new CommonDialogView.DialogClickListener() {
+                                @Override
+                                public void doConfirm() {
+                                    NavigationHelper.getInstance().GoHome();
+                                }
+                            }, false, false, "", "");
+                        }
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -217,57 +235,5 @@ public class PayUtil {
         return orderInfo;
     }
 
-    //--------------------------------微信支付---------------------------------------------------
-    public static final String WECHAT_APP_ID = "wxd930ea5d5a258f4f";
-    private IWXAPI api;
-
-    public void wechatPay(String orderid) {
-        api = WXAPIFactory.createWXAPI(context, WECHAT_APP_ID);
-        //TODO 获取支付参数
-//        SnacksRequestLogic.wechatPay(context, orderid, new SnacksRequestCallBackT<WechatPayBean>() {
-//            @Override
-//            public void onSuccessResult(int success, int code, String data, WechatPayBean object) {
-//                if (1 == success && null!= object){
-//                    wechatPay(object);
-//                }else {
-//                    AppUtil.showToast("支付失败");
-//                }
-//            }
-//
-//            @Override
-//            public void onErrorResult(String errorMsg) {
-//                AppUtil.showToast("支付失败");
-//
-//            }
-//        });
-    }
-
-    //微信支付
-    private void wechatPay(WechatPayBean object) {
-        api.registerApp(WECHAT_APP_ID);
-
-        if (!checkWechatPaySupported()) {
-            return;
-        }
-        PayReq request = new PayReq();
-        request.appId = object.getAction().getAppid();
-        request.partnerId = object.getAction().getPartnerid();
-        request.prepayId = object.getAction().getPrepayid();
-        request.packageValue = object.getAction().getPackageStr();
-        request.nonceStr = object.getAction().getNoncestr();
-        request.timeStamp = object.getAction().getTimestamp();
-        request.sign = object.getAction().getSign();
-        api.sendReq(request);
-    }
-
-    //检查微信是否支持
-    private boolean checkWechatPaySupported() {
-        boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-        if (!isPaySupported) {
-            AppUtil.showToast("当前微信版本不支持微信支付");
-        }
-
-        return isPaySupported;
-    }
 
 }

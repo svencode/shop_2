@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.cqgk.clerk.adapter.ProductRowAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
+import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.ProductRowBean;
@@ -72,7 +73,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
     public void requestData() {
         super.requestData();
 
-        RequestUtils.allProdct("1", "10", new HttpCallBack<MeProductListBean>() {
+        RequestUtils.allProdct("1", "1000", new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result) {
                 if(result==null || result.getTotal()==0){
@@ -92,9 +93,9 @@ public class SeachProductActivity extends BusinessBaseActivity {
     }
 
     private void searchByKeyWord(String keyword) {
-        RequestUtils.queryClerkGoodsByKey(keyword, "1", "10", new HttpCallBack<MeProductListBean>() {
+        RequestUtils.searchGood(keyword,1, new HttpCallBack<GoodListBean>() {
             @Override
-            public void success(MeProductListBean result) {
+            public void success(GoodListBean result) {
                 if(result==null || result.getTotal()==0){
                     showLongToast("对不起,没找到相应的商品");
                     return;
@@ -102,13 +103,19 @@ public class SeachProductActivity extends BusinessBaseActivity {
                 productRowAdapter.setValuelist(result.getList());
                 productRowAdapter.notifyDataSetChanged();
             }
-
-            @Override
-            public boolean failure(int state, String msg) {
-                showLongToast(msg);
-                return super.failure(state, msg);
-            }
         });
+//        RequestUtils.queryClerkGoodsByKey(keyword, "1", "1000", new HttpCallBack<MeProductListBean>() {
+//            @Override
+//            public void success(MeProductListBean result) {
+//
+//            }
+//
+//            @Override
+//            public boolean failure(int state, String msg) {
+//                showLongToast(msg);
+//                return super.failure(state, msg);
+//            }
+//        });
     }
 
     @Override
