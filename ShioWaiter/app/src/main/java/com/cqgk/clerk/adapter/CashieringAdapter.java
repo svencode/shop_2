@@ -2,7 +2,10 @@ package com.cqgk.clerk.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.KeyListener;
+import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -82,15 +85,25 @@ public class CashieringAdapter extends BaseAdapter{
 
         if (item.getUserPrice()>0){
             price.setText("￥"+item.getUserPrice());
-        }else if(item.getVipPrice()>0){
-            price.setText("￥"+item.getVipPrice());
+        }else if(item.getReturnPrice()>0){
+            price.setText("￥"+item.getReturnPrice());
         }else {
             price.setText("￥"+item.getRetailPrice());
         }
-//        originalPriceTV.setText("￥"+item.getRetailPrice());
+
+        if(item.getReturnPrice()>0){
+            SpannableString sp = new SpannableString("￥"+item.getRetailPrice());
+            sp.setSpan(new StrikethroughSpan(), 0, sp.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            originalPriceTV.setText(sp);
+            originalPriceTV.setVisibility(View.VISIBLE);
+        }else {
+            originalPriceTV.setVisibility(View.GONE);
+        }
+
 
         if (1 == item.getIsAllowedModifyPrice()){
             price.setEnabled(true);
+
             numET.setEnabled(true);
         }else {
             price.setEnabled(false);
@@ -130,6 +143,7 @@ public class CashieringAdapter extends BaseAdapter{
         });
 
 
+
         numET.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -138,7 +152,7 @@ public class CashieringAdapter extends BaseAdapter{
                     if (num > 0) {
                         delegate.goodNunEdit(item, num);
                     } else {
-                        ((BusinessBaseActivity) context).showToast("数量需要大于0");
+                        ((BusinessBaseActivity) context).showToast("数量必须大于0");
                     }
 
                 }

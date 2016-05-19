@@ -14,8 +14,7 @@
         <ImageView
             android:id="@+id/imgIV"
             android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ex_product"/>
+            android:layout_height="80dp" />
 
     </LinearLayout>
 
@@ -45,7 +44,7 @@
             android:textColor="@color/color_red"
             android:inputType="numberDecimal"
             android:textSize="@dimen/text_size_m"
-            android:imeOptions="actionDone"/>
+            android:textCursorDrawable="@null"/>
         <TextView
             android:id="@+id/originalPriceTV"
             android:layout_width="match_parent"
@@ -84,8 +83,8 @@
             android:background="@drawable/bg_gray_border_topandbottom"
             android:enabled="false"
             android:inputType="numberDecimal"
-            android:imeOptions="actionDone"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textCursorDrawable="@null"/>
 
         <Button
             android:id="@+id/plusBtn"

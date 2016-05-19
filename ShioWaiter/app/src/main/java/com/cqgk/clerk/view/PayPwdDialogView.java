@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.Basic;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
 
@@ -28,9 +30,6 @@ public class PayPwdDialogView extends Basic {
         void doConfirm(String text);
     }
 
-    public static void show(final PwdDialogClickListener dialogClickListener) {
-        show(dialogClickListener, false,"","");
-    }
 
 
     /**
@@ -40,7 +39,7 @@ public class PayPwdDialogView extends Basic {
      * @param cancelText
      * @param confirmText
      */
-    public static void show(final PwdDialogClickListener dialogClickListener,
+    public static void show(final String cardId, final PwdDialogClickListener dialogClickListener,
                             boolean isChoice,
                             String cancelText,
                             String confirmText) {
@@ -72,8 +71,23 @@ public class PayPwdDialogView extends Basic {
                     return;
                 }
 
-                dlg.dismiss();
-                if (dialogClickListener != null) dialogClickListener.doConfirm(pwdET.getText().toString());
+
+                RequestUtils.verifyPwd(cardId, pwdET.getText().toString(), new HttpCallBack<String>() {
+                    @Override
+                    public void success(String result) {
+                        dlg.dismiss();
+                        if (dialogClickListener != null) dialogClickListener.doConfirm(pwdET.getText().toString());
+                    }
+
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        AppUtil.showToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+
+
+
             }
         });
         if(CheckUtils.isAvailable(confirmText)){
