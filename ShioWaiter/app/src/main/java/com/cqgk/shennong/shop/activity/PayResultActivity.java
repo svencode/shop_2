@@ -29,6 +29,8 @@ public class PayResultActivity extends BusinessBaseActivity{
     TextView jfTV;
     @ViewInject(R.id.payTypeTV)
     TextView payTypeTV;
+    @ViewInject(R.id.descTV)
+    TextView descTV;
 
     private OrderSubmitResultBean resultBean;
     private boolean isVipPay;
@@ -53,7 +55,7 @@ public class PayResultActivity extends BusinessBaseActivity{
         String couponStr = "";
         if (null != resultBean.getCoupon()){
             for (String key:resultBean.getCoupon().keySet()){
-                couponStr = couponStr+resultBean.getCoupon().get(key)+"张"+key+"元";
+                couponStr = couponStr+resultBean.getCoupon().get(key)+"张"+key+"元\n";
             }
             couponTV.setText(couponStr);
         }
@@ -63,6 +65,8 @@ public class PayResultActivity extends BusinessBaseActivity{
             payTypeTV.setText("会员卡支付");
         }else {
             payTypeTV.setText("现金支付");
+            payTypeTV.setText("温馨提示：现金支付金额不会进入您的店铺的资金账户中～");
+
         }
     }
 

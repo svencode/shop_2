@@ -104,8 +104,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         myGood = (ArrayList<ProductDtlBean>) getIntent().getSerializableExtra(MY_GOOD_LIST);
 
 
-//        if(BuildConfig.DEBUG)
-//           getVipInfo(AppEnter.TestCardid,couponNumber);
+        if(BuildConfig.DEBUG)
+           getVipInfo(AppEnter.TestCardid,couponNumber);
 
 
 
@@ -203,7 +203,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
                 if (good.getId().equals(key)){
                     good.setVipPrice(Double.parseDouble(newPrice.get(key)));
-
+                    good.setUserPrice(0);
                 }
             }
         }
@@ -212,8 +212,17 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         refreshPrice();
     }
 
-    private void delVipInfo(){
+    @Event(R.id.cleanIB)
+    private void delVipInfo(View view){
         vipInfo = null;
+        captureroot.setVisibility(View.VISIBLE);
+        vipInfoLL.setVisibility(View.GONE);
+        for (ProductDtlBean good:myGood){
+            good.setVipPrice(0);
+            good.setUserPrice(0);
+        }
+        getVipInfo(null,null);
+
     }
 
     @Event(R.id.couponBtn)
@@ -266,7 +275,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             public void success(OrderSubmitResultBean result) {
 
                 finish();
-                NavigationHelper.getInstance().startOrderResult(result,null!=vipInfo);
+                boolean isVipPay = null!=vipInfo&&null!=vipInfo.getMembercard();
+                NavigationHelper.getInstance().startOrderResult(result,isVipPay);
             }
         });
 
