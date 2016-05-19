@@ -148,7 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomView"
-
+        android:descendantFocusability="beforeDescendants"
         android:layout_below="@id/vipInfoLL"></ListView>
 
 

@@ -72,7 +72,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.cqgk.clerk.activity.CashieringActivity"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.cqgk.clerk.activity.VipRechargeActivity"
             android:orientation="vertical" />

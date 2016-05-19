@@ -28,6 +28,7 @@ public class ProductDtlBean implements Serializable {
     private String logoImg;
     private double retailPrice;
     private double vipPrice;
+    private double returnPrice;
     private double price;
     private double userPrice;
 
@@ -129,5 +130,13 @@ public class ProductDtlBean implements Serializable {
 
     public void setIsAllowedModifyPrice(int isAllowedModifyPrice) {
         this.isAllowedModifyPrice = isAllowedModifyPrice;
+    }
+
+    public double getReturnPrice() {
+        return returnPrice;
+    }
+
+    public void setReturnPrice(double returnPrice) {
+        this.returnPrice = returnPrice;
     }
 }
