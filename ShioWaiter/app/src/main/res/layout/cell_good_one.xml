@@ -52,12 +52,13 @@
 
                 <EditText
                     android:id="@+id/numET"
-                    android:layout_width="27dp"
+                    android:layout_width="33dp"
                     android:layout_height="27dp"
                     android:background="@drawable/bg_gray_border_topandbottom"
                     android:gravity="center"
                     android:singleLine="true"
                     android:enabled="false"
+                    android:textSize="@dimen/text_size_m"
                     android:text="0" />
 
 

@@ -76,10 +76,11 @@
 
         <EditText
             android:id="@+id/numET"
-            android:layout_width="27dp"
+            android:layout_width="33dp"
             android:layout_height="27dp"
             android:singleLine="true"
             android:text="0"
+            android:textSize="@dimen/text_size_m"
             android:background="@drawable/bg_gray_border_topandbottom"
             android:enabled="false"
             android:inputType="numberDecimal"

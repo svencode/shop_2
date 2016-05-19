@@ -49,7 +49,9 @@
                 android:textColor="@color/color_gray"
                 android:textSize="@dimen/text_size_l"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:inputType="textPassword"
+                />
 
 
             <View style="@style/magic_h_line" />
