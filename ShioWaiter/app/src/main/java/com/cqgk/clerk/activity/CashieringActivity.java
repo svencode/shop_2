@@ -165,7 +165,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         RequestUtils.settleReCalculate(cardId, couponId, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
             public void success(JIesuanReturnBean result) {
-                onResume();
                 vipInfo = result;
                 showVipInfo();
             }
@@ -219,7 +218,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
                 if (good.getId().equals(key)){
                     good.setReturnPrice(Double.parseDouble(newPrice.get(key)));
-                    good.setUserPrice(0);
                 }
             }
         }
@@ -238,7 +236,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             good.setUserPrice(0);
         }
         getVipInfo(null,null);
-
+        onResume();
     }
 
     @Event(R.id.couponBtn)
