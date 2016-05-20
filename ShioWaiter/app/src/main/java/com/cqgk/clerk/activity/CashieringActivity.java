@@ -117,6 +117,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
+        onPause();
         String recode = recode(result.toString());
         if(BuildConfig.DEBUG){
             recode = AppEnter.TestCardid;
@@ -164,12 +165,14 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         RequestUtils.settleReCalculate(cardId, couponId, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
             public void success(JIesuanReturnBean result) {
+                onResume();
                 vipInfo = result;
                 showVipInfo();
             }
 
             @Override
             public boolean failure(int state, String msg) {
+                onResume();
                 showToast(msg);
                 return super.failure(state, msg);
             }

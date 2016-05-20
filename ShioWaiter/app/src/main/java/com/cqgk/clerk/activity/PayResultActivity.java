@@ -65,7 +65,7 @@ public class PayResultActivity extends BusinessBaseActivity{
             payTypeTV.setText("会员卡支付");
         }else {
             payTypeTV.setText("现金支付");
-            payTypeTV.setText("温馨提示：现金支付金额不会进入您的店铺的资金账户中～");
+            descTV.setText("温馨提示：现金支付金额不会进入您的店铺的资金账户中～");
 
         }
     }
