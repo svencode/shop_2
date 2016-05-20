@@ -198,6 +198,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
+        }else {
+            onResume();
         }
 
         if (vipInfo.isIsAvailable()){
