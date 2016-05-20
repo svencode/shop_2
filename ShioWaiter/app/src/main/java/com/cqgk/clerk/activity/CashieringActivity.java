@@ -122,7 +122,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             recode = AppEnter.TestCardid;
         }
         getVipInfo(recode,couponNumber);
-
     }
 
 
@@ -236,7 +235,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             good.setUserPrice(0);
         }
         getVipInfo(null,null);
-        reScan();
+
     }
 
     @Event(R.id.couponBtn)
