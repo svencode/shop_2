@@ -14,6 +14,9 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by sven on 16/5/17.
  */
@@ -53,6 +56,7 @@ public class PayResultActivity extends BusinessBaseActivity{
         jfTV.setText("用户获得"+resultBean.getBonus()+"积分");
 
         String couponStr = "";
+
         if (null != resultBean.getCoupon()){
             for (String key:resultBean.getCoupon().keySet()){
                 couponStr = couponStr+resultBean.getCoupon().get(key)+"张"+key+"元\n";
