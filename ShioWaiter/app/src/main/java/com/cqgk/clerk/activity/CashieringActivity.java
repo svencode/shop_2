@@ -129,6 +129,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void onResume() {
         super.onResume();
+
+        if (null!=vipInfo && null!=vipInfo.getMembercard())return;
+
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
         } else {
@@ -136,6 +139,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             capture_preview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
     }
+
 
 
     @Override
