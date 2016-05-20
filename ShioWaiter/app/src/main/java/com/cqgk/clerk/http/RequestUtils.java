@@ -394,7 +394,7 @@ public class RequestUtils {
         params = getLoginParams(params);
         params.addParameter("keyword", keyword);
         params.addParameter("pageIndex", pageIndex + "");
-        params.addParameter("pageSize", 10 + "");
+        params.addParameter("pageSize", 30 + "");
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }

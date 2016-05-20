@@ -306,7 +306,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
             public void success(OrderSubmitResultBean result) {
-
                 finish();
                 boolean isVipPay = null!=vipInfo&&null!=vipInfo.getMembercard();
                 NavigationHelper.getInstance().startOrderResult(result,isVipPay);

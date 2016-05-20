@@ -127,6 +127,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                             popView.dismiss();
                         }
                     });
+                    popView.setFocusable(true );
+                    popView.update();
                 }
 
                 if (popView.isShowing()) {
@@ -147,6 +149,12 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 //                });
 
 
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
     }

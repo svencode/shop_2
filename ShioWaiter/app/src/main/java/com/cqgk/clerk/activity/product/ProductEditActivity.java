@@ -28,12 +28,14 @@ import com.cqgk.clerk.bean.normal.ProductStandInfoBean;
 import com.cqgk.clerk.helper.BitmapHelper;
 import com.cqgk.clerk.helper.FileSizeHelper;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.helper.ProgressDialogHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
+import com.cqgk.clerk.view.CommonGridView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
 import com.google.zxing.Result;
@@ -67,7 +69,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 public class ProductEditActivity extends CamerBaseActivity {
 
     @ViewInject(R.id.selview)
-    GridView selview;
+    CommonGridView selview;
 
     @ViewInject(R.id.capture_preview)
     SurfaceView capture_preview;
@@ -312,6 +314,9 @@ public class ProductEditActivity extends CamerBaseActivity {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
+
+                ProgressDialogHelper.get().show();
+
 
                 final PhotoInfo photoInfo = resultList.get(0);
                 double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
