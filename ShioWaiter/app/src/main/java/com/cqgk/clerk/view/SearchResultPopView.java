@@ -3,6 +3,7 @@ package com.cqgk.clerk.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -43,12 +44,17 @@ public class SearchResultPopView extends PopupWindow {
 
         listview = (NormalListView) popview.findViewById(R.id.listview);
 
-
         List<ProductDtlBean> beanList = new ArrayList<>();
         searchResultPopAdapter = new SearchResultPopAdapter(context);
         searchResultPopAdapter.setShowtype(showtype);
         searchResultPopAdapter.setValuelist(beanList);
         listview.setAdapter(searchResultPopAdapter);
+
+
+
+        setFocusable(true);
+
+
 
     }
 

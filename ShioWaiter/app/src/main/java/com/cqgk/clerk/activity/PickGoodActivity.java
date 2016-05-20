@@ -1,6 +1,7 @@
 package com.cqgk.clerk.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.cqgk.clerk.adapter.CashieringAdapter;
 import com.cqgk.clerk.adapter.PickGoodAdapter;
+import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.GoodListBean;
@@ -116,7 +118,15 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 }
 
                 if (null == popView) {
-                    popView = new SearchResultPopView(PickGoodActivity.this,0);
+                    popView = new SearchResultPopView(PickGoodActivity.this, 0);
+                    popView.setBackgroundDrawable(new BitmapDrawable());
+                    popView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
+                        @Override
+                        public void itemClick(int i) {
+                            topGoodClick(result.getList().get(i));
+                            popView.dismiss();
+                        }
+                    });
                 }
 
                 if (popView.isShowing()) {
@@ -127,14 +137,14 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 popView.getAdapter().setValuelist(result.getList());
                 popView.getAdapter().notifyDataSetChanged();
                 popView.showAsDropDown(et_search);
-                popView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        topGoodClick(result.getList().get(position));
-                        popView.dismiss();
-                    }
-                });
+//                popView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                        topGoodClick(result.getList().get(position));
+//                        popView.dismiss();
+//                    }
+//                });
 
 
             }

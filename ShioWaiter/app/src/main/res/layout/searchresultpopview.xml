@@ -6,7 +6,7 @@
 
     <com.cqgk.clerk.view.NormalListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/listview"
         android:background="@android:color/white"
         />
