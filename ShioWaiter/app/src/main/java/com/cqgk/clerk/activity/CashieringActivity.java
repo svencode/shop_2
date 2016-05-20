@@ -128,7 +128,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     public void onResume() {
         super.onResume();
 
-        if (null!=vipInfo && null!=vipInfo.getMembercard())return;
+        if (View.GONE == captureroot.getVisibility())return;
 
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
