@@ -86,7 +86,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     private boolean hasSurface;
     private String card_id;
-    private static final int UPTATE_INTERVAL_TIME = 2000;
+    private static final int UPTATE_INTERVAL_TIME = 4000;
     private long lastUpdateTime;
 
     @Override
