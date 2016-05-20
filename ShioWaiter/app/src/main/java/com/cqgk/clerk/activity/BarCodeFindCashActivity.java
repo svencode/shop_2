@@ -104,6 +104,7 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
 
 
+        onPause();
 
 
         String bar_code = recode(result.toString());
