@@ -32,6 +32,7 @@ import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.PayPwdDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
@@ -115,6 +116,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
+
         onPause();
         String recode = recode(result.toString());
         if (BuildConfig.DEBUG) {
@@ -235,6 +237,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
         getVipInfo(null,null);
         onResume();
+
     }
 
     @Event(R.id.couponBtn)

@@ -105,6 +105,7 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
 
 
+
         String bar_code = recode(result.toString());
         Intent intent = new Intent();
         intent.putExtra("couponcode", bar_code);
