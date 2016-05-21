@@ -1,15 +1,14 @@
 package com.cqgk.clerk.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cqgk.clerk.base.AppEnter;
-import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.AdsBean;
 import com.cqgk.clerk.bean.normal.HomeBean;
@@ -20,6 +19,7 @@ import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.view.PullRefreshBaseScrollView;
 import com.cqgk.clerk.view.SlideShowView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -48,7 +48,7 @@ public class MainActivity extends BusinessBaseActivity {
     TextView money_c;
 
     @ViewInject(R.id.pull_refresh_scrollview)
-    PullToRefreshScrollView mPullRefreshScrollView;
+    PullRefreshBaseScrollView mPullRefreshScrollView;
 
     @ViewInject(R.id.slideshow)
     SlideShowView slideshow;
@@ -86,13 +86,25 @@ public class MainActivity extends BusinessBaseActivity {
             }
         });
 
-        mPullRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
 
+        mPullRefreshScrollView.setAutoReleaseRefresh(new Handler());
+        mPullRefreshScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPullRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
-            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                if(!AppUtil.isNetworkAvailable()){
+                    mPullRefreshScrollView.onRefreshComplete();
+                }
                 requestData();
             }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+
+            }
         });
+
+
 
 
         initView();

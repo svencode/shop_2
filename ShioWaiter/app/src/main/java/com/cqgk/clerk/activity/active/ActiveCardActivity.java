@@ -162,13 +162,11 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         lastUpdateTime = currentUpdateTime;
 
         String cid = recode(result.toString());
-
-
         if (BuildConfig.DEBUG)
             cid = AppEnter.TestCardid;
 
-
         card_id = cid;
+
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
             public void success(String result) {
@@ -291,7 +289,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
-                AppEnter.user_msg =result.getUserMsg();
+                AppEnter.user_msg = result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }
 

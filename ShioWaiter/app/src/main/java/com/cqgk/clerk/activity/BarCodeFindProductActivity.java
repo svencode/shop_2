@@ -2,6 +2,7 @@ package com.cqgk.clerk.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.SurfaceHolder;
@@ -81,16 +82,10 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                     intent.putExtras(bundle);
                     setResult(1, intent);
                     finish();
-
                 }
             }
         });
-//        searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
+
     }
 
 

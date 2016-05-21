@@ -130,7 +130,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     public void onResume() {
         super.onResume();
 
-        if (null!=vipInfo && null!=vipInfo.getMembercard())return;
+        if (null != vipInfo && null != vipInfo.getMembercard()) return;
 
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
@@ -139,7 +139,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             capture_preview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
     }
-
 
 
     @Override
@@ -202,7 +201,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
-        }else {
+        } else {
             onResume();
         }
 
@@ -239,7 +238,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             good.setReturnPrice(0);
             good.setUserPrice(0);
         }
-        getVipInfo(null,null);
+        getVipInfo(null, null);
         onResume();
 
     }
@@ -308,6 +307,10 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         payRequest(vipNo);
     }
 
+    /**
+     * 提交订单
+     * @param vipNo
+     */
     private void payRequest(String vipNo) {
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
@@ -315,6 +318,12 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 finish();
                 boolean isVipPay = null != vipInfo && null != vipInfo.getMembercard();
                 NavigationHelper.getInstance().startOrderResult(result, isVipPay);
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
     }

@@ -102,7 +102,7 @@ public abstract class HttpCallBack<T> {
      * @return
      */
     public boolean failure(int state, String msg) {
-        LogUtil.e("hanler result faild___");
+        //LogUtil.e("hanler result faild___");
         return false;
     }
 
