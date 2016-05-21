@@ -41,6 +41,7 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
     private int showType = 0;//0-编辑商品1-返回商品
 
+    boolean hadScan = false;
 
     //private SearchResultPopView searchResultPopView;
 
@@ -94,6 +95,11 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         onPause();
+
+        if (true == hadScan)return;
+
+        hadScan = true;
+
         long currentUpdateTime = System.currentTimeMillis();
         long timeInterval = currentUpdateTime - lastUpdateTime;
         if (timeInterval < UPTATE_INTERVAL_TIME) {
@@ -101,10 +107,6 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
         }
 
         lastUpdateTime = currentUpdateTime;
-
-
-
-        onPause();
 
 
         String bar_code = recode(result.toString());
