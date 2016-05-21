@@ -2,6 +2,8 @@ package com.cqgk.clerk.activity.product;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -42,17 +44,23 @@ public class SeachProductActivity extends BusinessBaseActivity {
     @ViewInject(R.id.listview)
     NormalGridView listview;
 
-    @ViewInject(R.id.keyword)
+    @ViewInject(R.id.searlistview)
+    NormalListView searlistview;
+
+    @ViewInject(R.id.et_search)
     EditText keyword;
 
-    @ViewInject(R.id.search_row)
-    LinearLayout search_row;
 
+    @ViewInject(R.id.search_product_area)
+    LinearLayout search_product_area;
+
+    @ViewInject(R.id.my_product_area)
+    LinearLayout my_product_area;
 
     private ProductRowAdapter productRowAdapter;
     private int page = 1;
     private int searchPage = 1;
-    private SearchResultPopView searchResultPopView;
+    private SearchResultPopAdapter searchResultPopAdapter;
 
 
     @Override
@@ -84,13 +92,22 @@ public class SeachProductActivity extends BusinessBaseActivity {
      * 我的商品列表
      */
     private void loadProductList() {
-        RequestUtils.allProdct(String.valueOf(page), "10", new HttpCallBack<MeProductListBean>() {
+        RequestUtils.allProdct(String.valueOf(page), "20", new HttpCallBack<MeProductListBean>() {
             @Override
-            public void success(MeProductListBean result) {
-                if (result == null || result.getTotal() == 0) {
+            public void success(MeProductListBean result, String msg) {
+                if (result == null) {
+                    if (CheckUtils.isAvailable(msg))
+                        showToast(msg);
+                    return;
+                }
+
+                if (result.getTotal() == 0) {
                     listview.addFooterView("已经到底了");
                     return;
                 }
+
+                my_product_area.setVisibility(View.VISIBLE);
+                search_product_area.setVisibility(View.GONE);
                 productRowAdapter.addValuelist(result.getList());
                 productRowAdapter.notifyDataSetChanged();
             }
@@ -112,15 +129,26 @@ public class SeachProductActivity extends BusinessBaseActivity {
     private void searchByKeyWord(String keyword) {
         RequestUtils.searchShopGood(keyword, searchPage, new HttpCallBack<GoodListBean>() {
             @Override
-            public void success(GoodListBean result) {
-                if (result == null || result.getTotal() == 0) {
+            public void success(GoodListBean result, String msg) {
+                if (result == null) {
                     showLongToast("对不起,没找到相应的商品");
                     return;
                 }
 
-                searchResultPopView.getAdapter().setValuelist(result.getList());
-                searchResultPopView.getAdapter().notifyDataSetChanged();
-                searchResultPopView.showAsDropDown(search_row);
+                if (result.getTotal() == 0) {
+                    showLongToast("对不起,没找到相应的商品");
+                    return;
+                }
+
+                search_product_area.setVisibility(View.VISIBLE);
+                my_product_area.setVisibility(View.GONE);
+
+                searchResultPopAdapter.addValuelist(result.getList());
+                searchResultPopAdapter.notifyDataSetChanged();
+
+//                searchResultPopView.getAdapter().setValuelist(result.getList());
+//                searchResultPopView.getAdapter().notifyDataSetChanged();
+//                searchResultPopView.showAsDropDown(search_row);
             }
 
             @Override
@@ -136,6 +164,33 @@ public class SeachProductActivity extends BusinessBaseActivity {
     @Override
     public void initView() {
         super.initView();
+
+        productRowAdapter = new ProductRowAdapter(this);
+        listview.setAdapter(productRowAdapter);
+
+        searchResultPopAdapter = new SearchResultPopAdapter(this);
+        searlistview.setAdapter(searchResultPopAdapter);
+
+
+        keyword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 0) {
+                    my_product_area.setVisibility(View.VISIBLE);
+                    search_product_area.setVisibility(View.GONE);
+                }
+            }
+        });
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,21 +218,17 @@ public class SeachProductActivity extends BusinessBaseActivity {
             }
         });
 
-        productRowAdapter = new ProductRowAdapter(this);
-        listview.setAdapter(productRowAdapter);
-
-        searchResultPopView = new SearchResultPopView(this, 0);
-        searchResultPopView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
+        searchResultPopAdapter.setItemListener(new SearchResultPopAdapter.ItemListener() {
             @Override
             public void itemClick(int i) {
-                ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
+                ProductDtlBean productDtlBean = searchResultPopAdapter.getItem(i);
                 NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
             }
         });
-        searchResultPopView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+        searlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
             @Override
             public void isBottom() {
-                searchPage++;
+                page++;
                 searchByKeyWord(keyword.getText().toString());
             }
 
@@ -188,12 +239,46 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
             @Override
             public void isTop() {
+
             }
         });
+
+
+//        searchResultPopView = new SearchResultPopView(this, 0);
+//        searchResultPopView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
+//            @Override
+//            public void itemClick(int i) {
+//                ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
+//                NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+//            }
+//        });
+//        searchResultPopView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+//            @Override
+//            public void isBottom() {
+//                searchPage++;
+//                searchByKeyWord(keyword.getText().toString());
+//            }
+//
+//            @Override
+//            public void isOver() {
+//
+//            }
+//
+//            @Override
+//            public void isTop() {
+//            }
+//        });
+    }
+
+    @Event(R.id.cleanIB)
+    private void cleanIB_click(View view) {
+        keyword.setText("");
+        my_product_area.setVisibility(View.VISIBLE);
+        search_product_area.setVisibility(View.GONE);
     }
 
 
-    @Event(R.id.searchbtn)
+    @Event(R.id.btn_search)
     private void searchbtn_click(View view) {
         if (!CheckUtils.isAvailable(keyword.getText().toString())) {
             showToast("请输入搜索内容");
@@ -201,7 +286,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
         }
 
         searchPage = 1;
-        searchResultPopView.getAdapter().setValuelist(new ArrayList<ProductDtlBean>());
+        searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         searchByKeyWord(keyword.getText().toString());
 
     }

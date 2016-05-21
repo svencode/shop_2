@@ -59,7 +59,7 @@ public class FindPwdActivity extends BusinessBaseActivity {
         }
         RequestUtils.getVerifyCode("0", mobile.getText().toString(), new HttpCallBack<String>() {
             @Override
-            public void success(String result) {
+            public void success(String result,String msg) {
                 time.start();//开始计时
             }
 
@@ -91,7 +91,7 @@ public class FindPwdActivity extends BusinessBaseActivity {
         RequestUtils.findPwd(mobile.getText().toString(), smscode.getText().toString(),
                 newpwd.getText().toString(), new HttpCallBack<String>() {
             @Override
-            public void success(String result) {
+            public void success(String result,String msg) {
                 showLongToast(result);
                 finish();
             }

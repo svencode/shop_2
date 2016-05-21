@@ -88,7 +88,7 @@
                 android:id="@+id/blanceTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="余额：￥100"
+                android:text="余额：￥0"
                 android:textColor="@color/color_gray"
                 android:textSize="@dimen/text_size_xl"/>
 
@@ -109,7 +109,7 @@
             android:id="@+id/couponTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="现金券抵扣：20元"
+            android:text="现金券抵扣：0元"
             android:textColor="@color/color_gray_2"
             android:textSize="@dimen/text_size_l"
             android:layout_marginTop="10dp"

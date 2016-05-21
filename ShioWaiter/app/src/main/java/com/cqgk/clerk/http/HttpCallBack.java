@@ -67,21 +67,40 @@ public abstract class HttpCallBack<T> {
 
         if (200 == responseVo.retCode) {
             try {
-                if (!CheckUtils.isAvailable(responseVo.data) && !CheckUtils.isAvailable(responseVo.msg)) {
+                //返回字符串
+                if (type.toString().contains("java.lang.String")) {
+                    success((T) responseVo.data, responseVo.msg);
 
-                    AppUtil.showToast("操作成功");
+                }else{
 
-                } else if (type.toString().contains("java.lang.String")) {
-                    success((T) responseVo.data);
-                } else {
+
+
                     Object object = GsonUtil.parseGson(responseVo.data, type);
-                    success((T) object);
+                    success((T) object, responseVo.msg);
+
+
+
+
                 }
+
+
+//                if (type.toString().contains("java.lang.String")
+//                        && !CheckUtils.isAvailable(responseVo.msg)) {
+//                    success((T) "", responseVo.msg);
+//
+//                } else if (!CheckUtils.isAvailable(responseVo.data)
+//                        && !CheckUtils.isAvailable(responseVo.msg)) {
+//                    AppUtil.showToast("操作成功");
+//                } else if (type.toString().contains("java.lang.String")) {
+//                    success((T) responseVo.data, responseVo.msg);
+//                } else {
+//                    Object object = GsonUtil.parseGson(responseVo.data, type);
+//                    success((T) object, responseVo.msg);
+//                }
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
-                if (!failure(0, "new gson type fail")) {// 失败
-                    //AppUtil.showToast("new gson type fail");
+                if (!failure(0, "返回格式有误")) {// 失败
                 }
             }
         }
@@ -94,7 +113,7 @@ public abstract class HttpCallBack<T> {
 
     }
 
-    public abstract void success(T result);
+    public abstract void success(T result, String msg);
 
     /**
      * 返回正确则处理，否则不出

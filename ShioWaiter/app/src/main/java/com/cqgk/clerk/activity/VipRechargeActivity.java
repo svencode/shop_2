@@ -137,7 +137,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
     private void loadCardInfo(String cid) {
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
-            public void success(CardDtlBean result) {
+            public void success(CardDtlBean result,String msg) {
                 card_id = result.getCard_id();
                 scansuccess.setVisibility(View.VISIBLE);
                 cardnum.setText(String.format("卡号:%s", result.getCard_id()));
@@ -159,8 +159,8 @@ public class VipRechargeActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String cid = recode(result.toString());
-//        if (BuildConfig.DEBUG)
-//            cid = AppEnter.TestCardid;
+        if (BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
 
 
         loadCardInfo(cid);
@@ -169,7 +169,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
     private void checkCard(String card_id) {
         RequestUtils.checkCardState(card_id, new HttpCallBack<String>() {
             @Override
-            public void success(String result) {
+            public void success(String result,String msg) {
 
             }
 
@@ -256,7 +256,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
         //inputmoney.getText().toString()
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
-            public void success(RechargeResultBean result) {
+            public void success(RechargeResultBean result,String msg) {
                 AppEnter.user_msg = result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }

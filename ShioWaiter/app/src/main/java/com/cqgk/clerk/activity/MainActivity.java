@@ -69,7 +69,7 @@ public class MainActivity extends BusinessBaseActivity {
                     public void doConfirm() {
                         RequestUtils.logout(new HttpCallBack<String>() {
                             @Override
-                            public void success(String result) {
+                            public void success(String result,String msg) {
                                 AppEnter.exitAccount();
                             }
 
@@ -127,7 +127,7 @@ public class MainActivity extends BusinessBaseActivity {
         //店铺名称
         RequestUtils.queryServiceNickName(new HttpCallBack<ShopInfoBean>() {
             @Override
-            public void success(ShopInfoBean result) {
+            public void success(ShopInfoBean result,String msg) {
                 if(result==null)
                     return;
                 getTitleDelegate().setTitle(result.getNickName());
@@ -137,7 +137,7 @@ public class MainActivity extends BusinessBaseActivity {
         //收益
         RequestUtils.homedata(new HttpCallBack<HomeBean>() {
             @Override
-            public void success(HomeBean result) {
+            public void success(HomeBean result,String msg) {
                 viewRefresh();
                 if (result == null)
                     return;
@@ -158,7 +158,7 @@ public class MainActivity extends BusinessBaseActivity {
         //首页轮播
         RequestUtils.homeads(new HttpCallBack<List<AdsBean>>() {
             @Override
-            public void success(List<AdsBean> result) {
+            public void success(List<AdsBean> result,String msg) {
                 slideshow.setImageUrls(result);
                 slideshow.initUI(AppEnter.getInstance());
             }
