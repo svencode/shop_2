@@ -65,11 +65,15 @@
         android:textColor="@color/font_color_3"
         android:textSize="@dimen/text_size_l" />
 
-    <com.cqgk.clerk.view.NormalListView
+    <com.cqgk.clerk.view.NormalGridView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null" />
+        android:divider="@null"
+        android:numColumns="2"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        />
 
 
 </LinearLayout>

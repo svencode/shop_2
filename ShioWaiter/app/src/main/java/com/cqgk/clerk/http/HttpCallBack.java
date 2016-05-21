@@ -67,7 +67,8 @@ public abstract class HttpCallBack<T> {
 
         if (200 == responseVo.retCode) {
             try {
-                if (responseVo.data == null || CheckUtils.isAvailable(responseVo.data)) {
+                if (!CheckUtils.isAvailable(responseVo.data) && !CheckUtils.isAvailable(responseVo.msg)) {
+
                     AppUtil.showToast("操作成功");
 
                 } else if (type.toString().contains("java.lang.String")) {

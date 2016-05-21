@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.cqgk.clerk.adapter.ProductRowAdapter;
@@ -18,6 +19,7 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.view.NormalGridView;
 import com.cqgk.clerk.view.NormalListView;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.view.SearchResultPopView;
@@ -38,7 +40,7 @@ import java.util.List;
 public class SeachProductActivity extends BusinessBaseActivity {
 
     @ViewInject(R.id.listview)
-    NormalListView listview;
+    NormalGridView listview;
 
     @ViewInject(R.id.keyword)
     EditText keyword;
@@ -116,7 +118,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
                     return;
                 }
 
-                searchResultPopView.getAdapter().addValuelist(result.getList());
+                searchResultPopView.getAdapter().setValuelist(result.getList());
                 searchResultPopView.getAdapter().notifyDataSetChanged();
                 searchResultPopView.showAsDropDown(search_row);
             }
@@ -143,7 +145,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
             }
         });
 
-        listview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+        listview.setScrollStateEvent(new NormalGridView.ScrollStateEvent() {
             @Override
             public void isBottom() {
                 page++;
@@ -186,7 +188,6 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
             @Override
             public void isTop() {
-
             }
         });
     }

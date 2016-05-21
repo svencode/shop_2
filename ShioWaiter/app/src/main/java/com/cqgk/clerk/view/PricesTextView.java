@@ -37,7 +37,7 @@ public class PricesTextView extends TextView {
     }
 
     private void initView() {
-        this.setGravity(Gravity.CENTER);
+        //this.setGravity(Gravity.LEFT);
     }
 
     public void setDouble(double text) {

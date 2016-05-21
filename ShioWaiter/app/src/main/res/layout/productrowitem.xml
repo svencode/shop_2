@@ -6,8 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="80dp"
+        android:background="@color/white"
+        >
 
         <ImageView
             android:layout_width="60dp"
@@ -17,7 +18,8 @@
             android:src="@drawable/ic_launcher"
             android:layout_marginLeft="8dp"
             android:id="@+id/gimg"
-            android:layout_marginRight="3dp"/>
+            android:scaleType="fitCenter"
+            android:layout_marginRight="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -28,6 +30,7 @@
             android:textColor="@color/font_color_3"
             android:text="title"
             android:id="@+id/title"
+            android:maxLines="3"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="8dp"/>
         <TextView
@@ -41,7 +44,8 @@
             android:id="@+id/desc"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/title"/>
+            android:layout_below="@+id/title"
+            android:visibility="gone"/>
 
         <com.cqgk.clerk.view.PricesTextView
             android:layout_width="match_parent"
@@ -55,7 +59,8 @@
             android:id="@+id/price"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/desc"/>
+            android:layout_below="@+id/desc"
+            />
 
         <View
             style="@style/magic_h_line"
