@@ -3,6 +3,7 @@ package com.cqgk.clerk.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,12 +51,15 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @ViewInject(R.id.et_search)
     EditText et_search;
 
-    SearchResultPopView popView;
+    @ViewInject(R.id.searchlistview)
+    NormalListView searchlistview;
 
+    //SearchResultPopView popView;
     PickGoodAdapter adapter;
 
     private ArrayList<ProductDtlBean> myGood;
     private int search_page = 1;
+    private SearchResultPopAdapter searchResultPopAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,34 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void layoutView() {
         adapter = new PickGoodAdapter(this, this);
         listView.setAdapter(adapter);
+
+        searchResultPopAdapter = new SearchResultPopAdapter(this);
+        searchResultPopAdapter.setItemListener(new SearchResultPopAdapter.ItemListener() {
+            @Override
+            public void itemClick(int i) {
+                topGoodClick(searchResultPopAdapter.getItem(i));
+                searchlistview.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            }
+        });
+        searchlistview.setAdapter(searchResultPopAdapter);
+        searchlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+            @Override
+            public void isBottom() {
+                search_page++;
+                search(et_search.getText().toString());
+            }
+
+            @Override
+            public void isOver() {
+
+            }
+
+            @Override
+            public void isTop() {
+
+            }
+        });
     }
 
 
@@ -99,6 +131,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @Event(R.id.cleanIB)
     private void cleanSearch(View view) {
         et_search.setText("");
+        searchlistview.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     //搜索事件
@@ -109,6 +143,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             return;
         }
         search_page = 1;
+        searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         search(et_search.getText().toString());
     }
 
@@ -122,43 +157,11 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                     return;
                 }
 
-                if (null == popView) {
-                    popView = new SearchResultPopView(PickGoodActivity.this, 0);
-                    popView.setBackgroundDrawable(new BitmapDrawable());
-                    popView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
-                        @Override
-                        public void itemClick(int i) {
-                            topGoodClick(result.getList().get(i));
-                            popView.dismiss();
-                        }
-                    });
-                    popView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
-                        @Override
-                        public void isBottom() {
-                            search_page++;
-                            search(et_search.getText().toString());
-                        }
 
-                        @Override
-                        public void isOver() {
-
-                        }
-
-                        @Override
-                        public void isTop() {
-
-                        }
-                    });
-                }
-
-                if (popView.isShowing()) {
-                    popView.dismiss();
-                }
-
-
-                popView.getAdapter().setValuelist(result.getList());
-                popView.getAdapter().notifyDataSetChanged();
-                popView.showAsDropDown(et_search);
+                searchlistview.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                searchResultPopAdapter.addValuelist(result.getList());
+                searchResultPopAdapter.notifyDataSetChanged();
 
 
             }
@@ -197,7 +200,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             price += (item.getNum() * item.getRetailPrice());
         }
 
-        amountTV.setText("￥" + price + "     共" + num + "件");
+        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件",price,num)));
     }
 
     @Override

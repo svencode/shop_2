@@ -119,7 +119,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 
         if (BuildConfig.DEBUG)
-        getVipInfo(AppEnter.TestCardid, couponNumber);
+            getVipInfo(AppEnter.TestCardid, couponNumber);
 
         layoutView();
         refreshPrice();
@@ -129,7 +129,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        if (!isOpenCamer){return;}
+        if (!isOpenCamer) {
+            return;
+        }
         isOpenCamer = false;
         closeCamera();
         String recode = recode(result.toString());
@@ -147,7 +149,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
     private void beginCamcer() {
-        if (null!= vipBean) return;
+        if (null != vipBean) return;
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
         } else {
@@ -297,8 +299,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         if (null != vipInfo) {
             double coupon = 0;
-            if (null != vipInfo && null!=vipInfo.getFaceValue()) coupon = Double.parseDouble(vipInfo.getFaceValue());
-            if (price > (Double.parseDouble(vipBean.getBalance())+coupon)) {
+            if (null != vipInfo && null != vipInfo.getFaceValue())
+                coupon = Double.parseDouble(vipInfo.getFaceValue());
+            if (price > (Double.parseDouble(vipBean.getBalance()) + coupon)) {
 //                recharge(null);
                 showToast("余额不足，请先充值");
                 return;
@@ -372,18 +375,18 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         if (null != vipBean && null != vipInfo.getAmountMap() && null != vipInfo.getAmountMap().getTotalAmount()) {
             double total = 0;
-            if (null != vipInfo && null!=vipInfo.getFaceValue()) {
-                total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount())- Double.parseDouble(vipInfo.getFaceValue());
-            }else {
+            if (null != vipInfo && null != vipInfo.getFaceValue()) {
+                total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount()) - Double.parseDouble(vipInfo.getFaceValue());
+            } else {
                 total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount());
             }
 
-            amountTV.setText("￥" + (total>=0?total:0) + "     共" + num + "件");
+            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", (total >= 0 ? total : 0),num)));
+            //amountTV.setText("￥" + (total >= 0 ? total : 0) + "     共" + num + "件");
         } else {
-            amountTV.setText("￥" + price + "     共" + num + "件");
+            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price,num)));
+            //amountTV.setText("￥" + price + "     共" + num + "件");
         }
-
-
 
 
     }
@@ -398,7 +401,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
                 refreshPrice();
 
-                getVipInfo(null==vipBean?null:vipBean.getBarCode(), couponNumber);
+                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
                 return;
             }
         }
@@ -415,7 +418,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 adapter.notifyDataSetChanged();
 
                 refreshPrice();
-                getVipInfo(null==vipBean?null:vipBean.getBarCode(), couponNumber);
+                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
                 return;
             }
         }
@@ -431,7 +434,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();
-                getVipInfo(null==vipBean?null:vipBean.getBarCode(), couponNumber);
+                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
                 return;
             }
         }
@@ -446,7 +449,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();
-                getVipInfo(null==vipBean?null:vipBean.getBarCode(), couponNumber);
+                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
                 return;
             }
         }
@@ -457,7 +460,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 99) {
             String couponcode = data.getStringExtra("couponcode");
-            getVipInfo(null==vipBean?null:vipBean.getBarCode(), couponcode);
+            getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponcode);
         }
     }
 }

@@ -59,4 +59,13 @@
 
     </ListView>
 
+    <com.cqgk.clerk.view.NormalListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_bar"
+        android:layout_above="@+id/bottomView"
+        android:id="@+id/searchlistview"
+        android:visibility="gone"
+        />
+
 </RelativeLayout>

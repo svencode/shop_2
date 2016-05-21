@@ -278,7 +278,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
         }
 
         searchPage = 1;
-        //searchResultPopView.getAdapter().setValuelist(new ArrayList<ProductDtlBean>());
+        searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         searchByKeyWord(keyword.getText().toString());
 
     }
