@@ -70,7 +70,7 @@ public abstract class HttpCallBack<T> {
                 if (type.toString().contains("java.lang.String")
                         && !CheckUtils.isAvailable(responseVo.msg)) {
                     success((T) "");
-                    
+
                 } else if (!CheckUtils.isAvailable(responseVo.data)
                         && !CheckUtils.isAvailable(responseVo.msg)) {
                     AppUtil.showToast("操作成功");

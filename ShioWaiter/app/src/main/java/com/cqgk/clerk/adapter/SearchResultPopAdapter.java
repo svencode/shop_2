@@ -17,6 +17,7 @@ import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.ViewHolderUtil;
 import com.cqgk.clerk.view.PricesTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +39,7 @@ public class SearchResultPopAdapter extends BaseAdapter {
     }
 
     public SearchResultPopAdapter(Context context) {
+        this.valuelist=new ArrayList<>();
         this.context = context;
     }
 
