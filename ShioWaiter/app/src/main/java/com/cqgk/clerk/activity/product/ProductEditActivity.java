@@ -405,17 +405,29 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     }
 
+    /**
+     * 保存并新增
+     * @param view
+     */
     @Event(R.id.btn_submitAndNew)
     private void btn_submitAndNew_click(View view) {
         submitProduct(1);
     }
 
 
+    /**
+     * 保存
+     * @param view
+     */
     @Event(R.id.btn_submit)
     private void btn_submit_click(View view) {
         submitProduct(0);
     }
 
+    /**
+     *
+     * @param view
+     */
     @Event(R.id.savenow)
     private void savenow_click(View view) {
         submitProduct(0);

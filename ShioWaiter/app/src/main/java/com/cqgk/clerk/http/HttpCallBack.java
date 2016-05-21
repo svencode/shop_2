@@ -67,11 +67,14 @@ public abstract class HttpCallBack<T> {
 
         if (200 == responseVo.retCode) {
             try {
-                if (!CheckUtils.isAvailable(responseVo.data) && !CheckUtils.isAvailable(responseVo.msg)) {
-
+                if (type.toString().contains("java.lang.String")
+                        && !CheckUtils.isAvailable(responseVo.msg)) {
+                    success((T) "");
+                    
+                } else if (!CheckUtils.isAvailable(responseVo.data)
+                        && !CheckUtils.isAvailable(responseVo.msg)) {
                     AppUtil.showToast("操作成功");
-
-                } else if (type.toString().contains("java.lang.String")) {
+                }  else if (type.toString().contains("java.lang.String")) {
                     success((T) responseVo.data);
                 } else {
                     Object object = GsonUtil.parseGson(responseVo.data, type);
