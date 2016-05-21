@@ -468,6 +468,9 @@ public class RequestUtils {
         for (ProductDtlBean item : goods) {
             OrderSubmitBean.SubmitGood good = new OrderSubmitBean.SubmitGood();
             good.setGsid(item.getId());
+            if (item.getReturnPrice()>0){
+                good.setPrice(""+item.getReturnPrice());
+            }
 
             good.setNum(item.getNum() + "");
 

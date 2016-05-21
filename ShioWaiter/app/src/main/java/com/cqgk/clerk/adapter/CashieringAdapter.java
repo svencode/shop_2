@@ -144,6 +144,34 @@ public class CashieringAdapter extends BaseAdapter{
             }
         });
 
+//        price.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (false == hasFocus) {
+//                    double newPrice = Double.parseDouble(price.getText().toString().replace("￥", ""));
+//                    if (newPrice > 0) {
+//                        delegate.goodPriceEdit(item, newPrice);
+//                    } else {
+//                        ((BusinessBaseActivity) context).showToast("请输入价格");
+//                    }
+//                }
+//            }
+//        });
+//
+//        numET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (false == hasFocus){
+//                    double num = Double.parseDouble(numET.getText().toString());
+//                    if (num > 0) {
+//                        delegate.goodNunEdit(item, num);
+//                    } else {
+//                        ((BusinessBaseActivity) context).showToast("数量必须大于0");
+//                    }
+//                }
+//            }
+//        });
+
 
 
         numET.setOnKeyListener(new View.OnKeyListener() {
@@ -151,11 +179,7 @@ public class CashieringAdapter extends BaseAdapter{
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     double num = Double.parseDouble(numET.getText().toString());
-                    if (num > 0) {
-                        delegate.goodNunEdit(item, num);
-                    } else {
-                        ((BusinessBaseActivity) context).showToast("数量必须大于0");
-                    }
+
 
                 }
                 return false;
