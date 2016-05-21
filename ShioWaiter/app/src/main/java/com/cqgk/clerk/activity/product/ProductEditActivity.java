@@ -3,6 +3,7 @@ package com.cqgk.clerk.activity.product;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.ProductStandInfoBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.BitmapHelper;
 import com.cqgk.clerk.helper.FileSizeHelper;
 import com.cqgk.clerk.helper.NavigationHelper;
@@ -113,8 +115,15 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
     private String productId;//商品ID
-    private static final int UPTATE_INTERVAL_TIME = 2000;
-    private long lastUpdateTime;
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -375,18 +384,10 @@ public class ProductEditActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-        lastUpdateTime = currentUpdateTime;
-
-
         String recode = recode(result.toString());
         productcode.setText(recode);
         queryProductDefInfo();
+        handler.postDelayed(runnable, Constant.CameraRestartTime);
     }
 
     @Override
@@ -517,11 +518,21 @@ public class ProductEditActivity extends CamerBaseActivity {
                 vipPrice.setText(String.valueOf(result.getVipPrice()));
             }
 
+            @Override
+            public boolean failure(int state, String msg) {
+                return super.failure(state, msg);
+            }
         });
     }
 
     private void initUploadImgArr() {
         editBeanList = new ArrayList<>();
         editBeanList.add(new EditBean());
+    }
+
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
     }
 }

@@ -120,11 +120,16 @@ public class SeachProductActivity extends BusinessBaseActivity {
                 searchResultPopView.showAsDropDown(search_row);
                 searchResultPopView.setFocusable(true);
                 searchResultPopView.update();
+            }
 
-//                productRowAdapter.setValuelist(result.getList());
-//                productRowAdapter.notifyDataSetChanged();
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
+
+
     }
 
     @Override
@@ -173,10 +178,12 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
     @Event(R.id.searchbtn)
     private void searchbtn_click(View view) {
-        if (!CheckUtils.isAvailable(keyword.toString().toString())) {
+        if (!CheckUtils.isAvailable(keyword.getText().toString())) {
             showToast("请输入搜索内容");
             return;
         }
+
+
         searchByKeyWord(keyword.getText().toString());
 
     }
