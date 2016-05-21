@@ -2,6 +2,7 @@ package com.cqgk.clerk.activity.active;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -20,10 +21,12 @@ import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.bean.normal.CardDtlBean;
 import com.cqgk.clerk.bean.normal.MembercardActBean;
 import com.cqgk.clerk.bean.normal.RechargeResultBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.google.zxing.Result;
@@ -86,8 +89,14 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     private boolean hasSurface;
     private String card_id;
-    private static final int UPTATE_INTERVAL_TIME = 4000;
-    private long lastUpdateTime;
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,22 +162,13 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-        lastUpdateTime = currentUpdateTime;
 
         String cid = recode(result.toString());
-
-
         if (BuildConfig.DEBUG)
             cid = AppEnter.TestCardid;
 
-
         card_id = cid;
+
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
             public void success(String result) {
@@ -177,7 +177,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
                 opencard.setVisibility(View.VISIBLE);
-                onPause();
             }
 
             /**
@@ -191,6 +190,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             @Override
             public boolean failure(int state, String msg) {
                 showToast(msg);
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
                 return super.failure(state, msg);
             }
         });
@@ -202,7 +202,12 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             hasSurface = true;
             initCamera(holder);
         }
+    }
 
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
     }
 
     @Override
@@ -221,11 +226,11 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 memeber_name.setText("");
                 phone.setText("");
                 row_4_pwd.setText("");
-                onResume();
             }
         });
-
     }
+
+
 
     @Event(R.id.opencard)
     private void opencard_click(View view) {
@@ -291,7 +296,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result) {
-                AppEnter.user_msg =result.getUserMsg();
+                AppEnter.user_msg = result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }
 

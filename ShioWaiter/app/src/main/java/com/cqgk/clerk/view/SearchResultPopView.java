@@ -1,6 +1,7 @@
 package com.cqgk.clerk.view;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,10 +30,11 @@ public class SearchResultPopView extends PopupWindow {
 
     /**
      * //0编辑商品1-挑选商品
+     *
      * @param context
      * @param showtype
      */
-    public SearchResultPopView(Context context,int showtype) {
+    public SearchResultPopView(Context context, int showtype) {
         // 获取自定义布局文件poplayout.xml的视图
         LayoutInflater layoutInflater = (LayoutInflater) (context)
                 .getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -51,14 +53,15 @@ public class SearchResultPopView extends PopupWindow {
         listview.setAdapter(searchResultPopAdapter);
 
 
-
+        setOutsideTouchable(true);
         setFocusable(true);
-
+        setBackgroundDrawable(new BitmapDrawable());
+        update();
 
 
     }
 
-    public NormalListView getListView(){
+    public NormalListView getListView() {
         return listview;
     }
 

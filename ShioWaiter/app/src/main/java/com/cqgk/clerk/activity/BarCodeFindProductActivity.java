@@ -2,7 +2,9 @@ package com.cqgk.clerk.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,9 +19,11 @@ import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.SearchResultPopView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.zxing.decoding.Intents;
@@ -45,13 +49,17 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
 
-    private static final int UPTATE_INTERVAL_TIME = 2000;
-    private long lastUpdateTime;
-
     private int showType = 0;//0-编辑商品1-返回商品
-
-
     private SearchResultPopView searchResultPopView;
+
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
 
 
     @Override
@@ -81,16 +89,10 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                     intent.putExtras(bundle);
                     setResult(1, intent);
                     finish();
-
                 }
             }
         });
-//        searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
+
     }
 
 
@@ -108,19 +110,11 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-        lastUpdateTime = currentUpdateTime;
-
-
         String product_bar_code = recode(result.toString());
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result) {
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
                 if (result == null || result.getList().size() == 0) {
                     showLongToast("此编号无商品");
                     return;
@@ -132,8 +126,20 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 searchResultPopView.showAsDropDown(resulttitle);
 
             }
-        });
 
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
+                return super.failure(state, msg);
+            }
+        });
+    }
+
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
     }
 
     @Override

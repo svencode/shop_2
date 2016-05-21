@@ -1,5 +1,6 @@
 package com.cqgk.clerk.activity.product;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.cqgk.clerk.adapter.ProductRowAdapter;
+import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
@@ -24,6 +26,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,8 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
 
     private ProductRowAdapter productRowAdapter;
+    private int page = 1;
+    private SearchResultPopView searchResultPopView;
 
 
     @Override
@@ -64,23 +69,26 @@ public class SeachProductActivity extends BusinessBaseActivity {
         requestData();
 
 
-
-
-
     }
 
     @Override
     public void requestData() {
         super.requestData();
+        loadProductList();
+    }
 
-        RequestUtils.allProdct("1", "1000", new HttpCallBack<MeProductListBean>() {
+    /**
+     * 我的商品列表
+     */
+    private void loadProductList() {
+        RequestUtils.allProdct(String.valueOf(page), "10", new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result) {
-                if(result==null || result.getTotal()==0){
-                    showLongToast("对不起,没找到相应的商品");
+                if (result == null || result.getTotal() == 0) {
+                    listview.addFooterView("已经到底了");
                     return;
                 }
-                productRowAdapter.setValuelist(result.getList());
+                productRowAdapter.addValuelist(result.getList());
                 productRowAdapter.notifyDataSetChanged();
             }
 
@@ -92,30 +100,36 @@ public class SeachProductActivity extends BusinessBaseActivity {
         });
     }
 
+
+    /**
+     * 搜索
+     *
+     * @param keyword
+     */
     private void searchByKeyWord(String keyword) {
-        RequestUtils.searchGood(keyword,1, new HttpCallBack<GoodListBean>() {
+        RequestUtils.searchGood(keyword, 1, new HttpCallBack<GoodListBean>() {
             @Override
             public void success(GoodListBean result) {
-                if(result==null || result.getTotal()==0){
+                if (result == null || result.getTotal() == 0) {
                     showLongToast("对不起,没找到相应的商品");
                     return;
                 }
-                productRowAdapter.setValuelist(result.getList());
-                productRowAdapter.notifyDataSetChanged();
+
+                searchResultPopView.getAdapter().setValuelist(result.getList());
+                searchResultPopView.getAdapter().notifyDataSetChanged();
+                searchResultPopView.showAsDropDown(search_row);
+                searchResultPopView.setFocusable(true);
+                searchResultPopView.update();
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
-//        RequestUtils.queryClerkGoodsByKey(keyword, "1", "1000", new HttpCallBack<MeProductListBean>() {
-//            @Override
-//            public void success(MeProductListBean result) {
-//
-//            }
-//
-//            @Override
-//            public boolean failure(int state, String msg) {
-//                showLongToast(msg);
-//                return super.failure(state, msg);
-//            }
-//        });
+
+
     }
 
     @Override
@@ -130,19 +144,46 @@ public class SeachProductActivity extends BusinessBaseActivity {
             }
         });
 
+        listview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+            @Override
+            public void isBottom() {
+                page++;
+                loadProductList();
+            }
+
+            @Override
+            public void isOver() {
+
+            }
+
+            @Override
+            public void isTop() {
+
+            }
+        });
+
         productRowAdapter = new ProductRowAdapter(this);
         listview.setAdapter(productRowAdapter);
+
+        searchResultPopView = new SearchResultPopView(this, 0);
+        searchResultPopView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
+            @Override
+            public void itemClick(int i) {
+                ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
+                NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+            }
+        });
     }
 
 
     @Event(R.id.searchbtn)
     private void searchbtn_click(View view) {
-//        SearchResultPopView  searchResultPopView = new SearchResultPopView(this);
-//        searchResultPopView.showAsDropDown(search_row);
         if (!CheckUtils.isAvailable(keyword.getText().toString())) {
-            requestData();
+            showToast("请输入搜索内容");
             return;
         }
+
+
         searchByKeyWord(keyword.getText().toString());
 
     }

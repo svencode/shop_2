@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -27,6 +28,7 @@ import com.cqgk.clerk.bean.normal.JIesuanReturnBean;
 import com.cqgk.clerk.bean.normal.LoginResultBean;
 import com.cqgk.clerk.bean.normal.OrderSubmitResultBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestHelper;
@@ -93,6 +95,14 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     private String vipNumber;
     private String couponNumber;
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
 
 
     @Override
@@ -111,13 +121,13 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         layoutView();
         refreshPrice();
+        beginCamcer();
     }
 
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
 
-        onPause();
         String recode = recode(result.toString());
         if (BuildConfig.DEBUG) {
             recode = AppEnter.TestCardid;
@@ -129,9 +139,11 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void onResume() {
         super.onResume();
+        beginCamcer();
+    }
 
-        if (null!=vipInfo && null!=vipInfo.getMembercard())return;
-
+    private void beginCamcer() {
+        if (null != vipInfo && null != vipInfo.getMembercard()) return;
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
         } else {
@@ -141,14 +153,12 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
 
-
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (!hasSurface) {
             hasSurface = true;
             initCamera(holder);
         }
-
     }
 
     @Override
@@ -175,13 +185,18 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
             @Override
             public boolean failure(int state, String msg) {
-                onResume();
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
                 showToast(msg);
                 return super.failure(state, msg);
             }
         });
     }
 
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
+    }
 
     private void showVipInfo() {
 
@@ -202,7 +217,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
-        }else {
+        } else {
             onResume();
         }
 
@@ -229,9 +244,10 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         refreshPrice();
     }
 
+
     @Event(R.id.cleanIB)
     private void delVipInfo(View view) {
-        onResume();
+        reScan();
         vipInfo = null;
         captureroot.setVisibility(View.VISIBLE);
         vipInfoLL.setVisibility(View.GONE);
@@ -239,9 +255,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             good.setReturnPrice(0);
             good.setUserPrice(0);
         }
-        getVipInfo(null,null);
-        onResume();
-
+        getVipInfo(null, null);
     }
 
     @Event(R.id.couponBtn)
@@ -308,13 +322,25 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         payRequest(vipNo);
     }
 
+    /**
+     * 提交订单
+     *
+     * @param vipNo
+     */
     private void payRequest(String vipNo) {
+        LogUtil.e(String.format("___________couponNumber:%s,vipNo:%s", couponNumber, vipNo));
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
             public void success(OrderSubmitResultBean result) {
                 finish();
                 boolean isVipPay = null != vipInfo && null != vipInfo.getMembercard();
                 NavigationHelper.getInstance().startOrderResult(result, isVipPay);
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
     }
@@ -415,6 +441,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 99) {
+            closeCamera();
             String couponcode = data.getStringExtra("couponcode");
             getVipInfo(vipNumber, couponcode);
         }

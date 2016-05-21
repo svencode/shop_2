@@ -65,7 +65,7 @@ public class ProductEditItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return valueList.size();
+        return valueList==null?0:valueList.size();
     }
 
     @Override

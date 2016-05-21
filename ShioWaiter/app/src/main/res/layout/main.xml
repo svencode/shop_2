@@ -9,7 +9,7 @@
         android:id="@+id/comment_title_bar_layout"
         layout="@layout/layout_bar_title" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+    <com.cqgk.clerk.view.PullRefreshBaseScrollView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pull_refresh_scrollview"
         android:layout_width="fill_parent"
@@ -249,5 +249,5 @@
         </LinearLayout>
 
 
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    </com.cqgk.clerk.view.PullRefreshBaseScrollView>
 </LinearLayout>

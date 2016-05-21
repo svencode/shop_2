@@ -3,6 +3,7 @@ package com.cqgk.clerk.activity.product;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.ProductStandInfoBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.BitmapHelper;
 import com.cqgk.clerk.helper.FileSizeHelper;
 import com.cqgk.clerk.helper.NavigationHelper;
@@ -98,6 +101,12 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.row_4_title)
     TextView row_4_title;
 
+    @ViewInject(R.id.row_add)
+    LinearLayout row_add;
+
+    @ViewInject(R.id.row_update)
+    LinearLayout row_update;
+
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<EditBean> editBeanList;
@@ -106,8 +115,15 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
     private String productId;//商品ID
-    private static final int UPTATE_INTERVAL_TIME = 2000;
-    private long lastUpdateTime;
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +140,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
         }
 
-        editBeanList = new ArrayList<>();
-        editBeanList.add(new EditBean());
-
+        initUploadImgArr();
 
         initView();
         requestData();
@@ -163,6 +177,12 @@ public class ProductEditActivity extends CamerBaseActivity {
                         }
                     }
                 }
+
+                @Override
+                public boolean failure(int state, String msg) {
+                    showToast(msg);
+                    return super.failure(state, msg);
+                }
             });
         }
 
@@ -174,7 +194,8 @@ public class ProductEditActivity extends CamerBaseActivity {
 
         if (CheckUtils.isAvailable(productId)) {
             getTitleDelegate().setTitle("商品更新");
-            delete.setVisibility(View.VISIBLE);
+            row_update.setVisibility(View.VISIBLE);
+            row_add.setVisibility(View.GONE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,7 +211,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                                 @Override
                                 public boolean failure(int state, String msg) {
-                                    showLongToast(msg);
+                                    showToast(msg);
                                     return super.failure(state, msg);
                                 }
                             });
@@ -200,6 +221,8 @@ public class ProductEditActivity extends CamerBaseActivity {
                 }
             });
         } else {
+            row_update.setVisibility(View.GONE);
+            row_add.setVisibility(View.VISIBLE);
             getTitleDelegate().setTitle("商品上传");
             getTitleDelegate().setRightText("商品");
             getTitleDelegate().setRightOnClick(new View.OnClickListener() {
@@ -273,7 +296,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         photoInfo.setPhotoPath(newpath);
 
         double size = FileSizeHelper.getFileOrFilesSize(newpath, 3);
-        LogUtil.e(String.format("_________%s",size));
+        LogUtil.e(String.format("_________%s", size));
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoinfo", photoInfo);
@@ -304,7 +327,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                     @Override
                     public boolean failure(int state, String msg) {
-                        showLongToast(msg);
+                        showToast(msg);
                         return super.failure(state, msg);
                     }
                 });
@@ -320,7 +343,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
                 final PhotoInfo photoInfo = resultList.get(0);
                 double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
-                LogUtil.e(String.format("_________%s",size));
+                LogUtil.e(String.format("_________%s", size));
 
 
                 Bundle bundle = new Bundle();
@@ -361,18 +384,10 @@ public class ProductEditActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-        lastUpdateTime = currentUpdateTime;
-
-
         String recode = recode(result.toString());
         productcode.setText(recode);
         queryProductDefInfo();
+        handler.postDelayed(runnable, Constant.CameraRestartTime);
     }
 
     @Override
@@ -390,15 +405,27 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     }
 
+    @Event(R.id.btn_submitAndNew)
+    private void btn_submitAndNew_click(View view) {
+        submitProduct(1);
+    }
+
+
+    @Event(R.id.btn_submit)
+    private void btn_submit_click(View view) {
+        submitProduct(0);
+    }
 
     @Event(R.id.savenow)
     private void savenow_click(View view) {
+        submitProduct(0);
+    }
 
-//        if (!CheckUtils.isAvailable(productcode.getText().toString())) {
-//            showLongToast("请扫描后输入条形码");
-//            return;
-//        }
-
+    /**
+     * 0-normal 1-afterAdd
+     * 提交商品
+     */
+    private void submitProduct(final int submitType) {
         if (!CheckUtils.isAvailable(productTitle.getText().toString())) {
             showLongToast("请输入商品名称");
             return;
@@ -430,16 +457,37 @@ public class ProductEditActivity extends CamerBaseActivity {
                 ids, new HttpCallBack<String>() {
                     @Override
                     public void success(String result) {
-                        showLongToast(result);
-                        finish();
+                        showToast("操作成功");
+                        uploadSuccess(submitType);
                     }
 
                     @Override
                     public boolean failure(int state, String msg) {
-                        showLongToast(msg);
+                        if (state == 200) {
+                            showToast("操作成功");
+                            uploadSuccess(submitType);
+
+                        } else {
+                            showToast(msg);
+                        }
                         return super.failure(state, msg);
                     }
                 });
+    }
+
+    private void uploadSuccess(int submitType) {
+        if (submitType == 1) {
+            productcode.setText("");
+            productTitle.setText("");
+            retailPrice.setText("");
+            vipPrice.setText("");
+
+            initUploadImgArr();
+            productEditItemAdapter.setValueList(editBeanList);
+            productEditItemAdapter.notifyDataSetChanged();
+        } else {
+            NavigationHelper.getInstance().GoHome();
+        }
     }
 
 
@@ -470,6 +518,21 @@ public class ProductEditActivity extends CamerBaseActivity {
                 vipPrice.setText(String.valueOf(result.getVipPrice()));
             }
 
+            @Override
+            public boolean failure(int state, String msg) {
+                return super.failure(state, msg);
+            }
         });
+    }
+
+    private void initUploadImgArr() {
+        editBeanList = new ArrayList<>();
+        editBeanList.add(new EditBean());
+    }
+
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
     }
 }

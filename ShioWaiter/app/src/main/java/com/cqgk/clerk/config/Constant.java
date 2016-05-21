@@ -5,4 +5,6 @@ package com.cqgk.clerk.config;
  */
 public class Constant {
     //public static String wxAppid="";
+
+    public static int CameraRestartTime=4000;
 }
