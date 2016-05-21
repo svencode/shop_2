@@ -171,7 +171,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
-            public void success(String result) {
+            public void success(String result,String msg) {
                 scansuccess.setVisibility(View.VISIBLE);
                 cardnum.setText(String.format("卡号:%s", card_id));
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
@@ -273,7 +273,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 card_idcard.getText().toString(),
                 row_4_pwd.getText().toString(), new HttpCallBack<MembercardActBean>() {
                     @Override
-                    public void success(MembercardActBean result) {
+                    public void success(MembercardActBean result,String msg) {
                         CommonDialogView.show("卡片信息已完成绑定\n还需要充值100元才能成功开通",
                                 new CommonDialogView.DialogClickListener() {
                                     @Override
@@ -295,7 +295,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     private void getRechargeCode() {
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
-            public void success(RechargeResultBean result) {
+            public void success(RechargeResultBean result,String msg) {
                 AppEnter.user_msg = result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }

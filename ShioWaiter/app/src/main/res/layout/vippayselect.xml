@@ -41,7 +41,8 @@
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
@@ -79,8 +80,8 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/sel_2"/>
 
@@ -108,8 +109,8 @@
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:id="@+id/sel_3"/>
@@ -140,7 +141,8 @@
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
@@ -174,7 +176,8 @@
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
 
             <CheckBox
                 style="@style/CustomCheckboxThemeNormal"
@@ -224,6 +227,7 @@
             android:layout_centerVertical="true"
             android:text="0"
             android:textSize="@dimen/text_size_m"
+            android:textColor="@color/font_color_1"
             android:id="@+id/paymoney"/>
 
         <Button

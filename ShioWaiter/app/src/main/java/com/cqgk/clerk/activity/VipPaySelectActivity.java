@@ -128,7 +128,7 @@ public class VipPaySelectActivity extends BusinessBaseActivity {
             RequestUtils.prepareWeixinPay(payOrderCode.getPayCode(),
                     "10", new HttpCallBack<WechatResultBean>() {
                 @Override
-                public void success(WechatResultBean result) {
+                public void success(WechatResultBean result,String msg) {
                     WXPayHelper.getInstance(result.getAppid()).genPayReq(
                             result.getAppid(),
                             result.getPartnerid(),

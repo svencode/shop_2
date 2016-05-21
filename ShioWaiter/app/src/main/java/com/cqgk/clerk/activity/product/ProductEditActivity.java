@@ -152,7 +152,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         if (CheckUtils.isAvailable(productId)) {
             RequestUtils.queryClerkGoodsById(productId, new HttpCallBack<ProductDtlBean>() {
                 @Override
-                public void success(ProductDtlBean result) {
+                public void success(ProductDtlBean result,String msg) {
                     productTitle.setText(result.getGoodsTitle());
                     vipPrice.setText(String.valueOf(result.getVipPrice()));
                     retailPrice.setText(String.valueOf(result.getRetailPrice()));
@@ -204,7 +204,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                         public void doConfirm() {
                             RequestUtils.deleteClerkGoods(productId, new HttpCallBack<String>() {
                                 @Override
-                                public void success(String result) {
+                                public void success(String result,String msg) {
                                     showToast("删除成功.");
                                     NavigationHelper.getInstance().GoHome();
                                 }
@@ -316,7 +316,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         RequestUtils.fileUpload(photoInfo.getPhotoPath(),
                 fileName, new HttpCallBack<FileUploadResultBean>() {
                     @Override
-                    public void success(FileUploadResultBean result) {
+                    public void success(FileUploadResultBean result,String msg) {
                         EditBean temp = new EditBean();
                         temp.setPhotoInfo(photoInfo);
                         temp.setUploadId(result.getFile_id());
@@ -468,7 +468,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                 editBeanList.get(1).getUploadId(),
                 ids, new HttpCallBack<String>() {
                     @Override
-                    public void success(String result) {
+                    public void success(String result,String msg) {
                         showToast("操作成功");
                         uploadSuccess(submitType);
                     }
@@ -520,10 +520,12 @@ public class ProductEditActivity extends CamerBaseActivity {
     private void queryProductDefInfo() {
         RequestUtils.queryGoodsStandardInfo(productcode.getText().toString(), new HttpCallBack<ProductStandInfoBean>() {
             @Override
-            public void success(ProductStandInfoBean result) {
+            public void success(ProductStandInfoBean result,String msg) {
 
-                if (result == null)
+                if (result == null) {
+
                     return;
+                }
 
                 productTitle.setText(result.getTitle());
                 retailPrice.setText(String.valueOf(result.getRetailPrice()));

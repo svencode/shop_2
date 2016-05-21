@@ -150,7 +150,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void search(String keyWork) {
         RequestUtils.searchGood(keyWork, search_page, new HttpCallBack<GoodListBean>() {
             @Override
-            public void success(final GoodListBean result) {
+            public void success(final GoodListBean result,String msg) {
 
                 if (null == result.getList() || result.getList().size() == 0) {
                     showToast("搜索不到该商品");
@@ -178,7 +178,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void getHotGood() {
         RequestUtils.queryTopGoodsList(new HttpCallBack<List<ProductDtlBean>>() {
             @Override
-            public void success(List<ProductDtlBean> result) {
+            public void success(List<ProductDtlBean> result,String msg) {
                 List<ProductDtlBean> items = result;
                 if (null != items) {
                     adapter.getTopGoodList().addAll(items);

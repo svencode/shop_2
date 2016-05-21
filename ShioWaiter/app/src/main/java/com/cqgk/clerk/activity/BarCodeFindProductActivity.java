@@ -23,6 +23,7 @@ import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.NormalListView;
 import com.cqgk.clerk.view.SearchResultPopView;
@@ -120,9 +121,14 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         String product_bar_code = recode(result.toString());
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
-            public void success(MeProductListBean result) {
+            public void success(MeProductListBean result, String msg) {
                 handler.postDelayed(runnable, Constant.CameraRestartTime);
-                if (result == null || result.getList().size() == 0) {
+                if (result == null) {
+                    showLongToast("此编号无商品");
+                    return;
+                }
+
+                if (result.getList().size() == 0) {
                     showLongToast("此编号无商品");
                     return;
                 }

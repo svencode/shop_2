@@ -185,8 +185,11 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         couponNumber = couponId;
         RequestUtils.settleReCalculate(cardId, couponId, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
-            public void success(JIesuanReturnBean result) {
+            public void success(JIesuanReturnBean result, String msg) {
 
+                if (CheckUtils.isAvailable(msg)) {
+                    showToast(msg);
+                }
                 showVipInfo(result);
             }
 
@@ -206,6 +209,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
     private void showVipInfo(JIesuanReturnBean vipInfo) {
+        if(vipInfo==null)return;
         this.vipInfo = vipInfo;
         if (null != vipInfo.getMembercard()) {
             vipBean = vipInfo.getMembercard();
@@ -345,7 +349,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         LogUtil.e(String.format("___________couponNumber:%s,vipNo:%s", couponNumber, vipNo));
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
-            public void success(OrderSubmitResultBean result) {
+            public void success(OrderSubmitResultBean result, String msg) {
                 finish();
                 boolean isVipPay = (null != vipBean);
                 NavigationHelper.getInstance().startOrderResult(result, isVipPay);
@@ -381,10 +385,10 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
                 total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount());
             }
 
-            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", (total >= 0 ? total : 0),num)));
+            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", (total >= 0 ? total : 0), num)));
             //amountTV.setText("￥" + (total >= 0 ? total : 0) + "     共" + num + "件");
         } else {
-            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price,num)));
+            amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price, num)));
             //amountTV.setText("￥" + price + "     共" + num + "件");
         }
 
