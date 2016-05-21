@@ -49,6 +49,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
     private ProductRowAdapter productRowAdapter;
     private int page = 1;
+    private int searchPage = 1;
     private SearchResultPopView searchResultPopView;
 
 
@@ -107,7 +108,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
      * @param keyword
      */
     private void searchByKeyWord(String keyword) {
-        RequestUtils.searchGood(keyword, 1, new HttpCallBack<GoodListBean>() {
+        RequestUtils.searchShopGood(keyword, searchPage, new HttpCallBack<GoodListBean>() {
             @Override
             public void success(GoodListBean result) {
                 if (result == null || result.getTotal() == 0) {
@@ -115,11 +116,9 @@ public class SeachProductActivity extends BusinessBaseActivity {
                     return;
                 }
 
-                searchResultPopView.getAdapter().setValuelist(result.getList());
+                searchResultPopView.getAdapter().addValuelist(result.getList());
                 searchResultPopView.getAdapter().notifyDataSetChanged();
                 searchResultPopView.showAsDropDown(search_row);
-                searchResultPopView.setFocusable(true);
-                searchResultPopView.update();
             }
 
             @Override
@@ -173,6 +172,23 @@ public class SeachProductActivity extends BusinessBaseActivity {
                 NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
             }
         });
+        searchResultPopView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+            @Override
+            public void isBottom() {
+                searchPage++;
+                searchByKeyWord(keyword.getText().toString());
+            }
+
+            @Override
+            public void isOver() {
+
+            }
+
+            @Override
+            public void isTop() {
+
+            }
+        });
     }
 
 
@@ -183,7 +199,8 @@ public class SeachProductActivity extends BusinessBaseActivity {
             return;
         }
 
-
+        searchPage = 1;
+        searchResultPopView.getAdapter().setValuelist(new ArrayList<ProductDtlBean>());
         searchByKeyWord(keyword.getText().toString());
 
     }

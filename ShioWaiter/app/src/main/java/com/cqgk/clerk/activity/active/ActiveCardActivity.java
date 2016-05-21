@@ -164,8 +164,8 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         super.handleDecode(result, barcode);
 
         String cid = recode(result.toString());
-        if (BuildConfig.DEBUG)
-            cid = AppEnter.TestCardid;
+//        if (BuildConfig.DEBUG)
+//            cid = AppEnter.TestCardid;
 
         card_id = cid;
 

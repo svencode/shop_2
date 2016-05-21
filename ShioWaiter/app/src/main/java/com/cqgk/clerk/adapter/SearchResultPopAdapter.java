@@ -74,6 +74,10 @@ public class SearchResultPopAdapter extends BaseAdapter {
         this.valuelist = valuelist;
     }
 
+    public void addValuelist(List<ProductDtlBean> valuelist){
+        this.valuelist.addAll(valuelist);
+    }
+
     @Override
     public int getCount() {
         return valuelist == null ? 0 : valuelist.size();

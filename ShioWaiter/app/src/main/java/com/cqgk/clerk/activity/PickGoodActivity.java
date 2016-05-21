@@ -22,8 +22,10 @@ import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.view.NormalListView;
 import com.cqgk.clerk.view.SearchResultPopView;
 
 import org.w3c.dom.Text;
@@ -53,6 +55,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     PickGoodAdapter adapter;
 
     private ArrayList<ProductDtlBean> myGood;
+    private int search_page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         myGood = new ArrayList<>();
 
         layoutView();
-
         getHotGood();
 
     }
@@ -102,13 +104,16 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     //搜索事件
     @Event(R.id.btn_search)
     private void search(View view) {
+        if (!CheckUtils.isAvailable(et_search.getText().toString())) {
+            showToast("请输入搜索内容");
+            return;
+        }
+        search_page = 1;
         search(et_search.getText().toString());
-
     }
 
     private void search(String keyWork) {
-//        if (keyWork.length()==0)return;
-        RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
+        RequestUtils.searchGood(keyWork, search_page, new HttpCallBack<GoodListBean>() {
             @Override
             public void success(final GoodListBean result) {
 
@@ -127,8 +132,23 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                             popView.dismiss();
                         }
                     });
-                    popView.setFocusable(true );
-                    popView.update();
+                    popView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+                        @Override
+                        public void isBottom() {
+                            search_page++;
+                            search(et_search.getText().toString());
+                        }
+
+                        @Override
+                        public void isOver() {
+
+                        }
+
+                        @Override
+                        public void isTop() {
+
+                        }
+                    });
                 }
 
                 if (popView.isShowing()) {
@@ -139,14 +159,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 popView.getAdapter().setValuelist(result.getList());
                 popView.getAdapter().notifyDataSetChanged();
                 popView.showAsDropDown(et_search);
-//                popView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                        topGoodClick(result.getList().get(position));
-//                        popView.dismiss();
-//                    }
-//                });
 
 
             }
