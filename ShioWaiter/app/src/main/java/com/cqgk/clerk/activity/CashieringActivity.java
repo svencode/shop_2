@@ -119,8 +119,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 
         if (BuildConfig.DEBUG)
-            getVipInfo(AppEnter.TestCardid, couponNumber);
-
+        getVipInfo(AppEnter.TestCardid, couponNumber);
 
         layoutView();
         refreshPrice();
