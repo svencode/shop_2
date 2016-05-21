@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
  * Created by duke on 16/5/13.
  */
 public class CamerBaseActivity extends BusinessBaseActivity
-        implements CamerInterface,SurfaceHolder.Callback {
+        implements CamerInterface, SurfaceHolder.Callback {
     protected CaptureActivityHandler handler;
 
     private static final int UPTATE_INTERVAL_TIME = 2000;
@@ -50,7 +50,7 @@ public class CamerBaseActivity extends BusinessBaseActivity
     public void handleDecode(Result result, Bitmap barcode) {
         long currentUpdateTime = System.currentTimeMillis();
         long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME){
+        if (timeInterval < UPTATE_INTERVAL_TIME) {
             return;
         }
 
@@ -101,18 +101,18 @@ public class CamerBaseActivity extends BusinessBaseActivity
             return;
         }
         if (handler == null) {
-            handler = new CaptureActivityHandler(this, null,null);
+            handler = new CaptureActivityHandler(this, null, null);
         }
     }
 
-    protected void reScan(){
-        if(handler!=null){
+    protected void reScan() {
+        if (handler != null) {
             handler.sendEmptyMessage(R.id.restart_preview);
         }
     }
 
-    protected void stop(){
-        if(handler!=null){
+    protected void stop() {
+        if (handler != null) {
             handler.sendEmptyMessage(R.id.stop_preview);
         }
     }
@@ -120,6 +120,10 @@ public class CamerBaseActivity extends BusinessBaseActivity
     @Override
     protected void onPause() {
         super.onPause();
+        closeCamera();
+    }
+
+    protected void closeCamera() {
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
@@ -130,7 +134,7 @@ public class CamerBaseActivity extends BusinessBaseActivity
     /**
      * 检测权限
      */
-    private void checkCamerPower(){
+    private void checkCamerPower() {
         PackageManager pkm = getPackageManager();
         boolean has_permission = (PackageManager.PERMISSION_GRANTED ==
                 pkm.checkPermission("android.permission.CAMERA", this.getPackageName()));
@@ -139,10 +143,10 @@ public class CamerBaseActivity extends BusinessBaseActivity
                 @Override
                 public void doConfirm() {
                     Uri packageURI = Uri.parse("package:" + getPackageName());
-                    Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
                     startActivity(intent);
                 }
-            },true,false,"取消","马上设置");
+            }, true, false, "取消", "马上设置");
         }
     }
 }

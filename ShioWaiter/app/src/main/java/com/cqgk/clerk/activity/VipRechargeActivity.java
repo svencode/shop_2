@@ -2,6 +2,7 @@ package com.cqgk.clerk.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -17,10 +18,12 @@ import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.CardDtlBean;
 import com.cqgk.clerk.bean.normal.RechargeResultBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
@@ -61,8 +64,14 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
     private String card_id;
-    private static final int UPTATE_INTERVAL_TIME = 2000;
-    private long lastUpdateTime;
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("camberRestart");
+            reScan();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +105,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
 
         if (BuildConfig.DEBUG) {
-            card_id = AppEnter.TestCardid;
+            //card_id = AppEnter.TestCardid;
         }
 
         requestData();
@@ -105,9 +114,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @Override
     public void requestData() {
         super.requestData();
-        if (CheckUtils.isAvailable(card_id)) {
-            loadCardInfo(card_id);
-        }
+//        if (CheckUtils.isAvailable(card_id)) {
+//            loadCardInfo(card_id);
+//        }
     }
 
     @Override
@@ -122,6 +131,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     }
 
 
+    /**
+     * @param cid
+     */
     private void loadCardInfo(String cid) {
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
@@ -131,12 +143,12 @@ public class VipRechargeActivity extends CamerBaseActivity {
                 cardnum.setText(String.format("卡号:%s", result.getCard_id()));
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
                 captureroot.setVisibility(View.GONE);
-                onPause();
             }
 
             @Override
             public boolean failure(int state, String msg) {
                 showToast(msg);
+                handler.postDelayed(runnable, 4000);
                 return super.failure(state, msg);
             }
         });
@@ -146,18 +158,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-        lastUpdateTime = currentUpdateTime;
-
-
         String cid = recode(result.toString());
-        if (BuildConfig.DEBUG)
-            cid = AppEnter.TestCardid;
+//        if (BuildConfig.DEBUG)
+//            cid = AppEnter.TestCardid;
 
 
         loadCardInfo(cid);
@@ -173,6 +176,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
             @Override
             public boolean failure(int state, String msg) {
                 showToast(msg);
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
                 return super.failure(state, msg);
             }
         });
@@ -184,7 +188,12 @@ public class VipRechargeActivity extends CamerBaseActivity {
             hasSurface = true;
             initCamera(holder);
         }
+    }
 
+    @Override
+    protected void reScan() {
+        super.reScan();
+        handler.removeCallbacks(runnable);
     }
 
     @Event(R.id.scanagain)
@@ -193,7 +202,6 @@ public class VipRechargeActivity extends CamerBaseActivity {
             @Override
             public void doConfirm() {
                 card_id = "";
-                onResume();
                 reScan();
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
