@@ -295,7 +295,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         }
 
-        if (null != vipInfo) {
+        if (null != vipBean) {
             double coupon = 0;
             if (null != vipInfo && null!=vipInfo.getFaceValue()) coupon = Double.parseDouble(vipInfo.getFaceValue());
             if (price > (Double.parseDouble(vipBean.getBalance())+coupon)) {
