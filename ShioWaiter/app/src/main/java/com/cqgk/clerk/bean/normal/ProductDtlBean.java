@@ -158,4 +158,61 @@ private HashMap<String,String> photoList;
     public void setReturnPrice(double returnPrice) {
         this.returnPrice = returnPrice;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductDtlBean that = (ProductDtlBean) o;
+
+        if (Double.compare(that.num, num) != 0) return false;
+        if (Double.compare(that.retailPrice, retailPrice) != 0) return false;
+        if (Double.compare(that.vipPrice, vipPrice) != 0) return false;
+        if (Double.compare(that.returnPrice, returnPrice) != 0) return false;
+        if (Double.compare(that.price, price) != 0) return false;
+        if (Double.compare(that.userPrice, userPrice) != 0) return false;
+        if (isAllowedModifyPrice != that.isAllowedModifyPrice) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (goodsId != null ? !goodsId.equals(that.goodsId) : that.goodsId != null) return false;
+        if (goodsTitle != null ? !goodsTitle.equals(that.goodsTitle) : that.goodsTitle != null)
+            return false;
+        if (specificationDesc != null ? !specificationDesc.equals(that.specificationDesc) : that.specificationDesc != null)
+            return false;
+        if (logoImg != null ? !logoImg.equals(that.logoImg) : that.logoImg != null) return false;
+        if (barCode != null ? !barCode.equals(that.barCode) : that.barCode != null) return false;
+        if (photoList != null ? !photoList.equals(that.photoList) : that.photoList != null)
+            return false;
+        return !(photoListImg != null ? !photoListImg.equals(that.photoListImg) : that.photoListImg != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(num);
+        result = (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (goodsId != null ? goodsId.hashCode() : 0);
+        result = 31 * result + (goodsTitle != null ? goodsTitle.hashCode() : 0);
+        result = 31 * result + (specificationDesc != null ? specificationDesc.hashCode() : 0);
+        result = 31 * result + (logoImg != null ? logoImg.hashCode() : 0);
+        temp = Double.doubleToLongBits(retailPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(vipPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(returnPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(userPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (barCode != null ? barCode.hashCode() : 0);
+        result = 31 * result + (photoList != null ? photoList.hashCode() : 0);
+        result = 31 * result + isAllowedModifyPrice;
+        result = 31 * result + (photoListImg != null ? photoListImg.hashCode() : 0);
+        return result;
+    }
 }

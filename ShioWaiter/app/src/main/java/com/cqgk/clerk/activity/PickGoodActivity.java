@@ -120,7 +120,11 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     //去支付事件
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
-        if (0 == myGood.size()) {
+        double goodNum = 0;
+        for (ProductDtlBean good:myGood){
+            goodNum += good.getNum();
+        }
+        if (0 == goodNum) {
             showToast("未选择商品");
             return;
         }
@@ -240,7 +244,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 item1.setNum(item1.getNum() + 1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
-
                 refreshPrice();
                 return;
             }
@@ -267,6 +270,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(item.getNum());
+                if (0 == item1.getNum())myGood.remove(item1);
+
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();

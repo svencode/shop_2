@@ -117,7 +117,7 @@ public class PickGoodAdapter extends BaseAdapter {
 
             Button plusBtn = (Button) view.findViewById(R.id.plusBtn);
             Button minusBtn = (Button) view.findViewById(R.id.minusBtn);
-            EditText numET = (EditText) view.findViewById(R.id.numET);
+            final EditText numET = (EditText) view.findViewById(R.id.numET);
 
             ImageHelper.getInstance().display(img, item1.getLogoImg());
             name.setText(item1.getGoodsTitle());
@@ -141,9 +141,7 @@ public class PickGoodAdapter extends BaseAdapter {
                 }
             });
 
-            //setNumEtListener(numET, position);//文本监听
-            numberKeyLister(numET, position);//回车监听
-            //numberOnFoucusKeyLister(numET,position);
+            setNumEtListener(numET, position);//文本监听
 
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -210,11 +208,14 @@ public class PickGoodAdapter extends BaseAdapter {
             public void afterTextChanged(Editable s) {
                 handler.removeCallbacks(runnable);
 
-                if (!CheckUtils.isAvailable(s.toString()))
-                    return;
+                if (!CheckUtils.isAvailable(s.toString())){
+                    getItem(position).setNum(0);
+                }else {
+                    getItem(position).setNum(Double.valueOf(s.toString()));
+                }
 
-                getItem(position).setNum(Double.valueOf(s.toString()));
-                handler.postDelayed(runnable, 500);
+
+                handler.postDelayed(runnable, 3000);
             }
 
         });
