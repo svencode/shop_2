@@ -71,14 +71,11 @@ public abstract class HttpCallBack<T> {
                 if (type.toString().contains("java.lang.String")) {
                     success((T) responseVo.data, responseVo.msg);
 
-                }else{
-
+                } else {
 
 
                     Object object = GsonUtil.parseGson(responseVo.data, type);
                     success((T) object, responseVo.msg);
-
-
 
 
                 }
@@ -125,6 +122,14 @@ public abstract class HttpCallBack<T> {
     public boolean failure(int state, String msg) {
         //LogUtil.e("hanler result faild___");
         return false;
+    }
+
+    public void onLoading(int progess) {
+
+    }
+
+    public void onFinished() {
+
     }
 
     static class ResponseVo {

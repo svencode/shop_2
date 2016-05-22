@@ -25,6 +25,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/icon_delpic" />
+
+
     </RelativeLayout>
 
 </LinearLayout>

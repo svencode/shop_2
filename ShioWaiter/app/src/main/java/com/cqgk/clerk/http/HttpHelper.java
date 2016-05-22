@@ -222,7 +222,12 @@ public class HttpHelper
 
     @Override
     public void onFinished() {
-
+        try {
+            if (callBack != null)
+                callBack.onFinished();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -231,8 +236,14 @@ public class HttpHelper
     }
 
     @Override
-    public void onLoading(long l, long l1, boolean b) {
-
+    public void onLoading(long total, long current, boolean isDownloading) {
+        try {
+            if (callBack != null)
+                callBack.onLoading((int) (current * 100 / total));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //LogUtil.e(String.format("____progrsss:%s",(int)(current * 100 / total)));
     }
 
 }

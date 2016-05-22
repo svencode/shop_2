@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import com.cqgk.clerk.helper.ProgressDialogHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
+import com.cqgk.clerk.utils.BitmapUtils;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
@@ -107,6 +109,10 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.row_update)
     LinearLayout row_update;
 
+    @ViewInject(R.id.loadingProgressBar)
+    ProgressBar loadingProgressBar;
+
+
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<EditBean> editBeanList;
@@ -144,6 +150,14 @@ public class ProductEditActivity extends CamerBaseActivity {
 
         initView();
         requestData();
+    }
+
+    private void showProgressBar(boolean state) {
+        if (state) {
+            loadingProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            loadingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -289,15 +303,9 @@ public class ProductEditActivity extends CamerBaseActivity {
     public void onBackProcessHandleMessage(Message msg) {
         super.onBackProcessHandleMessage(msg);
         PhotoInfo photoInfo = (PhotoInfo) msg.getData().get("photoinfo");
-        String newpath = BitmapHelper.compressBitmap(ProductEditActivity.this, photoInfo.getPhotoPath(),
-                photoInfo.getWidth(), photoInfo.getHeight(),
-                false);
-
-        photoInfo.setPhotoPath(newpath);
-
-        double size = FileSizeHelper.getFileOrFilesSize(newpath, 3);
-        LogUtil.e(String.format("_________%s", size));
-
+        BitmapUtils.compressImageFromFile(photoInfo.getPhotoPath());
+        double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
+        LogUtil.e(String.format("_________compressed:%s", size));
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoinfo", photoInfo);
         sendHandler(getUIHandler(), 0, bundle);
@@ -330,6 +338,22 @@ public class ProductEditActivity extends CamerBaseActivity {
                         showToast(msg);
                         return super.failure(state, msg);
                     }
+
+
+                    @Override
+                    public void onLoading(int progess) {
+                        super.onLoading(progess);
+                        showProgressBar(true);
+                        loadingProgressBar.setProgress(progess);
+                        LogUtil.e(String.format("____progrsss:%s", progess));
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        super.onFinished();
+                        showProgressBar(false);
+
+                    }
                 });
     }
 
@@ -339,8 +363,6 @@ public class ProductEditActivity extends CamerBaseActivity {
             if (resultList != null) {
 
                 ProgressDialogHelper.get().show();
-
-
                 final PhotoInfo photoInfo = resultList.get(0);
                 double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
                 LogUtil.e(String.format("_________%s", size));
