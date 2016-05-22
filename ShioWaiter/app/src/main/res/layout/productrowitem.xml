@@ -18,19 +18,19 @@
             android:src="@drawable/ic_launcher"
             android:layout_marginLeft="8dp"
             android:id="@+id/gimg"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_marginRight="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
             android:ellipsize="end"
             android:textSize="@dimen/text_size_m"
             android:textColor="@color/font_color_3"
             android:text="title"
             android:id="@+id/title"
             android:maxLines="3"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@+id/gimg"
             android:layout_marginTop="8dp"/>
         <TextView

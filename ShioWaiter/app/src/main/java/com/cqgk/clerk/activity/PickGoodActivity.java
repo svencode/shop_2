@@ -153,7 +153,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void search(String keyWork) {
         RequestUtils.searchGood(keyWork, search_page, new HttpCallBack<GoodListBean>() {
             @Override
-            public void success(final GoodListBean result,String msg) {
+            public void success(final GoodListBean result, String msg) {
 
                 if (null == result.getList() || result.getList().size() == 0) {
                     showToast("搜索不到该商品");
@@ -181,7 +181,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void getHotGood() {
         RequestUtils.queryTopGoodsList(new HttpCallBack<List<ProductDtlBean>>() {
             @Override
-            public void success(List<ProductDtlBean> result,String msg) {
+            public void success(List<ProductDtlBean> result, String msg) {
                 List<ProductDtlBean> items = result;
                 if (null != items) {
                     adapter.getTopGoodList().addAll(items);
@@ -203,12 +203,16 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             price += (item.getNum() * item.getRetailPrice());
         }
 
-        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件",price,num)));
+        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price, num)));
     }
 
     @Override
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
+
+        if(item.getNum()<=0)
+            item.setNum(1);
+
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 alreadyHad = true;
@@ -220,6 +224,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             //item.setNum(1);
             myGood.add(item);
         }
+
+
 
         adapter.setMyGood(myGood);
         adapter.notifyDataSetChanged();
@@ -247,23 +253,37 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(item1.getNum() - 1);
-                if (item1.getNum() == 0) myGood.remove(item1);
+                if (item1.getNum() <= 0) myGood.remove(item1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
-
                 refreshPrice();
                 return;
             }
         }
+    }
 
+    @Override
+    public void changQty(ProductDtlBean item) {
+        for (ProductDtlBean item1 : myGood) {
+            if (item1.equals(item)) {
+                item1.setNum(item.getNum());
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+                refreshPrice();
+                return;
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
-            ProductDtlBean bean = (ProductDtlBean) data.getSerializableExtra("dtl");
-            topGoodClick(bean);
+            List<ProductDtlBean> beanlist = (List<ProductDtlBean>) data.getSerializableExtra("dtllist");
+            for (int i = 0; i < beanlist.size(); i++) {
+                topGoodClick(beanlist.get(i));
+            }
+
         }
     }
 }

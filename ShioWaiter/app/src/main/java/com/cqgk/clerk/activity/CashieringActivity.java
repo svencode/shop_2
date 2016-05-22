@@ -35,6 +35,7 @@ import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
+import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.view.PayPwdDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.R;
@@ -209,7 +210,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     }
 
     private void showVipInfo(JIesuanReturnBean vipInfo) {
-        if(vipInfo==null)return;
+        if (vipInfo == null) return;
         this.vipInfo = vipInfo;
         if (null != vipInfo.getMembercard()) {
             vipBean = vipInfo.getMembercard();
@@ -336,8 +337,19 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         }
 
+        if (vipNo == null) {
+            CommonDialogView.show("请确定您收到客户的现金后再进行充值", new CommonDialogView.DialogClickListener() {
+                @Override
+                public void doConfirm() {
+                    payRequest(null);
+
+                }
+            }, true, false, "", "继续");
+            return;
+        }
 
         payRequest(vipNo);
+
     }
 
     /**
@@ -450,6 +462,20 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             if (item1.equals(item)) {
                 item1.setNum(num);
 
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+                refreshPrice();
+                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void goodQtyChange(ProductDtlBean item) {
+        for (ProductDtlBean item1 : myGood) {
+            if (item1.equals(item)) {
+                item1.setNum(item.getNum());
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();

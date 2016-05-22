@@ -13,6 +13,16 @@
         android:layout_height="55dp"
         android:layout_alignParentTop="true" />
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/loadingProgressBar"
+        android:progress="0"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:max="100"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        />
 
     <ScrollView
         android:layout_width="match_parent"

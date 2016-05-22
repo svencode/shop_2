@@ -36,6 +36,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by duke on 16/5/17.
@@ -57,6 +58,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
 
     private int showType = 0;//0-编辑商品1-返回商品
     private SearchResultPopAdapter searchResultPopAdapter;
+    private List<ProductDtlBean> returnList;
 
     private Handler handler = new Handler();//摄像头重启线程
     private Runnable runnable = new Runnable() {//摄像头重启线程方法
@@ -80,7 +82,31 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
 
         }
 
+        //多选
+        if (showType == 1) {
+            returnList = new ArrayList<>();
+            getTitleDelegate().setRightText("确定");
+            getTitleDelegate().setRightOnClick(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (returnList.size() == 0) {
+                        showToast("请选择商品");
+                        return;
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dtllist", (Serializable) returnList);
+                    Intent intent = new Intent();
+                    intent.putExtras(bundle);
+                    setResult(1, intent);
+                    finish();
+                }
+            });
+        }
+
         searchResultPopAdapter = new SearchResultPopAdapter(this);
+        searchResultPopAdapter.setShowtype(showType);
         searchResultPopAdapter.setItemListener(new SearchResultPopAdapter.ItemListener() {
             @Override
             public void itemClick(int i) {
@@ -88,13 +114,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 if (showType == 0) {
                     NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
                 } else {
-
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("dtl", (Serializable) productDtlBean);
-                    Intent intent = new Intent();
-                    intent.putExtras(bundle);
-                    setResult(1, intent);
-                    finish();
+                    returnList.add(productDtlBean);
                 }
             }
         });
@@ -119,6 +139,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         String product_bar_code = recode(result.toString());
+
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result, String msg) {
@@ -134,7 +155,11 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 }
 
                 resulttitle.setVisibility(View.VISIBLE);
-                searchResultPopAdapter.addValuelist(result.getList());
+                if(showType==1){
+                    searchResultPopAdapter.setValuelist(result.getList());
+                }else {
+                    searchResultPopAdapter.addValuelist(result.getList());
+                }
                 searchResultPopAdapter.notifyDataSetChanged();
 
             }

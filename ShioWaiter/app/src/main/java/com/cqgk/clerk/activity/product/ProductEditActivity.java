@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import com.cqgk.clerk.helper.ProgressDialogHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.AppUtil;
+import com.cqgk.clerk.utils.BitmapUtils;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
@@ -107,6 +109,10 @@ public class ProductEditActivity extends CamerBaseActivity {
     @ViewInject(R.id.row_update)
     LinearLayout row_update;
 
+    @ViewInject(R.id.loadingProgressBar)
+    ProgressBar loadingProgressBar;
+
+
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<EditBean> editBeanList;
@@ -146,13 +152,21 @@ public class ProductEditActivity extends CamerBaseActivity {
         requestData();
     }
 
+    private void showProgressBar(boolean state) {
+        if (state) {
+            loadingProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            loadingProgressBar.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void requestData() {
         super.requestData();
         if (CheckUtils.isAvailable(productId)) {
             RequestUtils.queryClerkGoodsById(productId, new HttpCallBack<ProductDtlBean>() {
                 @Override
-                public void success(ProductDtlBean result,String msg) {
+                public void success(ProductDtlBean result, String msg) {
                     productTitle.setText(result.getGoodsTitle());
                     vipPrice.setText(String.valueOf(result.getVipPrice()));
                     retailPrice.setText(String.valueOf(result.getRetailPrice()));
@@ -204,7 +218,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                         public void doConfirm() {
                             RequestUtils.deleteClerkGoods(productId, new HttpCallBack<String>() {
                                 @Override
-                                public void success(String result,String msg) {
+                                public void success(String result, String msg) {
                                     showToast("删除成功.");
                                     NavigationHelper.getInstance().GoHome();
                                 }
@@ -289,15 +303,9 @@ public class ProductEditActivity extends CamerBaseActivity {
     public void onBackProcessHandleMessage(Message msg) {
         super.onBackProcessHandleMessage(msg);
         PhotoInfo photoInfo = (PhotoInfo) msg.getData().get("photoinfo");
-        String newpath = BitmapHelper.compressBitmap(ProductEditActivity.this, photoInfo.getPhotoPath(),
-                photoInfo.getWidth(), photoInfo.getHeight(),
-                false);
-
-        photoInfo.setPhotoPath(newpath);
-
-        double size = FileSizeHelper.getFileOrFilesSize(newpath, 3);
-        LogUtil.e(String.format("_________%s", size));
-
+        BitmapUtils.compressImageFromFile(photoInfo.getPhotoPath());
+        double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
+        LogUtil.e(String.format("_________compressed:%s", size));
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoinfo", photoInfo);
         sendHandler(getUIHandler(), 0, bundle);
@@ -316,7 +324,7 @@ public class ProductEditActivity extends CamerBaseActivity {
         RequestUtils.fileUpload(photoInfo.getPhotoPath(),
                 fileName, new HttpCallBack<FileUploadResultBean>() {
                     @Override
-                    public void success(FileUploadResultBean result,String msg) {
+                    public void success(FileUploadResultBean result, String msg) {
                         EditBean temp = new EditBean();
                         temp.setPhotoInfo(photoInfo);
                         temp.setUploadId(result.getFile_id());
@@ -330,6 +338,22 @@ public class ProductEditActivity extends CamerBaseActivity {
                         showToast(msg);
                         return super.failure(state, msg);
                     }
+
+
+                    @Override
+                    public void onLoading(int progess) {
+                        super.onLoading(progess);
+                        showProgressBar(true);
+                        loadingProgressBar.setProgress(progess);
+                        LogUtil.e(String.format("____progrsss:%s", progess));
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        super.onFinished();
+                        showProgressBar(false);
+
+                    }
                 });
     }
 
@@ -339,8 +363,6 @@ public class ProductEditActivity extends CamerBaseActivity {
             if (resultList != null) {
 
                 ProgressDialogHelper.get().show();
-
-
                 final PhotoInfo photoInfo = resultList.get(0);
                 double size = FileSizeHelper.getFileOrFilesSize(photoInfo.getPhotoPath(), 3);
                 LogUtil.e(String.format("_________%s", size));
@@ -407,6 +429,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     /**
      * 保存并新增
+     *
      * @param view
      */
     @Event(R.id.btn_submitAndNew)
@@ -417,6 +440,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     /**
      * 保存
+     *
      * @param view
      */
     @Event(R.id.btn_submit)
@@ -425,7 +449,6 @@ public class ProductEditActivity extends CamerBaseActivity {
     }
 
     /**
-     *
      * @param view
      */
     @Event(R.id.savenow)
@@ -468,7 +491,7 @@ public class ProductEditActivity extends CamerBaseActivity {
                 editBeanList.get(1).getUploadId(),
                 ids, new HttpCallBack<String>() {
                     @Override
-                    public void success(String result,String msg) {
+                    public void success(String result, String msg) {
                         showToast("操作成功");
                         uploadSuccess(submitType);
                     }
@@ -520,7 +543,7 @@ public class ProductEditActivity extends CamerBaseActivity {
     private void queryProductDefInfo() {
         RequestUtils.queryGoodsStandardInfo(productcode.getText().toString(), new HttpCallBack<ProductStandInfoBean>() {
             @Override
-            public void success(ProductStandInfoBean result,String msg) {
+            public void success(ProductStandInfoBean result, String msg) {
 
                 if (result == null) {
 

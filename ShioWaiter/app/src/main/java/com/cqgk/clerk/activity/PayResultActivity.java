@@ -18,10 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 结算后
  * Created by sven on 16/5/17.
  */
 @ContentView(R.layout.activity_pay_result)
-public class PayResultActivity extends BusinessBaseActivity{
+public class PayResultActivity extends BusinessBaseActivity {
     @ViewInject(R.id.imgIV)
     ImageView imgIV;
     @ViewInject(R.id.orderAmountTV)
@@ -46,28 +47,28 @@ public class PayResultActivity extends BusinessBaseActivity{
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("支付成功");
-        resultBean = (OrderSubmitResultBean)getIntent().getSerializableExtra(ORDER_RESULT);
-        isVipPay = getIntent().getBooleanExtra(IS_VIP_PAY,false);
+        resultBean = (OrderSubmitResultBean) getIntent().getSerializableExtra(ORDER_RESULT);
+        isVipPay = getIntent().getBooleanExtra(IS_VIP_PAY, false);
         showInfo(resultBean);
     }
 
-    private void showInfo(OrderSubmitResultBean bean){
-        orderAmountTV.setText("￥"+resultBean.getTotalAmount());
-        jfTV.setText("用户获得"+resultBean.getBonus()+"积分");
+    private void showInfo(OrderSubmitResultBean bean) {
+        orderAmountTV.setText("￥" + resultBean.getTotalAmount());
+        jfTV.setText("用户获得" + resultBean.getBonus() + "积分");
 
         String couponStr = "";
 
-        if (null != resultBean.getCoupon()){
-            for (String key:resultBean.getCoupon().keySet()){
-                couponStr = couponStr+resultBean.getCoupon().get(key)+"张"+key+"元\n";
+        if (null != resultBean.getCoupon()) {
+            for (String key : resultBean.getCoupon().keySet()) {
+                couponStr = couponStr + resultBean.getCoupon().get(key) + "张" + key + "元\n";
             }
             couponTV.setText(couponStr);
         }
 
 
-        if (isVipPay){
+        if (isVipPay) {
             payTypeTV.setText("会员卡支付");
-        }else {
+        } else {
             payTypeTV.setText("现金支付");
             descTV.setText("温馨提示：现金支付金额不会进入您的店铺的资金账户中～");
 
@@ -75,12 +76,12 @@ public class PayResultActivity extends BusinessBaseActivity{
     }
 
     @Event(R.id.exitBtn)
-    private void exit(View view){
+    private void exit(View view) {
         System.exit(0);
     }
 
     @Event(R.id.goOnBtn)
-    private void goOn(View view){
+    private void goOn(View view) {
         //跳回
         finish();
     }
