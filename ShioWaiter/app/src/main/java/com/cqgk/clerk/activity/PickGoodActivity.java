@@ -132,6 +132,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         myGood.clear();
         adapter.setMyGood(myGood);
         adapter.notifyDataSetChanged();
+        refreshPrice();
     }
 
     //清楚搜索

@@ -276,6 +276,8 @@ public class PickGoodAdapter extends BaseAdapter {
             }
         });
     }
+
+
 }
 
 
