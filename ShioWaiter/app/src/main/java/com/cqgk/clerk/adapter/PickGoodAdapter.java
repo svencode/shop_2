@@ -143,6 +143,7 @@ public class PickGoodAdapter extends BaseAdapter {
 
             //setNumEtListener(numET, position);//文本监听
             numberKeyLister(numET, position);//回车监听
+            //numberOnFoucusKeyLister(numET,position);
 
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -256,6 +257,17 @@ public class PickGoodAdapter extends BaseAdapter {
                 return false;
             }
         });
+    }
+
+    private void numberOnFoucusKeyLister(EditText view, final int position) {
+         view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+             @Override
+             public void onFocusChange(View view, boolean b) {
+                 if(!b){
+                     AppUtil.showToast("out");
+                 }
+             }
+         });
     }
 }
 

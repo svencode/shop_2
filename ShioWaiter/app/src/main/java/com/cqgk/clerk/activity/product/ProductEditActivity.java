@@ -273,8 +273,8 @@ public class ProductEditActivity extends CamerBaseActivity {
 
     private void startActionSheet() {
         ActionSheet.createBuilder(this, getSupportFragmentManager())
-                .setCancelButtonTitle("取消(Cancel)")
-                .setOtherButtonTitles("打开相册(Open Gallery)", "拍照(Camera)")
+                .setCancelButtonTitle("取消")
+                .setOtherButtonTitles("打开相册", "拍照")
                 .setCancelableOnTouchOutside(true)
                 .setListener(new ActionSheet.ActionSheetListener() {
                     @Override

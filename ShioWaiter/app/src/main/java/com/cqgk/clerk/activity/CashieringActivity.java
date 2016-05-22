@@ -137,7 +137,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         closeCamera();
         String recode = recode(result.toString());
         if (BuildConfig.DEBUG) {
-            recode = AppEnter.TestCardid;
+            //recode = AppEnter.TestCardid;
         }
         getVipInfo(recode, couponNumber);
     }
