@@ -117,7 +117,7 @@ public class PickGoodAdapter extends BaseAdapter {
 
             Button plusBtn = (Button) view.findViewById(R.id.plusBtn);
             Button minusBtn = (Button) view.findViewById(R.id.minusBtn);
-            EditText numET = (EditText) view.findViewById(R.id.numET);
+            final EditText numET = (EditText) view.findViewById(R.id.numET);
 
             ImageHelper.getInstance().display(img, item1.getLogoImg());
             name.setText(item1.getGoodsTitle());
@@ -141,8 +141,7 @@ public class PickGoodAdapter extends BaseAdapter {
                 }
             });
 
-            //setNumEtListener(numET, position);//文本监听
-            numberKeyLister(numET, position);//回车监听
+            setNumEtListener(numET, position);//文本监听
 
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -209,11 +208,14 @@ public class PickGoodAdapter extends BaseAdapter {
             public void afterTextChanged(Editable s) {
                 handler.removeCallbacks(runnable);
 
-                if (!CheckUtils.isAvailable(s.toString()))
-                    return;
+                if (!CheckUtils.isAvailable(s.toString())){
+                    getItem(position).setNum(0);
+                }else {
+                    getItem(position).setNum(Double.valueOf(s.toString()));
+                }
 
-                getItem(position).setNum(Double.valueOf(s.toString()));
-                handler.postDelayed(runnable, 500);
+
+                handler.postDelayed(runnable, 3000);
             }
 
         });
@@ -239,24 +241,9 @@ public class PickGoodAdapter extends BaseAdapter {
         }
     };
 
-    private void numberKeyLister(EditText view, final int position) {
-        view.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int keyCode, KeyEvent keyEvent) {
-                LogUtil.e("________" + keyCode);
-                if (keyCode == EditorInfo.IME_ACTION_DONE || keyCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    EditText editText = (EditText) v;
-                    if (!CheckUtils.isAvailable(editText.getText().toString())) {
-                        AppUtil.showToast("请输入数量");
-                        return false;
-                    }
-                    getItem(position).setNum(Double.valueOf(editText.getText().toString()));
-                    delegate.changQty(getItem(position));
-                }
-                return false;
-            }
-        });
-    }
+
+
+
 }
 
 

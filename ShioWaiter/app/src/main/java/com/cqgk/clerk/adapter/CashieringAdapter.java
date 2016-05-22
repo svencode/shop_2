@@ -42,6 +42,26 @@ public class CashieringAdapter extends BaseAdapter {
     private CashieringDelegate delegate;
     private ArrayList<ProductDtlBean> myGood;
 
+    private int handlePricePosition;
+    private int handleNumPosition;
+    private double handlePrice;
+    private double handleNum;
+
+    Handler handler = new Handler();
+    Runnable editPriceRun = new Runnable() {
+        @Override
+        public void run() {
+            delegate.goodPriceEdit(getItem(handlePricePosition),handlePrice);
+        }
+    };
+
+    Runnable editNumRun = new Runnable() {
+        @Override
+        public void run() {
+            delegate.goodNunEdit(getItem(handleNumPosition), handleNum);
+        }
+    };
+
     public CashieringAdapter(Context context, CashieringDelegate delegate) {
         this.context = context;
         this.delegate = delegate;
@@ -72,7 +92,7 @@ public class CashieringAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         final ProductDtlBean item = myGood.get(position);
         view = LayoutInflater.from(context).inflate(R.layout.cell_cashiering, null);
 
@@ -117,8 +137,6 @@ public class CashieringAdapter extends BaseAdapter {
         }
 
 
-        numberKeyLister(numET, position);
-        priceKeyLister(price, position);
 
         plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,67 +152,61 @@ public class CashieringAdapter extends BaseAdapter {
             }
         });
 
+        price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-//        price.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-//                    double newPrice = Double.parseDouble(price.getText().toString().replace("￥", ""));
-//                    if (newPrice > 0) {
-//                        delegate.goodPriceEdit(item, newPrice);
-//                    } else {
-//                        ((BusinessBaseActivity) context).showToast("请输入价格");
-//                    }
-//
-//                }
-//                return false;
-//            }
-//        });
+            }
 
-//        price.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (false == hasFocus) {
-//                    double newPrice = Double.parseDouble(price.getText().toString().replace("￥", ""));
-//                    if (newPrice > 0) {
-//                        delegate.goodPriceEdit(item, newPrice);
-//                    } else {
-//                        ((BusinessBaseActivity) context).showToast("请输入价格");
-//                    }
-//                }
-//            }
-//        });
-//
-//        numET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (false == hasFocus){
-//                    double num = Double.parseDouble(numET.getText().toString());
-//                    if (num > 0) {
-//                        delegate.goodNunEdit(item, num);
-//                    } else {
-//                        ((BusinessBaseActivity) context).showToast("数量必须大于0");
-//                    }
-//                }
-//            }
-//        });
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
 
-//        numET.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-//                    double num = Double.parseDouble(numET.getText().toString());
-//
-//
-//                }
-//                return false;
-//            }
-//        });
+            @Override
+            public void afterTextChanged(Editable s) {
+                handlePricePosition = position;
+                handler.removeCallbacks(editPriceRun);
+                if (CheckUtils.isAvailable(s.toString().replace("￥",""))){
+                    handlePrice = Double.parseDouble(s.toString().replace("￥",""));
+                }else {
+                    handlePrice = 0;
+                }
+                handler.postDelayed(editPriceRun,3000);
+            }
+        });
+
+        numET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                handleNumPosition = position;
+                handler.removeCallbacks(editNumRun);
+                if (CheckUtils.isAvailable(s.toString())){
+                    handleNum = Double.parseDouble(s.toString());
+                }else {
+                    handleNum = 0;
+                }
+                handler.postDelayed(editNumRun,3000);
+            }
+        });
+
 
 
         return view;
     }
+
+
+
 
 
     public interface CashieringDelegate {
@@ -206,64 +218,10 @@ public class CashieringAdapter extends BaseAdapter {
 
         void goodNunEdit(ProductDtlBean item, double num);
 
-        void goodQtyChange(ProductDtlBean item);
+
     }
 
 
-    private void numberKeyLister(EditText view, final int position) {
-        view.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int keyCode, KeyEvent keyEvent) {
-                LogUtil.e("________" + keyCode);
-                if (keyCode == EditorInfo.IME_ACTION_DONE || keyCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    EditText editText = (EditText) v;
 
-                    if (!CheckUtils.isAvailable(editText.getText().toString())) {
-                        AppUtil.showToast("请输入数量");
-                        return false;
-                    }
-
-                    getItem(position).setNum(Double.valueOf(editText.getText().toString()));
-                    if (delegate != null)
-                        delegate.goodQtyChange(getItem(position));
-
-                }
-                return false;
-            }
-        });
-    }
-
-    private void priceKeyLister(EditText view, final int position) {
-        view.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int keyCode, KeyEvent keyEvent) {
-                LogUtil.e("________" + keyCode);
-                if (keyCode == EditorInfo.IME_ACTION_DONE || keyCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    EditText editText = (EditText) v;
-                    String newprice = editText.getText().toString().replace("￥", "");
-
-                    if (!CheckUtils.isAvailable(newprice)) {
-                        AppUtil.showToast("请输入价格");
-                        return false;
-                    }
-
-
-                    try {
-                        double price = Double.parseDouble(newprice);
-                        getItem(position).setUserPrice(price);
-
-                        if (delegate != null)
-                            delegate.goodPriceEdit(getItem(position), price);
-
-                    } catch (NumberFormatException e) {
-
-                    }
-
-
-                }
-                return false;
-            }
-        });
-    }
 
 }

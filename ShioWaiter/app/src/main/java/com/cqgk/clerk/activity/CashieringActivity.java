@@ -461,7 +461,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(num);
-
+                if (0 == num)myGood.remove(item);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();
@@ -471,19 +471,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
     }
 
-    @Override
-    public void goodQtyChange(ProductDtlBean item) {
-        for (ProductDtlBean item1 : myGood) {
-            if (item1.equals(item)) {
-                item1.setNum(item.getNum());
-                adapter.setMyGood(myGood);
-                adapter.notifyDataSetChanged();
-                refreshPrice();
-                getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponNumber);
-                return;
-            }
-        }
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
