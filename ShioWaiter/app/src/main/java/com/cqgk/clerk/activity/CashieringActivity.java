@@ -137,7 +137,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         closeCamera();
         String recode = recode(result.toString());
         if (BuildConfig.DEBUG) {
-            //recode = AppEnter.TestCardid;
+            recode = AppEnter.TestCardid;
         }
         getVipInfo(recode, couponNumber);
     }
@@ -189,6 +189,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             public void success(JIesuanReturnBean result, String msg) {
 
                 if (CheckUtils.isAvailable(msg)) {
+                    beginCamcer();
                     showToast(msg);
                 }
                 showVipInfo(result);

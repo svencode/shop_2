@@ -172,7 +172,7 @@ public class CashieringAdapter extends BaseAdapter {
                 }else {
                     handlePrice = 0;
                 }
-                handler.postDelayed(editPriceRun,3000);
+                handler.postDelayed(editPriceRun,1500);
             }
         });
 
@@ -196,7 +196,7 @@ public class CashieringAdapter extends BaseAdapter {
                 }else {
                     handleNum = 0;
                 }
-                handler.postDelayed(editNumRun,3000);
+                handler.postDelayed(editNumRun,1500);
             }
         });
 

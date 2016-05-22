@@ -85,7 +85,14 @@ public class PickGoodAdapter extends BaseAdapter {
 
     @Override
     public ProductDtlBean getItem(int position) {
-        return myGood == null ? null : myGood.get(position - 1);
+        try {
+
+            return myGood == null ? null : myGood.get(position - 1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
@@ -142,6 +149,7 @@ public class PickGoodAdapter extends BaseAdapter {
             });
 
             setNumEtListener(numET, position);//文本监听
+            //numberKeyLister(numET, position);
 
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -208,14 +216,12 @@ public class PickGoodAdapter extends BaseAdapter {
             public void afterTextChanged(Editable s) {
                 handler.removeCallbacks(runnable);
 
-                if (!CheckUtils.isAvailable(s.toString())){
+                if (!CheckUtils.isAvailable(s.toString())) {
                     getItem(position).setNum(0);
-                }else {
+                } else {
                     getItem(position).setNum(Double.valueOf(s.toString()));
                 }
-
-
-                handler.postDelayed(runnable, 3000);
+                handler.postDelayed(runnable, 1500);
             }
 
         });
@@ -261,14 +267,14 @@ public class PickGoodAdapter extends BaseAdapter {
     }
 
     private void numberOnFoucusKeyLister(EditText view, final int position) {
-         view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-             @Override
-             public void onFocusChange(View view, boolean b) {
-                 if(!b){
-                     AppUtil.showToast("out");
-                 }
-             }
-         });
+        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    AppUtil.showToast("out");
+                }
+            }
+        });
     }
 }
 
