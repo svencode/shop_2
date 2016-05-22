@@ -139,6 +139,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         String product_bar_code = recode(result.toString());
+
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result, String msg) {
@@ -154,7 +155,11 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 }
 
                 resulttitle.setVisibility(View.VISIBLE);
-                searchResultPopAdapter.addValuelist(result.getList());
+                if(showType==1){
+                    searchResultPopAdapter.setValuelist(result.getList());
+                }else {
+                    searchResultPopAdapter.addValuelist(result.getList());
+                }
                 searchResultPopAdapter.notifyDataSetChanged();
 
             }

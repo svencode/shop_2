@@ -2,12 +2,15 @@ package com.cqgk.clerk.adapter;
 
 import android.content.Context;
 import android.media.Image;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +20,17 @@ import android.widget.TextView;
 
 
 import com.cqgk.clerk.BuildConfig;
+import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.GoodListBean;
 
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.AppUtil;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -38,6 +45,7 @@ public class PickGoodAdapter extends BaseAdapter {
 
     private ArrayList<ProductDtlBean> topGoodList;
     private ArrayList<ProductDtlBean> myGood;
+    private int handlePosition;
 
     public PickGoodAdapter(Context context, PickGoodDelegate delegate) {
         this.context = context;
@@ -76,8 +84,8 @@ public class PickGoodAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public ProductDtlBean getItem(int position) {
+        return myGood == null ? null : myGood.get(position - 1);
     }
 
     @Override
@@ -133,24 +141,8 @@ public class PickGoodAdapter extends BaseAdapter {
                 }
             });
 
-            numET.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    LogUtil.e("______slfjlsd");
-                    if (delegate != null)
-                        delegate.changQty(item1);
-                }
-            });
+            //setNumEtListener(numET, position);//文本监听
+            numberKeyLister(numET, position);//回车监听
 
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.cell_good_two, null);
@@ -199,6 +191,34 @@ public class PickGoodAdapter extends BaseAdapter {
         return view;
     }
 
+    public void setNumEtListener(EditText edit, final int position) {
+        handlePosition = position;
+        edit.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                handler.removeCallbacks(runnable);
+
+                if (!CheckUtils.isAvailable(s.toString()))
+                    return;
+
+                getItem(position).setNum(Double.valueOf(s.toString()));
+                handler.postDelayed(runnable, 500);
+            }
+
+        });
+    }
+
     public interface PickGoodDelegate {
         void topGoodClick(ProductDtlBean item);
 
@@ -207,6 +227,35 @@ public class PickGoodAdapter extends BaseAdapter {
         void goodMinus(ProductDtlBean item);
 
         void changQty(ProductDtlBean item);
+    }
+
+    private Handler handler = new Handler();//摄像头重启线程
+    private Runnable runnable = new Runnable() {//摄像头重启线程方法
+        @Override
+        public void run() {
+            LogUtil.e("afterTextChanged");
+            if (delegate != null)
+                delegate.changQty(getItem(handlePosition));
+        }
+    };
+
+    private void numberKeyLister(EditText view, final int position) {
+        view.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int keyCode, KeyEvent keyEvent) {
+                LogUtil.e("________" + keyCode);
+                if (keyCode == EditorInfo.IME_ACTION_DONE || keyCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    EditText editText = (EditText) v;
+                    if (!CheckUtils.isAvailable(editText.getText().toString())) {
+                        AppUtil.showToast("请输入数量");
+                        return false;
+                    }
+                    getItem(position).setNum(Double.valueOf(editText.getText().toString()));
+                    delegate.changQty(getItem(position));
+                }
+                return false;
+            }
+        });
     }
 }
 

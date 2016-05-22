@@ -15,8 +15,9 @@
 
         <ImageView
             android:id="@+id/imgIV"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 
@@ -45,9 +46,11 @@
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:text="￥"
+            android:digits="0123456789."
             android:textColor="@color/color_red"
             android:textCursorDrawable="@null"
-            android:textSize="@dimen/text_size_m" />
+            android:textSize="@dimen/text_size_m"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/originalPriceTV"
@@ -89,6 +92,8 @@
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:text="0"
+            android:imeOptions="actionDone"
+            android:digits="0123456789."
             android:textCursorDrawable="@null"
             android:textSize="@dimen/text_size_m"
             android:layout_marginLeft="0.5dp"

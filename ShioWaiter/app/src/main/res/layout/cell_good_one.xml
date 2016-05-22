@@ -9,6 +9,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
@@ -39,9 +40,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
+                android:background="@color/font_color_4"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@color/font_color_4"
                 android:padding="0.5dp">
 
                 <Button
@@ -50,21 +51,22 @@
                     android:layout_height="27dp"
                     android:background="@color/white"
                     android:text="-"
-                    android:textColor="@color/color_red"/>
+                    android:textColor="@color/color_red" />
 
                 <EditText
                     android:id="@+id/numET"
                     android:layout_width="36dp"
                     android:layout_height="27dp"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
                     android:background="@color/white"
                     android:digits="0123456789."
                     android:gravity="center"
+                    android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:text="0"
-                    android:textSize="@dimen/text_size_m"
-                    android:layout_marginLeft="0.5dp"
-                    android:layout_marginRight="0.5dp"/>
+                    android:textSize="@dimen/text_size_m" />
 
 
                 <Button
@@ -73,7 +75,7 @@
                     android:layout_height="27dp"
                     android:background="@color/white"
                     android:text="+"
-                    android:textColor="@color/color_red"/>
+                    android:textColor="@color/color_red" />
             </LinearLayout>
 
             <LinearLayout

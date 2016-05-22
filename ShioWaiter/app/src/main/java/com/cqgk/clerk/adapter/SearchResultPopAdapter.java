@@ -143,6 +143,7 @@ public class SearchResultPopAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ProductDtlBean bean = valuelist.get(i);
                 bean.setNum(bean.getNum() + 1);
                 qtyty.setText(Html.fromHtml(String.format("<font color=\"red\">%s</font>件", bean.getNum())));
