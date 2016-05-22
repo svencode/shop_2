@@ -209,6 +209,10 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @Override
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
+
+        if(item.getNum()<=0)
+            item.setNum(1);
+
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 alreadyHad = true;
@@ -220,6 +224,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             //item.setNum(1);
             myGood.add(item);
         }
+
+
 
         adapter.setMyGood(myGood);
         adapter.notifyDataSetChanged();
@@ -247,15 +253,26 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(item1.getNum() - 1);
-                if (item1.getNum() == 0) myGood.remove(item1);
+                if (item1.getNum() <= 0) myGood.remove(item1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
-
                 refreshPrice();
                 return;
             }
         }
+    }
 
+    @Override
+    public void changQty(ProductDtlBean item) {
+        for (ProductDtlBean item1 : myGood) {
+            if (item1.equals(item)) {
+                item1.setNum(item.getNum());
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+                refreshPrice();
+                return;
+            }
+        }
     }
 
     @Override
