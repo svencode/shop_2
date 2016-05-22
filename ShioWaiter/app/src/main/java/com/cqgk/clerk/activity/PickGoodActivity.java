@@ -125,6 +125,9 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             return;
         }
         NavigationHelper.getInstance().startPayBill(myGood);
+        myGood.clear();
+        adapter.setMyGood(myGood);
+        adapter.notifyDataSetChanged();
     }
 
     //清楚搜索
