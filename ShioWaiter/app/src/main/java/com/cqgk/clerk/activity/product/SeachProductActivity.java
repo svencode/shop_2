@@ -59,7 +59,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
     private ProductRowAdapter productRowAdapter;
     private int page = 1;
-    private int pageTotal;
+    private int myproductTotal;
     private int searchPage = 1;
     private int searchTotal;
     private SearchResultPopAdapter searchResultPopAdapter;
@@ -103,7 +103,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
                     return;
                 }
 
-                pageTotal = result.getTotal();
+                myproductTotal = result.getTotal();
 
 //                if (result.getTotal() == 0) {
 //                    listview.addFooterView("已经到底了");
@@ -147,9 +147,6 @@ public class SeachProductActivity extends BusinessBaseActivity {
                 searchResultPopAdapter.addValuelist(result.getList());
                 searchResultPopAdapter.notifyDataSetChanged();
 
-//                searchResultPopView.getAdapter().setValuelist(result.getList());
-//                searchResultPopView.getAdapter().notifyDataSetChanged();
-//                searchResultPopView.showAsDropDown(search_row);
             }
 
             @Override
@@ -171,6 +168,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
         searchResultPopAdapter = new SearchResultPopAdapter(this);
         searlistview.setAdapter(searchResultPopAdapter);
+
 
 
         keyword.addTextChangedListener(new TextWatcher() {
@@ -205,8 +203,9 @@ public class SeachProductActivity extends BusinessBaseActivity {
             @Override
             public void isBottom() {
 
-                if(page+1>pageTotal){
-                    listview.addFooterView("已经到底了");
+
+                if(productRowAdapter.getCount()+1>myproductTotal){
+                    listview.addFooter(my_product_area,"已经到底了");
                     return;
                 }
 
@@ -235,8 +234,8 @@ public class SeachProductActivity extends BusinessBaseActivity {
         searlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
             @Override
             public void isBottom() {
-                if(searchPage+1>searchTotal){
-                    listview.addFooterView("已经到底了");
+                if(searchResultPopAdapter.getCount()+1>searchTotal){
+                    searlistview.addFooterView("已经到底了");
                     return;
                 }
 

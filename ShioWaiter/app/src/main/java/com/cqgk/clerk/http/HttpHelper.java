@@ -97,14 +97,14 @@ public class HttpHelper
     }
 
     private void printParams(RequestParams params) {
-        LogUtil.w("HttpRequest", "URL: " + params.getUri());
+        LogUtil.w("URL: " + params.getUri());
 
         if (params.getQueryStringParams() != null) {
-            LogUtil.w("HttpRequest", String.format("___params:%s", params.getQueryStringParams().toString()));
+            LogUtil.w(String.format("___params:%s", params.getQueryStringParams().toString()));
         }
 
         if (params.getHeaders() != null && params.getHeaders().size() > 0) {
-            LogUtil.w("HttpRequest", String.format("____headers:x-Token:%s",
+            LogUtil.w(String.format("____headers:x-Token:%s",
                     params.getHeaders().toString()));
         }
     }

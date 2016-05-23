@@ -41,7 +41,8 @@ public class FindPwdActivity extends BusinessBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        enableTitleDelegate();
+        getTitleDelegate().setTitle("忘记密码");
         initView();
     }
 
@@ -52,14 +53,14 @@ public class FindPwdActivity extends BusinessBaseActivity {
     }
 
     @Event(R.id.randomcode)
-    private void randomcode_click(View view){
+    private void randomcode_click(View view) {
         if (!CheckUtils.isAvailable(mobile.getText().toString())) {
             showLongToast("手机号码不能为空");
             return;
         }
         RequestUtils.getVerifyCode("0", mobile.getText().toString(), new HttpCallBack<String>() {
             @Override
-            public void success(String result,String msg) {
+            public void success(String result, String msg) {
                 time.start();//开始计时
             }
 
@@ -90,18 +91,18 @@ public class FindPwdActivity extends BusinessBaseActivity {
 
         RequestUtils.findPwd(mobile.getText().toString(), smscode.getText().toString(),
                 newpwd.getText().toString(), new HttpCallBack<String>() {
-            @Override
-            public void success(String result,String msg) {
-                showLongToast(result);
-                finish();
-            }
+                    @Override
+                    public void success(String result, String msg) {
+                        showLongToast(result);
+                        finish();
+                    }
 
-            @Override
-            public boolean failure(int state, String msg) {
-                showLongToast(msg);
-                return super.failure(state, msg);
-            }
-        });
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
     }
 
 
