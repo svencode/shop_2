@@ -62,6 +62,11 @@ public class LogUtil {
         }
     }
 
+    public static void w(String text) {
+        w(defTagStr, text, null);
+    }
+
+
     public static void w(String tag, String text) {
         w(tag, text, null);
     }

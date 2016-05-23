@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
 /**
  * 通用listview
@@ -16,6 +16,17 @@ public class NormalGridView extends GridView {
 
     private ScrollStateEvent scrollStateEvent;
 
+    private boolean isHaveFooterView=false;
+
+
+    public boolean isHaveFooterView() {
+        return isHaveFooterView;
+    }
+
+    public void setHaveFooterView(boolean haveFooterView) {
+        isHaveFooterView = haveFooterView;
+    }
+
     public ScrollStateEvent getScrollStateEvent() {
         return scrollStateEvent;
     }
@@ -23,6 +34,7 @@ public class NormalGridView extends GridView {
     public void setScrollStateEvent(ScrollStateEvent scrollStateEvent) {
         this.scrollStateEvent = scrollStateEvent;
     }
+
 
     public interface ScrollStateEvent {
         public void isBottom();
@@ -70,16 +82,22 @@ public class NormalGridView extends GridView {
         return result;
     }
 
+    public void removeFooterView(){
+
+    }
 
     /**
      * 添加底部
-     * @param content
+     * @param parent
      */
-    public void addFooterView(String content) {
-//        if (getFooterViewsCount() == 0) {
-//           View view = FootEndView.getFootView(getContext(),content);
-//            addFooterView(view);
-//        }
+    public void addFooter(View parent,String content) {
+        if(isHaveFooterView)
+            return;
+
+       View foot = FootEndView.getFootView(getContext(),content);
+        LinearLayout parentView = (LinearLayout)parent;
+        parentView.addView(foot);
+        isHaveFooterView=true;
     }
 
 

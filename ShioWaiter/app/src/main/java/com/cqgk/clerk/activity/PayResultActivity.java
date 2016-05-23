@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.OrderSubmitResultBean;
+import com.cqgk.clerk.helper.NavigationHelper;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -77,12 +78,11 @@ public class PayResultActivity extends BusinessBaseActivity {
 
     @Event(R.id.exitBtn)
     private void exit(View view) {
-        System.exit(0);
+        NavigationHelper.getInstance().GoHome();
     }
 
     @Event(R.id.goOnBtn)
     private void goOn(View view) {
-        //跳回
-        finish();
+        NavigationHelper.getInstance().GoHome();
     }
 }
