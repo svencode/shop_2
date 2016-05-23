@@ -339,7 +339,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
 
         if (vipNo == null) {
-            CommonDialogView.show("请确定您收到客户的现金后再进行充值", new CommonDialogView.DialogClickListener() {
+            CommonDialogView.show("请确认已收到客户的现金再进行结算", new CommonDialogView.DialogClickListener() {
                 @Override
                 public void doConfirm() {
                     payRequest(null);

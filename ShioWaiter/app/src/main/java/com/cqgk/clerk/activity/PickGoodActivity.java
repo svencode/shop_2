@@ -59,6 +59,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
     private ArrayList<ProductDtlBean> myGood;
     private int search_page = 1;
+    private int searchTotal;
     private SearchResultPopAdapter searchResultPopAdapter;
 
     @Override
@@ -100,6 +101,12 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         searchlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
             @Override
             public void isBottom() {
+
+                if(search_page+1>searchTotal){
+                    searchlistview.addFooterView("已经到底了");
+                    return;
+                }
+
                 search_page++;
                 search(et_search.getText().toString());
             }
@@ -164,6 +171,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                     showToast("搜索不到该商品");
                     return;
                 }
+
+                searchTotal = result.getTotal();
 
 
                 searchlistview.setVisibility(View.VISIBLE);

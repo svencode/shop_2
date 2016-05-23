@@ -59,7 +59,9 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
     private ProductRowAdapter productRowAdapter;
     private int page = 1;
+    private int pageTotal;
     private int searchPage = 1;
+    private int searchTotal;
     private SearchResultPopAdapter searchResultPopAdapter;
 
 
@@ -101,10 +103,12 @@ public class SeachProductActivity extends BusinessBaseActivity {
                     return;
                 }
 
-                if (result.getTotal() == 0) {
-                    listview.addFooterView("已经到底了");
-                    return;
-                }
+                pageTotal = result.getTotal();
+
+//                if (result.getTotal() == 0) {
+//                    listview.addFooterView("已经到底了");
+//                    return;
+//                }
 
                 my_product_area.setVisibility(View.VISIBLE);
                 search_product_area.setVisibility(View.GONE);
@@ -135,10 +139,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
                     return;
                 }
 
-                if (result.getTotal() == 0) {
-                    showLongToast("对不起,没找到相应的商品");
-                    return;
-                }
+                searchTotal = result.getTotal();
 
                 search_product_area.setVisibility(View.VISIBLE);
                 my_product_area.setVisibility(View.GONE);
@@ -203,6 +204,12 @@ public class SeachProductActivity extends BusinessBaseActivity {
         listview.setScrollStateEvent(new NormalGridView.ScrollStateEvent() {
             @Override
             public void isBottom() {
+
+                if(page+1>pageTotal){
+                    listview.addFooterView("已经到底了");
+                    return;
+                }
+
                 page++;
                 loadProductList();
             }
@@ -228,7 +235,12 @@ public class SeachProductActivity extends BusinessBaseActivity {
         searlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
             @Override
             public void isBottom() {
-                page++;
+                if(searchPage+1>searchTotal){
+                    listview.addFooterView("已经到底了");
+                    return;
+                }
+
+                searchPage++;
                 searchByKeyWord(keyword.getText().toString());
             }
 
