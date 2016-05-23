@@ -67,17 +67,37 @@ public abstract class HttpCallBack<T> {
 
         if (200 == responseVo.retCode) {
             try {
+                //返回字符串
                 if (type.toString().contains("java.lang.String")) {
-                    success((T) responseVo.data);
+                    success((T) responseVo.data, responseVo.msg);
+
                 } else {
+
+
                     Object object = GsonUtil.parseGson(responseVo.data, type);
-                    success((T) object);
+                    success((T) object, responseVo.msg);
+
+
                 }
+
+
+//                if (type.toString().contains("java.lang.String")
+//                        && !CheckUtils.isAvailable(responseVo.msg)) {
+//                    success((T) "", responseVo.msg);
+//
+//                } else if (!CheckUtils.isAvailable(responseVo.data)
+//                        && !CheckUtils.isAvailable(responseVo.msg)) {
+//                    AppUtil.showToast("操作成功");
+//                } else if (type.toString().contains("java.lang.String")) {
+//                    success((T) responseVo.data, responseVo.msg);
+//                } else {
+//                    Object object = GsonUtil.parseGson(responseVo.data, type);
+//                    success((T) object, responseVo.msg);
+//                }
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
-                if (!failure(0, "new gson type fail")) {// 失败
-                    //AppUtil.showToast("new gson type fail");
+                if (!failure(0, "返回格式有误")) {// 失败
                 }
             }
         }
@@ -90,7 +110,7 @@ public abstract class HttpCallBack<T> {
 
     }
 
-    public abstract void success(T result);
+    public abstract void success(T result, String msg);
 
     /**
      * 返回正确则处理，否则不出
@@ -100,8 +120,16 @@ public abstract class HttpCallBack<T> {
      * @return
      */
     public boolean failure(int state, String msg) {
-        LogUtil.e("hanler result faild___");
+        //LogUtil.e("hanler result faild___");
         return false;
+    }
+
+    public void onLoading(int progess) {
+
+    }
+
+    public void onFinished() {
+
     }
 
     static class ResponseVo {

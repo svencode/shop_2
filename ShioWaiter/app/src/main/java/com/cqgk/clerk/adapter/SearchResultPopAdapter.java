@@ -17,6 +17,7 @@ import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.ViewHolderUtil;
 import com.cqgk.clerk.view.PricesTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class SearchResultPopAdapter extends BaseAdapter {
     private Context context;
 
     private List<ProductDtlBean> valuelist;
-    private ItemListener  itemListener;
+    private ItemListener itemListener;
     private int showtype;
 
     public int getShowtype() {
@@ -38,6 +39,7 @@ public class SearchResultPopAdapter extends BaseAdapter {
     }
 
     public SearchResultPopAdapter(Context context) {
+        this.valuelist = new ArrayList<>();
         this.context = context;
     }
 
@@ -54,7 +56,7 @@ public class SearchResultPopAdapter extends BaseAdapter {
         this.itemListener = itemListener;
     }
 
-    public interface ItemListener{
+    public interface ItemListener {
         public void itemClick(int i);
     }
 
@@ -72,6 +74,10 @@ public class SearchResultPopAdapter extends BaseAdapter {
 
     public void setValuelist(List<ProductDtlBean> valuelist) {
         this.valuelist = valuelist;
+    }
+
+    public void addValuelist(List<ProductDtlBean> valuelist) {
+        this.valuelist.addAll(valuelist);
     }
 
     @Override
@@ -96,9 +102,8 @@ public class SearchResultPopAdapter extends BaseAdapter {
         }
 
 
-
         ProductDtlBean item = valuelist.get(position);
-        item.setNum(1);
+        item.setNum(0);
 
         TextView productname = ViewHolderUtil.get(view, R.id.productname);
         productname.setText(item.getGoodsTitle());
@@ -108,27 +113,27 @@ public class SearchResultPopAdapter extends BaseAdapter {
 
         TextView qtytv = ViewHolderUtil.get(view, R.id.qtytv);
         Button btn_add = ViewHolderUtil.get(view, R.id.numadd);
-        qtytv.setText(Html.fromHtml(String.format("<font color=\"red\">%s</font>件",item.getNum())));
-        numadd(btn_add, qtytv, position);
+        qtytv.setText(Html.fromHtml(String.format("<font color=\"red\">%s</font>件", item.getNum())));
 
-        itemClick(view,position);
 
-        if(showtype==0){
+        if (showtype == 0) {
             qtytv.setVisibility(View.GONE);
             btn_add.setVisibility(View.GONE);
+            itemClick(view, position);
         }
-        if(showtype==1){
+        if (showtype == 1) {
             qtytv.setVisibility(View.VISIBLE);
             btn_add.setVisibility(View.VISIBLE);
+            numadd(btn_add, qtytv, position);
         }
         return view;
     }
 
-    private void itemClick(View view,final int i){
+    private void itemClick(View view, final int i) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(itemListener!=null)
+                if (itemListener != null)
                     itemListener.itemClick(i);
             }
         });
@@ -138,9 +143,12 @@ public class SearchResultPopAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ProductDtlBean bean = valuelist.get(i);
                 bean.setNum(bean.getNum() + 1);
-                qtyty.setText(Html.fromHtml(String.format("<font color=\"red\">%s</font>件",bean.getNum())));
+                qtyty.setText(Html.fromHtml(String.format("<font color=\"red\">%s</font>件", bean.getNum())));
+                if (itemListener != null)
+                    itemListener.itemClick(i);
             }
         });
     }

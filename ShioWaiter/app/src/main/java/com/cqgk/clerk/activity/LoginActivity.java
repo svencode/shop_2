@@ -76,7 +76,7 @@ public class LoginActivity extends BusinessBaseActivity {
                 pwd.getText().toString(),
                 new HttpCallBack<LoginResultBean>() {
             @Override
-            public void success(LoginResultBean result) {
+            public void success(LoginResultBean result,String msg) {
                 if (result == null) {
                     showLongToast("登录失败,稍后再试");
                     return;
@@ -108,7 +108,7 @@ public class LoginActivity extends BusinessBaseActivity {
         }
         RequestUtils.getVerifyCode(getCodeed?"1":"0", mobile.getText().toString(), new HttpCallBack<String>() {
             @Override
-            public void success(String result) {
+            public void success(String result,String msg) {
                 time.start();//开始计时
                 getCodeed=true;
             }

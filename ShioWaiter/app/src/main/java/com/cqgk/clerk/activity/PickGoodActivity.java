@@ -3,6 +3,7 @@ package com.cqgk.clerk.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,8 +23,10 @@ import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.view.NormalListView;
 import com.cqgk.clerk.view.SearchResultPopView;
 
 import org.w3c.dom.Text;
@@ -48,11 +51,15 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @ViewInject(R.id.et_search)
     EditText et_search;
 
-    SearchResultPopView popView;
+    @ViewInject(R.id.searchlistview)
+    NormalListView searchlistview;
 
+    //SearchResultPopView popView;
     PickGoodAdapter adapter;
 
     private ArrayList<ProductDtlBean> myGood;
+    private int search_page = 1;
+    private SearchResultPopAdapter searchResultPopAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +78,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         myGood = new ArrayList<>();
 
         layoutView();
-
         getHotGood();
 
     }
@@ -80,73 +86,98 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void layoutView() {
         adapter = new PickGoodAdapter(this, this);
         listView.setAdapter(adapter);
+
+        searchResultPopAdapter = new SearchResultPopAdapter(this);
+        searchResultPopAdapter.setItemListener(new SearchResultPopAdapter.ItemListener() {
+            @Override
+            public void itemClick(int i) {
+                topGoodClick(searchResultPopAdapter.getItem(i));
+                searchlistview.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            }
+        });
+        searchlistview.setAdapter(searchResultPopAdapter);
+        searchlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+            @Override
+            public void isBottom() {
+                search_page++;
+                search(et_search.getText().toString());
+            }
+
+            @Override
+            public void isOver() {
+
+            }
+
+            @Override
+            public void isTop() {
+
+            }
+        });
     }
 
 
     //去支付事件
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
-        if (0 == myGood.size()) {
+        double goodNum = 0;
+        for (ProductDtlBean good:myGood){
+            goodNum += good.getNum();
+        }
+        if (0 == goodNum) {
             showToast("未选择商品");
             return;
         }
         NavigationHelper.getInstance().startPayBill(myGood);
+        myGood.clear();
+        adapter.setMyGood(myGood);
+        adapter.notifyDataSetChanged();
+        refreshPrice();
     }
 
     //清楚搜索
     @Event(R.id.cleanIB)
     private void cleanSearch(View view) {
         et_search.setText("");
+        searchlistview.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     //搜索事件
     @Event(R.id.btn_search)
     private void search(View view) {
+        if (!CheckUtils.isAvailable(et_search.getText().toString())) {
+            showToast("请输入搜索内容");
+            return;
+        }
+        search_page = 1;
+        searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         search(et_search.getText().toString());
-
     }
 
     private void search(String keyWork) {
-//        if (keyWork.length()==0)return;
-        RequestUtils.searchGood(keyWork, 1, new HttpCallBack<GoodListBean>() {
+        RequestUtils.searchGood(keyWork, search_page, new HttpCallBack<GoodListBean>() {
             @Override
-            public void success(final GoodListBean result) {
+            public void success(final GoodListBean result, String msg) {
 
                 if (null == result.getList() || result.getList().size() == 0) {
                     showToast("搜索不到该商品");
                     return;
                 }
 
-                if (null == popView) {
-                    popView = new SearchResultPopView(PickGoodActivity.this, 0);
-                    popView.setBackgroundDrawable(new BitmapDrawable());
-                    popView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
-                        @Override
-                        public void itemClick(int i) {
-                            topGoodClick(result.getList().get(i));
-                            popView.dismiss();
-                        }
-                    });
-                }
 
-                if (popView.isShowing()) {
-                    popView.dismiss();
-                }
+                searchlistview.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                searchResultPopAdapter.addValuelist(result.getList());
+                searchResultPopAdapter.notifyDataSetChanged();
 
 
-                popView.getAdapter().setValuelist(result.getList());
-                popView.getAdapter().notifyDataSetChanged();
-                popView.showAsDropDown(et_search);
-//                popView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                        topGoodClick(result.getList().get(position));
-//                        popView.dismiss();
-//                    }
-//                });
+            }
 
-
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                return super.failure(state, msg);
             }
         });
     }
@@ -155,7 +186,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     private void getHotGood() {
         RequestUtils.queryTopGoodsList(new HttpCallBack<List<ProductDtlBean>>() {
             @Override
-            public void success(List<ProductDtlBean> result) {
+            public void success(List<ProductDtlBean> result, String msg) {
                 List<ProductDtlBean> items = result;
                 if (null != items) {
                     adapter.getTopGoodList().addAll(items);
@@ -177,12 +208,16 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             price += (item.getNum() * item.getRetailPrice());
         }
 
-        amountTV.setText("￥" + price + "     共" + num + "件");
+        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price, num)));
     }
 
     @Override
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
+
+        if(item.getNum()<=0)
+            item.setNum(1);
+
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 alreadyHad = true;
@@ -194,6 +229,8 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             //item.setNum(1);
             myGood.add(item);
         }
+
+
 
         adapter.setMyGood(myGood);
         adapter.notifyDataSetChanged();
@@ -208,7 +245,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 item1.setNum(item1.getNum() + 1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
-
                 refreshPrice();
                 return;
             }
@@ -221,23 +257,39 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(item1.getNum() - 1);
-                if (item1.getNum() == 0) myGood.remove(item1);
+                if (item1.getNum() <= 0) myGood.remove(item1);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
-
                 refreshPrice();
                 return;
             }
         }
+    }
 
+    @Override
+    public void changQty(ProductDtlBean item) {
+        for (ProductDtlBean item1 : myGood) {
+            if (item1.equals(item)) {
+                item1.setNum(item.getNum());
+                if (0 == item1.getNum())myGood.remove(item1);
+
+                adapter.setMyGood(myGood);
+                adapter.notifyDataSetChanged();
+                refreshPrice();
+                return;
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
-            ProductDtlBean bean = (ProductDtlBean) data.getSerializableExtra("dtl");
-            topGoodClick(bean);
+            List<ProductDtlBean> beanlist = (List<ProductDtlBean>) data.getSerializableExtra("dtllist");
+            for (int i = 0; i < beanlist.size(); i++) {
+                topGoodClick(beanlist.get(i));
+            }
+
         }
     }
 }

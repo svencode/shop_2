@@ -14,6 +14,7 @@ import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.SearchResultPopView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.google.zxing.Result;
@@ -35,11 +36,12 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
     private boolean hasSurface;
 
-    private static final int UPTATE_INTERVAL_TIME = 2000;
+    private static final int UPTATE_INTERVAL_TIME = 4000;
     private long lastUpdateTime;
 
     private int showType = 0;//0-编辑商品1-返回商品
 
+    boolean hadScan = false;
 
     //private SearchResultPopView searchResultPopView;
 
@@ -92,35 +94,26 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        reScan();
+        onPause();
+
+        if (true == hadScan)return;
+
+        hadScan = true;
+
         long currentUpdateTime = System.currentTimeMillis();
         long timeInterval = currentUpdateTime - lastUpdateTime;
         if (timeInterval < UPTATE_INTERVAL_TIME) {
             return;
         }
-        lastUpdateTime = currentUpdateTime;
-        String bar_code = recode(result.toString());
 
+        lastUpdateTime = currentUpdateTime;
+
+
+        String bar_code = recode(result.toString());
         Intent intent = new Intent();
         intent.putExtra("couponcode", bar_code);
-        setResult(1, intent);
+        setResult(99, intent);
         finish();
-
-//        String product_bar_code = recode(result.toString());
-//        RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
-//            @Override
-//            public void success(MeProductListBean result) {
-//                if (result == null || result.getList().size() == 0) {
-//                    showLongToast("此编号无商品");
-//                    return;
-//                }
-//
-//                searchResultPopView.getAdapter().setValuelist(result.getList());
-//                searchResultPopView.getAdapter().notifyDataSetChanged();
-//                searchResultPopView.showAsDropDown(capture_preview);
-//
-//            }
-//        });
 
     }
 

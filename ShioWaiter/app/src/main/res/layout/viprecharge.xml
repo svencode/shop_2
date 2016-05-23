@@ -157,7 +157,8 @@
             android:layout_centerVertical="true"
             android:text="￥0.0"
             android:textSize="@dimen/text_size_m"
-            android:id="@+id/summoney"/>
+            android:id="@+id/summoney"
+            android:textColor="@color/font_color_1"/>
 
         <Button
             android:layout_width="100dp"

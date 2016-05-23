@@ -9,6 +9,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
@@ -39,34 +40,40 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
+                android:background="@color/font_color_4"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="0.5dp">
 
                 <Button
                     android:id="@+id/minusBtn"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:background="@drawable/bg_gray_border"
+                    android:background="@color/white"
                     android:text="-"
                     android:textColor="@color/color_red" />
 
                 <EditText
                     android:id="@+id/numET"
-                    android:layout_width="33dp"
+                    android:layout_width="36dp"
                     android:layout_height="27dp"
-                    android:background="@drawable/bg_gray_border_topandbottom"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
+                    android:background="@color/white"
+                    android:digits="0123456789."
                     android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
                     android:singleLine="true"
-                    android:enabled="false"
-                    android:textSize="@dimen/text_size_m"
-                    android:text="0" />
+                    android:text="0"
+                    android:textSize="@dimen/text_size_m" />
 
 
                 <Button
                     android:id="@+id/plusBtn"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:background="@drawable/bg_gray_border"
+                    android:background="@color/white"
                     android:text="+"
                     android:textColor="@color/color_red" />
             </LinearLayout>

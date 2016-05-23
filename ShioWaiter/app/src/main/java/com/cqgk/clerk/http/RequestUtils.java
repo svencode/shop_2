@@ -381,6 +381,27 @@ public class RequestUtils {
         RequestHelper.sendPost(true, params, callBlack);
     }
 
+
+    /**
+     *
+     * @param keyword
+     * @param pageIndex
+     * @param callBlack
+     */
+    public static void searchShopGood(String keyword, int pageIndex, HttpCallBack<GoodListBean> callBlack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_queryClerkGoodsByKey));
+        if (null == keyword) {
+            keyword = "";
+        }
+        params = getLoginParams(params);
+        params.addParameter("keyword", keyword);
+        params.addParameter("pageIndex", pageIndex + "");
+        params.addParameter("pageSize", 10 + "");
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+
     /* 搜索商品
      * @param keyword
      * @param pageIndex
@@ -402,7 +423,7 @@ public class RequestUtils {
     /**
      * 文件上传
      *
-     * @param file
+     * @param filepath
      * @param filename
      * @param callBlack
      */
@@ -468,6 +489,9 @@ public class RequestUtils {
         for (ProductDtlBean item : goods) {
             OrderSubmitBean.SubmitGood good = new OrderSubmitBean.SubmitGood();
             good.setGsid(item.getId());
+            if (item.getReturnPrice()>0){
+                good.setPrice(""+item.getReturnPrice());
+            }
 
             good.setNum(item.getNum() + "");
 

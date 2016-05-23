@@ -15,6 +15,7 @@ import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.utils.ViewHolderUtil;
 import com.cqgk.clerk.view.PricesTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class ProductRowAdapter extends BaseAdapter {
     private List<ProductDtlBean> valuelist;
 
     public ProductRowAdapter(Context context) {
+        this.valuelist = new ArrayList<>();
         this.context = context;
     }
 
@@ -48,6 +50,10 @@ public class ProductRowAdapter extends BaseAdapter {
 
     public void setValuelist(List<ProductDtlBean> valuelist) {
         this.valuelist = valuelist;
+    }
+
+    public void addValuelist(List<ProductDtlBean> valuelist){
+        this.valuelist.addAll(valuelist);
     }
 
     @Override

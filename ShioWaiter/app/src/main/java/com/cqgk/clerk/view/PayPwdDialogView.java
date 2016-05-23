@@ -74,7 +74,7 @@ public class PayPwdDialogView extends Basic {
 
                 RequestUtils.verifyPwd(cardId, pwdET.getText().toString(), new HttpCallBack<String>() {
                     @Override
-                    public void success(String result) {
+                    public void success(String result,String msg) {
                         dlg.dismiss();
                         if (dialogClickListener != null) dialogClickListener.doConfirm(pwdET.getText().toString());
                     }
