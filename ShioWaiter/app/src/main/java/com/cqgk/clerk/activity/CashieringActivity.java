@@ -1,6 +1,9 @@
 package com.cqgk.clerk.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -125,6 +128,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         layoutView();
         refreshPrice();
         beginCamcer();
+
     }
 
     @Override
@@ -141,6 +145,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
         getVipInfo(recode, couponNumber);
     }
+
 
 
     @Override
@@ -476,4 +481,27 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             getVipInfo(null == vipBean ? null : vipBean.getBarCode(), couponcode);
         }
     }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        unregisterReceiver(GoonReceiver);
+//    }
+//
+//
+//    private void registBroadcast(){
+//        IntentFilter intentFilter = new IntentFilter(PayResultActivity.BROADCAST_GOON_BUY);
+//
+//        //注册广播
+//        this.registerReceiver(GoonReceiver, intentFilter);
+//
+//    }
+//
+//    private BroadcastReceiver GoonReceiver= new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            CashieringActivity.this.finish();
+//        }
+//    };
+
 }

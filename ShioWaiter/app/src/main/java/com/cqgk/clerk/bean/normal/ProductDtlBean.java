@@ -215,4 +215,23 @@ private HashMap<String,String> photoList;
         result = 31 * result + (photoListImg != null ? photoListImg.hashCode() : 0);
         return result;
     }
+
+
+    public static ProductDtlBean copy(ProductDtlBean bean){
+        ProductDtlBean copybean = new ProductDtlBean();
+
+        copybean.num=1;
+        copybean.id= bean.id;
+        copybean.goodsId = bean.goodsId;
+        copybean.goodsTitle = bean.goodsTitle;
+        copybean.specificationDesc = bean.specificationDesc;
+        copybean.logoImg = bean.logoImg;
+        copybean.retailPrice = bean.retailPrice;
+        copybean.vipPrice = bean.vipPrice;
+        copybean.returnPrice = bean.returnPrice;
+        copybean.price = bean.price;
+        copybean.userPrice = bean.userPrice;
+        copybean.barCode = bean.barCode;
+        return copybean;
+    }
 }

@@ -1,5 +1,6 @@
 package com.cqgk.clerk.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -43,11 +44,19 @@ public class PayResultActivity extends BusinessBaseActivity {
     public static final String ORDER_RESULT = "order_result";
     public static final String IS_VIP_PAY = "is_vip_pay";
 
+    public static final String BROADCAST_GOON_BUY = "go_on_buy";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
         getTitleDelegate().setTitle("支付成功");
+        getTitleDelegate().setLeftOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationHelper.getInstance().GoHome();
+            }
+        });
         resultBean = (OrderSubmitResultBean) getIntent().getSerializableExtra(ORDER_RESULT);
         isVipPay = getIntent().getBooleanExtra(IS_VIP_PAY, false);
         showInfo(resultBean);
@@ -83,6 +92,7 @@ public class PayResultActivity extends BusinessBaseActivity {
 
     @Event(R.id.goOnBtn)
     private void goOn(View view) {
+
         NavigationHelper.getInstance().GoHome();
     }
 }
