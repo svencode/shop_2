@@ -102,7 +102,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             @Override
             public void isBottom() {
 
-                if(search_page+1>searchTotal){
+                if(searchResultPopAdapter.getCount()+1>searchTotal){
                     searchlistview.addFooterView("已经到底了");
                     return;
                 }
