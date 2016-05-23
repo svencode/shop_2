@@ -391,13 +391,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
 
         if (null != vipBean && null != vipInfo.getAmountMap() && null != vipInfo.getAmountMap().getTotalAmount()) {
-            double total = 0;
-            if (null != vipInfo && null != vipInfo.getFaceValue()) {
-                total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount()) - Double.parseDouble(vipInfo.getFaceValue());
-            } else {
-                total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount());
-            }
-
+            double total = Double.parseDouble(vipInfo.getAmountMap().getTotalAmount());
             amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", (total >= 0 ? total : 0), num)));
             //amountTV.setText("￥" + (total >= 0 ? total : 0) + "     共" + num + "件");
         } else {
