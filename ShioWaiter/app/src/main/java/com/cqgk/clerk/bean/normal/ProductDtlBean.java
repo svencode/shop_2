@@ -20,7 +20,7 @@ public class ProductDtlBean implements Serializable {
      * vipPrice : 100.0
      */
 
-    private double num=1;
+    private double num;
     private String id;
     private String goodsId;
     private String goodsTitle;

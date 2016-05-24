@@ -222,6 +222,11 @@ public class SeachProductActivity extends BusinessBaseActivity {
             public void isTop() {
 
             }
+
+            @Override
+            public void isFling() {
+                listview.removeFooterView(my_product_area);
+            }
         });
 
         searchResultPopAdapter.setItemListener(new SearchResultPopAdapter.ItemListener() {
