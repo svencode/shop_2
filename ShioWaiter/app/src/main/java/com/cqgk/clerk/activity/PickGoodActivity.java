@@ -220,7 +220,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
 
-//        if(item.getNum()<=0)
+        if(item.getNum()<=0)
             item.setNum(1);
 
         for (ProductDtlBean item1 : myGood) {
