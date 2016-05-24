@@ -24,6 +24,7 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.view.NormalListView;
@@ -293,6 +294,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         if (resultCode == 1) {
             List<ProductDtlBean> beanlist = (List<ProductDtlBean>) data.getSerializableExtra("dtllist");
             for (int i = 0; i < beanlist.size(); i++) {
+                LogUtil.e(String.format("_________id:%s num:%s",beanlist.get(i).getGoodsId(),beanlist.get(i).getNum()));
                 topGoodClick(beanlist.get(i));
             }
 
