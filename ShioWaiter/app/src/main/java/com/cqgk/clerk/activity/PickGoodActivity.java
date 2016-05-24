@@ -136,10 +136,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             return;
         }
         NavigationHelper.getInstance().startPayBill(myGood);
-        myGood.clear();
-        adapter.setMyGood(myGood);
-        adapter.notifyDataSetChanged();
-        refreshPrice();
     }
 
     //清楚搜索
@@ -224,19 +220,20 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
 
-        if(item.getNum()<=0)
+//        if(item.getNum()<=0)
             item.setNum(1);
 
         for (ProductDtlBean item1 : myGood) {
-            if (item1.equals(item)) {
+            if (item1.getId().equals(item.getId())) {
                 alreadyHad = true;
-                item1.setNum(item1.getNum() + 1);
+                item1.setNum(item1.getNum() + item.getNum());
             }
         }
 
         if (alreadyHad == false) {
-            //item.setNum(1);
-            myGood.add(item);
+
+
+            myGood.add(ProductDtlBean.copy(item));
         }
 
 

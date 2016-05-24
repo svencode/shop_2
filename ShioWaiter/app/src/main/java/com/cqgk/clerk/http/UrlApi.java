@@ -13,7 +13,7 @@ public class UrlApi {
     /**
      *
      */
-    private static String Service = "http://betam.51xnb.cn";//BuildConfig.DEBUG? "http://betam.51xnb.cn": "http://m.51xnb.cn";
+    private static String Service = BuildConfig.API_HOST;//BuildConfig.API_HOST;//BuildConfig.DEBUG? "http://betam.51xnb.cn": "http://m.51xnb.cn";
     /**  */
     private static String Domain = "/clerk/";
 

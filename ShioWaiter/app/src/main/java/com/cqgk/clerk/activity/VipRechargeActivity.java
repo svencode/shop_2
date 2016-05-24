@@ -114,9 +114,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @Override
     public void requestData() {
         super.requestData();
-//        if (CheckUtils.isAvailable(card_id)) {
-//            loadCardInfo(card_id);
-//        }
+        if (CheckUtils.isAvailable(card_id)) {
+            loadCardInfo(card_id);
+        }
     }
 
     @Override
@@ -253,8 +253,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     }
 
     private void getRechargeCode() {
-        //inputmoney.getText().toString()
-        RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
+        RequestUtils.vipRecharge(card_id,
+                BuildConfig.DEBUG?"0.01":inputmoney.getText().toString(),
+                new HttpCallBack<RechargeResultBean>() {
             @Override
             public void success(RechargeResultBean result,String msg) {
                 AppEnter.user_msg = result.getUserMsg();

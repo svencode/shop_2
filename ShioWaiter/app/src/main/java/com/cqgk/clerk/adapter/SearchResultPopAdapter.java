@@ -80,6 +80,11 @@ public class SearchResultPopAdapter extends BaseAdapter {
         this.valuelist.addAll(valuelist);
     }
 
+
+    public void addItem(ProductDtlBean item){
+        this.valuelist.add(item);
+    }
+
     @Override
     public int getCount() {
         return valuelist == null ? 0 : valuelist.size();
@@ -103,7 +108,6 @@ public class SearchResultPopAdapter extends BaseAdapter {
 
 
         ProductDtlBean item = valuelist.get(position);
-        item.setNum(0);
 
         TextView productname = ViewHolderUtil.get(view, R.id.productname);
         productname.setText(item.getGoodsTitle());
