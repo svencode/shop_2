@@ -92,6 +92,13 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 @Override
                 public void onClick(View view) {
 
+                    for (int i = 0; i < searchResultPopAdapter.getCount(); i++) {
+                        if (searchResultPopAdapter.getItem(i).getNum() > 0) {
+                            returnList.add(searchResultPopAdapter.getItem(i));
+                        }
+                    }
+
+
                     if (returnList.size() == 0) {
                         showToast("请选择商品");
                         return;
@@ -115,8 +122,6 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 ProductDtlBean productDtlBean = searchResultPopAdapter.getItem(i);
                 if (showType == 0) {
                     NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
-                } else {
-                    returnList.add(productDtlBean);
                 }
             }
         });
@@ -139,7 +144,6 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        //searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         String product_bar_code = recode(result.toString());
         getCodeData(product_bar_code);
     }
