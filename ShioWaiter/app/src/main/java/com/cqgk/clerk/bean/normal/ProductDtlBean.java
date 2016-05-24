@@ -220,7 +220,7 @@ private HashMap<String,String> photoList;
     public static ProductDtlBean copy(ProductDtlBean bean){
         ProductDtlBean copybean = new ProductDtlBean();
 
-        copybean.num=1;
+        copybean.num=bean.getNum();
         copybean.id= bean.id;
         copybean.goodsId = bean.goodsId;
         copybean.goodsTitle = bean.goodsTitle;
