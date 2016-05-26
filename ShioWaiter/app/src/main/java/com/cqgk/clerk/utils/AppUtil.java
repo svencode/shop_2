@@ -34,6 +34,21 @@ import java.util.List;
  */
 public class AppUtil extends Basic {
 
+    public static int getSDKVersion(){
+        int osVersion;
+        try
+        {
+            osVersion = Integer.valueOf(android.os.Build.VERSION.SDK);
+        }
+        catch (NumberFormatException e)
+        {
+            osVersion = 0;
+        }
+
+        return osVersion;
+    }
+
+
     /**
      * 获取文件名
      * @param pathandname

@@ -14,6 +14,7 @@ import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.ImageHelper;
 import com.cqgk.clerk.utils.AppUtil;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.ViewHolderUtil;
 import com.cqgk.clerk.view.PricesTextView;
 
@@ -109,6 +110,13 @@ public class SearchResultPopAdapter extends BaseAdapter {
 
         ProductDtlBean item = valuelist.get(position);
 
+
+        ImageView goodsimg = ViewHolderUtil.get(view,R.id.goodsimg);
+        if(CheckUtils.isAvailable(item.getLogoImg()))
+            ImageHelper.getInstance().display(goodsimg,item.getLogoImg());
+
+
+
         TextView productname = ViewHolderUtil.get(view, R.id.productname);
         productname.setText(item.getGoodsTitle());
 
@@ -121,11 +129,13 @@ public class SearchResultPopAdapter extends BaseAdapter {
 
 
         if (showtype == 0) {
+            goodsimg.setVisibility(View.VISIBLE);
             qtytv.setVisibility(View.GONE);
             btn_add.setVisibility(View.GONE);
             itemClick(view, position);
         }
         if (showtype == 1) {
+            goodsimg.setVisibility(View.GONE);
             qtytv.setVisibility(View.VISIBLE);
             btn_add.setVisibility(View.VISIBLE);
             numadd(btn_add, qtytv, position);

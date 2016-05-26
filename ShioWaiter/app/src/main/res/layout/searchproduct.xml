@@ -69,7 +69,6 @@
             android:id="@+id/searlistview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@null"
             android:horizontalSpacing="2dp"
             android:numColumns="2"
             android:verticalSpacing="2dp" />

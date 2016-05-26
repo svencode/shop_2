@@ -137,7 +137,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
     private void loadCardInfo(String cid) {
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
-            public void success(CardDtlBean result,String msg) {
+            public void success(CardDtlBean result, String msg) {
                 card_id = result.getCard_id();
                 scansuccess.setVisibility(View.VISIBLE);
                 cardnum.setText(String.format("卡号:%s", result.getCard_id()));
@@ -169,7 +169,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
     private void checkCard(String card_id) {
         RequestUtils.checkCardState(card_id, new HttpCallBack<String>() {
             @Override
-            public void success(String result,String msg) {
+            public void success(String result, String msg) {
 
             }
 
@@ -232,13 +232,13 @@ public class VipRechargeActivity extends CamerBaseActivity {
         }
 
         long imoney = Long.parseLong(inputmoney.getText().toString());
-        if (imoney % 100 != 0) {
-            showLongToast("充值金额必须为100元的整倍数");
-            return;
-        }
+//        if (imoney % 100 != 0) {
+//            showLongToast("充值金额必须为100元的整倍数");
+//            return;
+//        }
 
         if (imoney <= 0) {
-            showLongToast("充值金额必须为100元的整倍数");
+            showLongToast("请输入充值金额");
             return;
         }
 
@@ -253,20 +253,26 @@ public class VipRechargeActivity extends CamerBaseActivity {
     }
 
     private void getRechargeCode() {
+        String payMoney = inputmoney.getText().toString();
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {
+            payMoney = "0.01";
+        } else if (BuildConfig.BUILD_TYPE.equals("release")) {
+            payMoney = "0.01";
+        }
         RequestUtils.vipRecharge(card_id,
-                BuildConfig.DEBUG?"0.01":inputmoney.getText().toString(),
+                payMoney,
                 new HttpCallBack<RechargeResultBean>() {
-            @Override
-            public void success(RechargeResultBean result,String msg) {
-                AppEnter.user_msg = result.getUserMsg();
-                NavigationHelper.getInstance().startVipPaySelect(result);
-            }
+                    @Override
+                    public void success(RechargeResultBean result, String msg) {
+                        AppEnter.user_msg = result.getUserMsg();
+                        NavigationHelper.getInstance().startVipPaySelect(result);
+                    }
 
-            @Override
-            public boolean failure(int state, String msg) {
-                showLongToast(msg);
-                return super.failure(state, msg);
-            }
-        });
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
     }
 }

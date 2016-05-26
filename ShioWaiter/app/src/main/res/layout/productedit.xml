@@ -51,8 +51,7 @@
                         android:id="@+id/capture_preview"
                         android:layout_width="fill_parent"
                         android:layout_height="200dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/mo_scanner_bg" />
+                        android:layout_gravity="center" />
 
 
                     <TextView
