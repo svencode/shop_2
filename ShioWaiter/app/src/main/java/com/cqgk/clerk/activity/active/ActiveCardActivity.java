@@ -26,6 +26,7 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.DisplayUtil;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
@@ -164,8 +165,8 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         super.handleDecode(result, barcode);
 
         String cid = recode(result.toString());
-//        if (BuildConfig.DEBUG)
-//            cid = AppEnter.TestCardid;
+        if (BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
 
         card_id = cid;
 
@@ -177,6 +178,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
                 opencard.setVisibility(View.VISIBLE);
+                setListTop(140);
             }
 
             /**
@@ -221,11 +223,12 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             @Override
             public void doConfirm() {
                 reScan();
-                scansuccess.setVisibility(View.GONE);
+                scansuccess.setVisibility(View.INVISIBLE);
                 captureroot.setVisibility(View.VISIBLE);
                 memeber_name.setText("");
                 phone.setText("");
                 row_4_pwd.setText("");
+                setListTop(250);
             }
         });
     }
@@ -306,5 +309,10 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 return super.failure(state, msg);
             }
         });
+    }
+
+    private void setListTop(int dp){
+        android.view.ViewGroup.LayoutParams lp =scansuccess.getLayoutParams();
+        lp.height= DisplayUtil.dip2px(dp);
     }
 }

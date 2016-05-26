@@ -17,6 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/scanResultarea"
             android:layout_width="match_parent"
@@ -27,52 +28,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/scansuccess"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="8dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/cardnum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:text="卡号:"
-                        android:textColor="@color/font_color_3"
-                        android:textSize="@dimen/text_size_l" />
-
-                    <TextView
-                        android:id="@+id/cardmoney"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/cardnum"
-                        android:layout_marginTop="8dp"
-                        android:text="余额:0.0"
-                        android:textColor="@color/font_color_3"
-                        android:textSize="@dimen/text_size_l" />
-
-                    <ImageView
-                        android:id="@+id/scanagain"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="8dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/icon_delpic" />
-
-                    <View
-                        style="@style/magic_h_line"
-                        android:layout_alignParentBottom="true" />
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/captureroot"
@@ -102,181 +57,230 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/inputarea"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="250dp"
-                    android:background="@color/white"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/scansuccess"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="250dp"
                         android:background="@color/white"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:orientation="vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:visibility="invisible">
 
                         <TextView
-                            android:id="@+id/row_1_title"
-                            android:layout_width="90dp"
+                            android:id="@+id/cardnum"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:text="会员姓名"
+                            android:layout_alignParentTop="true"
+                            android:text="卡号:"
                             android:textColor="@color/font_color_3"
-                            android:textSize="@dimen/text_size_m" />
-
-                        <EditText
-                            android:id="@+id/memeber_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/row_1_title"
-                            android:background="@android:color/transparent"
-                            android:hint="请输入会员姓名"
-                            android:textColor="@color/font_color_3"
-                            android:textColorHint="@color/font_color_4"
-                            android:textSize="@dimen/text_size_m" />
-
-                    </RelativeLayout>
-
-                    <View style="@style/magic_h_line" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@color/white"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                            android:textSize="@dimen/text_size_l" />
 
                         <TextView
-                            android:id="@+id/row_2_title"
-                            android:layout_width="90dp"
+                            android:id="@+id/cardmoney"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:text="会员手机号"
+                            android:layout_below="@+id/cardnum"
+                            android:layout_marginTop="8dp"
+                            android:text="余额:0.0"
                             android:textColor="@color/font_color_3"
-                            android:textSize="@dimen/text_size_m" />
+                            android:textSize="@dimen/text_size_l" />
 
-                        <EditText
-                            android:id="@+id/phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/row_2_title"
-                            android:background="@android:color/transparent"
-                            android:digits="0123456789"
-                            android:hint="请输入11位手机号码"
-                            android:inputType="phone"
-                            android:maxLength="11"
-                            android:textColor="@color/font_color_3"
-                            android:textColorHint="@color/font_color_4"
-                            android:textSize="@dimen/text_size_m" />
+                        <ImageView
+                            android:id="@+id/scanagain"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/icon_delpic" />
 
+                        <View
+                            style="@style/magic_h_line"
+                            android:layout_alignParentBottom="true" />
                     </RelativeLayout>
-
-                    <View style="@style/magic_h_line" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@color/white"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:id="@+id/row_3_title"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:text="会员身份证号"
-                            android:textColor="@color/font_color_3"
-                            android:textSize="@dimen/text_size_m" />
-
-                        <EditText
-                            android:id="@+id/card_idcard"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/row_3_title"
-                            android:background="@android:color/transparent"
-                            android:digits="0123456789Xx"
-                            android:hint="请输入15-18位身份证号码"
-                            android:maxLength="18"
-                            android:textColor="@color/font_color_3"
-                            android:textColorHint="@color/font_color_4"
-                            android:textSize="@dimen/text_size_m" />
-
-
-                    </RelativeLayout>
-
-                    <View style="@style/magic_h_line" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@color/white"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:id="@+id/row_4_title"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:text="密码"
-                            android:textColor="@color/font_color_3"
-                            android:textSize="@dimen/text_size_m" />
-
-                        <EditText
-                            android:id="@+id/row_4_pwd"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/row_4_title"
-                            android:background="@android:color/transparent"
-                            android:hint="请让客户自己输入6位数字"
-                            android:inputType="numberPassword"
-                            android:maxLength="6"
-                            android:textColor="@color/font_color_3"
-                            android:textColorHint="@color/font_color_4"
-                            android:textSize="@dimen/text_size_m" />
-
-
-                    </RelativeLayout>
-
-                    <View style="@style/magic_h_line" />
-
 
                     <LinearLayout
+                        android:id="@+id/inputarea"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@color/glo_bg_color"
-                        android:gravity="center"
-                        android:paddingTop="10dp">
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:id="@+id/row_1_title"
+                                android:layout_width="90dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="会员姓名"
+                                android:textColor="@color/font_color_3"
+                                android:textSize="@dimen/text_size_m" />
+
+                            <EditText
+                                android:id="@+id/memeber_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@+id/row_1_title"
+                                android:background="@android:color/transparent"
+                                android:hint="请输入会员姓名"
+                                android:textColor="@color/font_color_3"
+                                android:textColorHint="@color/font_color_4"
+                                android:textSize="@dimen/text_size_m" />
+
+                        </RelativeLayout>
+
+                        <View style="@style/magic_h_line" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:id="@+id/row_2_title"
+                                android:layout_width="90dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="会员手机号"
+                                android:textColor="@color/font_color_3"
+                                android:textSize="@dimen/text_size_m" />
+
+                            <EditText
+                                android:id="@+id/phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@+id/row_2_title"
+                                android:background="@android:color/transparent"
+                                android:digits="0123456789"
+                                android:hint="请输入11位手机号码"
+                                android:inputType="phone"
+                                android:maxLength="11"
+                                android:textColor="@color/font_color_3"
+                                android:textColorHint="@color/font_color_4"
+                                android:textSize="@dimen/text_size_m" />
+
+                        </RelativeLayout>
+
+                        <View style="@style/magic_h_line" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:id="@+id/row_3_title"
+                                android:layout_width="90dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="会员身份证号"
+                                android:textColor="@color/font_color_3"
+                                android:textSize="@dimen/text_size_m" />
+
+                            <EditText
+                                android:id="@+id/card_idcard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@+id/row_3_title"
+                                android:background="@android:color/transparent"
+                                android:digits="0123456789Xx"
+                                android:hint="请输入15-18位身份证号码"
+                                android:maxLength="18"
+                                android:textColor="@color/font_color_3"
+                                android:textColorHint="@color/font_color_4"
+                                android:textSize="@dimen/text_size_m" />
 
 
-                        <Button
-                            android:id="@+id/opencard"
-                            android:layout_width="150dp"
-                            android:layout_height="40dp"
-                            android:layout_below="@+id/scanResultarea"
-                            android:background="@color/font_color_4"
-                            android:scaleType="centerInside"
-                            android:text="开卡"
-                            android:layout_gravity="center_horizontal"
-                            android:textColor="@color/white" />
+                        </RelativeLayout>
+
+                        <View style="@style/magic_h_line" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:id="@+id/row_4_title"
+                                android:layout_width="90dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="密码"
+                                android:textColor="@color/font_color_3"
+                                android:textSize="@dimen/text_size_m" />
+
+                            <EditText
+                                android:id="@+id/row_4_pwd"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@+id/row_4_title"
+                                android:background="@android:color/transparent"
+                                android:hint="请让客户自己输入6位数字"
+                                android:inputType="numberPassword"
+                                android:maxLength="6"
+                                android:textColor="@color/font_color_3"
+                                android:textColorHint="@color/font_color_4"
+                                android:textSize="@dimen/text_size_m" />
+
+
+                        </RelativeLayout>
+
+                        <View style="@style/magic_h_line" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/glo_bg_color"
+                            android:gravity="center"
+                            android:paddingTop="10dp">
+
+
+                            <Button
+                                android:id="@+id/opencard"
+                                android:layout_width="150dp"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/scanResultarea"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@color/font_color_4"
+                                android:scaleType="centerInside"
+                                android:text="开卡"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
                     </LinearLayout>
-
                 </LinearLayout>
+
+
             </FrameLayout>
 
 
         </LinearLayout>
     </ScrollView>
-
-
-
-
 
 
 </LinearLayout>
