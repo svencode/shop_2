@@ -75,10 +75,9 @@
 
             <SurfaceView
                 android:id="@+id/capture_preview"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:background="@drawable/mo_scanner_bg" />
+                android:layout_gravity="center" />
 
 
             <TextView
@@ -218,7 +217,7 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/row_4_title"
                 android:background="@android:color/transparent"
-                android:hint="请输入密码"
+                android:hint="请让客户自己输入6位数字"
                 android:inputType="numberPassword"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_m"

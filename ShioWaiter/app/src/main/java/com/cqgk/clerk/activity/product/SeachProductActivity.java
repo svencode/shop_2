@@ -105,11 +105,6 @@ public class SeachProductActivity extends BusinessBaseActivity {
 
                 myproductTotal = result.getTotal();
 
-//                if (result.getTotal() == 0) {
-//                    listview.addFooterView("已经到底了");
-//                    return;
-//                }
-
                 my_product_area.setVisibility(View.VISIBLE);
                 search_product_area.setVisibility(View.GONE);
                 productRowAdapter.addValuelist(result.getList());

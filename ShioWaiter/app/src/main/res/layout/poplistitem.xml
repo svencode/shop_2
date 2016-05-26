@@ -6,10 +6,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:background="@color/white"
+        android:padding="3dp"
         android:gravity="center_vertical|left"
         >
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/goodsimg"
+            android:visibility="gone"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"/>
 
         <TextView
             android:id="@+id/productname"

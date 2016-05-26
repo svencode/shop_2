@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
@@ -14,12 +15,14 @@ import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.SearchResultPopView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.google.zxing.Result;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
@@ -43,7 +46,8 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
     boolean hadScan = false;
 
-    //private SearchResultPopView searchResultPopView;
+    @ViewInject(R.id.input_barcode)
+    EditText input_barcode;
 
 
     @Override
@@ -58,25 +62,6 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
 
         }
 
-//        searchResultPopView = new SearchResultPopView(this);
-//        searchResultPopView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
-//                if (showType == 0) {
-//                    NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
-//                } else {
-//
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("dtl", (Serializable) productDtlBean);
-//                    Intent intent = new Intent();
-//                    intent.putExtras(bundle);
-//                    setResult(1, intent);
-//                    finish();
-//
-//                }
-//            }
-//        });
     }
 
 
@@ -96,7 +81,7 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
         super.handleDecode(result, barcode);
         onPause();
 
-        if (true == hadScan)return;
+        if (true == hadScan) return;
 
         hadScan = true;
 
@@ -109,12 +94,16 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
         lastUpdateTime = currentUpdateTime;
 
 
-        String bar_code = recode(result.toString());
+        getCode(result.toString());
+
+    }
+
+    private void getCode(String code) {
+        String bar_code = recode(code);
         Intent intent = new Intent();
         intent.putExtra("couponcode", bar_code);
         setResult(99, intent);
         finish();
-
     }
 
     @Override
@@ -131,5 +120,17 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
         hasSurface = false;
     }
 
+
+    @Event(R.id.confirm)
+    private void confirm_click(View view) {
+        if (!CheckUtils.isAvailable(input_barcode.getText().toString())) {
+            showToast("请手动输入二维码");
+            return;
+        }
+
+
+        getCode(input_barcode.getText().toString());
+
+    }
 
 }
