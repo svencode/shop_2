@@ -37,7 +37,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="230dp"
-                android:text="请扫描现金卷"
+                android:text="请扫描现金劵"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_m" />
 

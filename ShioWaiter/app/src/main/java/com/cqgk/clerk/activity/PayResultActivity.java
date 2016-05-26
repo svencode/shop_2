@@ -87,12 +87,13 @@ public class PayResultActivity extends BusinessBaseActivity {
 
     @Event(R.id.exitBtn)
     private void exit(View view) {
-        NavigationHelper.getInstance().GoHome();
+        finish();
+        //NavigationHelper.getInstance().GoHome();
     }
 
     @Event(R.id.goOnBtn)
     private void goOn(View view) {
-
-        NavigationHelper.getInstance().GoHome();
+        finish();
+        //NavigationHelper.getInstance().GoHome();
     }
 }

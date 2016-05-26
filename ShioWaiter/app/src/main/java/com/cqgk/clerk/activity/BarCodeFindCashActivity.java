@@ -54,7 +54,7 @@ public class BarCodeFindCashActivity extends CamerBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableTitleDelegate();
-        getTitleDelegate().setTitle("现金卷扫描");
+        getTitleDelegate().setTitle("现金劵扫描");
 
         try {
             showType = getIntent().getIntExtra("showtype", 0);

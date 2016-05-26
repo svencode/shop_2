@@ -200,8 +200,11 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             public void success(JIesuanReturnBean result, String msg) {
 
                 if (CheckUtils.isAvailable(msg)) {
+                    if(!msg.equals("成功")){
+                        showToast(msg);
+                    }
                     beginCamcer();
-                    showToast(msg);
+
                 }
                 showVipInfo(result);
             }

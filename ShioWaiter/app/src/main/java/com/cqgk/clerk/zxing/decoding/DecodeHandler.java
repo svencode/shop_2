@@ -16,8 +16,10 @@
 
 package com.cqgk.clerk.zxing.decoding;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +35,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
+import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.common.HybridBinarizer;
 
 final class DecodeHandler extends Handler {
@@ -77,19 +80,20 @@ final class DecodeHandler extends Handler {
 	private void decode(byte[] data, int width, int height) {
 		long start = System.currentTimeMillis();
 		Result rawResult = null;
-		
-		byte[] rotatedData = new byte[data.length]; 
-		 for (int y = 0; y < height; y++) { 
-		 for (int x = 0; x < width; x++) 
-		 rotatedData[x * height + height - y - 1] = data[x + y * width]; 
-		 } 
-		 int tmp = width; // Here we are swapping, that's the difference to #11 
-		 width = height; 
-		 height = tmp; 
-		 data = rotatedData; 
-		
+
+		byte[] rotatedData = new byte[data.length];
+		 for (int y = 0; y < height; y++) {
+		 for (int x = 0; x < width; x++)
+		 rotatedData[x * height + height - y - 1] = data[x + y * width];
+		 }
+		 int tmp = width; // Here we are swapping, that's the difference to #11
+		 width = height;
+		 height = tmp;
+		 data = rotatedData;
+
 		PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
 		BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+		//BinaryBitmap bitmap = new BinaryBitmap(new GlobalHistogramBinarizer(source));
 		try {
 			rawResult = multiFormatReader.decodeWithState(bitmap);
 		} catch (ReaderException re) {
@@ -106,10 +110,9 @@ final class DecodeHandler extends Handler {
 			Message message = Message.obtain(activity.getHandler(),
 					R.id.decode_succeeded, rawResult);
 			Bundle bundle = new Bundle();
-			bundle.putParcelable(DecodeThread.BARCODE_BITMAP,
-					source.renderCroppedGreyscaleBitmap());
+			bundleThumbnail(source,bundle);
+			//bundle.putParcelable(DecodeThread.BARCODE_BITMAP,source.renderCroppedGreyscaleBitmap());
 			message.setData(bundle);
-			// Log.d(TAG, "Sending decode succeeded message...");
 			message.sendToTarget();
 		} else {
 
@@ -117,6 +120,18 @@ final class DecodeHandler extends Handler {
 					R.id.decode_failed);
 			message.sendToTarget();
 		}
+	}
+
+
+	private static void bundleThumbnail(PlanarYUVLuminanceSource source, Bundle bundle) {
+		int[] pixels = source.renderThumbnail();
+		int width = source.getThumbnailWidth();
+		int height = source.getThumbnailHeight();
+		Bitmap bitmap = Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.ARGB_8888);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+		bundle.putByteArray(DecodeThread.BARCODE_BITMAP, out.toByteArray());
+		bundle.putFloat(DecodeThread.BARCODE_SCALED_FACTOR, (float) width / source.getWidth());
 	}
 
 }

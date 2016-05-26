@@ -35,6 +35,7 @@ import com.google.zxing.ResultPointCallback;
 final class DecodeThread extends Thread {
 
   public static final String BARCODE_BITMAP = "barcode_bitmap";
+  public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 
   private final CamerBaseActivity activity;
   private final Hashtable<DecodeHintType, Object> hints;

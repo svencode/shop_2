@@ -76,10 +76,12 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.cqgk.clerk.activity.VipRechargeActivity"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.cqgk.clerk.activity.active.ActiveCardActivity"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name="com.cqgk.clerk.activity.PickGoodActivity"

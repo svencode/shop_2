@@ -11,7 +11,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,8 +61,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     TextView cardmoney;
 
 
-    @ViewInject(R.id.scanagain)
-    ImageView scanagain;
 
     @ViewInject(R.id.memeber_name)
     EditText memeber_name;
@@ -77,6 +77,9 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     @ViewInject(R.id.opencard)
     Button opencard;
+
+    @ViewInject(R.id.inputarea)
+    LinearLayout inputarea;
 
 
     @ViewInject(R.id.row_1_title)
@@ -170,6 +173,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
         card_id = cid;
 
+
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
             public void success(String result,String msg) {
@@ -223,7 +227,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             @Override
             public void doConfirm() {
                 reScan();
-                scansuccess.setVisibility(View.INVISIBLE);
+                scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
                 memeber_name.setText("");
                 phone.setText("");
@@ -311,8 +315,8 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         });
     }
 
-    private void setListTop(int dp){
-        android.view.ViewGroup.LayoutParams lp =scansuccess.getLayoutParams();
-        lp.height= DisplayUtil.dip2px(dp);
+    private void setListTop(int dp) {
+        android.view.ViewGroup.LayoutParams lp = inputarea.getLayoutParams();
+        ((FrameLayout.LayoutParams)lp).setMargins(0, DisplayUtil.dip2px(dp),0,0);
     }
 }
