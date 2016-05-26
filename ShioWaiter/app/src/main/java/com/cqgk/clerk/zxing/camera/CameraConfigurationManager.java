@@ -36,7 +36,7 @@ final class CameraConfigurationManager {
     private static final String TAG = CameraConfigurationManager.class
             .getSimpleName();
 
-    private static final int TEN_DESIRED_ZOOM = 3;
+    private static final int TEN_DESIRED_ZOOM = 2;
     private static final int DESIRED_SHARPNESS = 30;
 
     private static final Pattern COMMA_PATTERN = Pattern.compile(",");
@@ -63,22 +63,19 @@ final class CameraConfigurationManager {
         WindowManager manager = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
-        screenResolution = new Point(display.getWidth(), DisplayUtil.dip2px(200));
+        screenResolution = new Point(display.getWidth(), display.getHeight());
         //screenResolution = new Point(display.getWidth(), display.getHeight());
         Log.d(TAG, "Screen resolution: " + screenResolution);
 
         Point screenResolutionForCamera = new Point();
-        screenResolutionForCamera.x = 480;
-        screenResolutionForCamera.y = 320;
-//        screenResolutionForCamera.x = screenResolution.x;
-//        screenResolutionForCamera.y = screenResolution.y;
-
+        screenResolutionForCamera.x = screenResolution.x;
+        screenResolutionForCamera.y = screenResolution.y;
 
         // preview size is always something like 480*320, other 320*480
-//        if (screenResolution.x < screenResolution.y) {
-//            screenResolutionForCamera.x = screenResolution.y;
-//            screenResolutionForCamera.y = screenResolution.x;
-//        }
+        if (screenResolution.x < screenResolution.y) {
+            screenResolutionForCamera.x = screenResolution.y;
+            screenResolutionForCamera.y = screenResolution.x;
+        }
 
         cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
         Log.d(TAG, "Camera resolution: " + cameraResolution);
