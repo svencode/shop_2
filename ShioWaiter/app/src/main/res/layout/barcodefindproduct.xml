@@ -14,107 +14,66 @@
         android:layout_alignParentTop="true" />
 
 
-    <LinearLayout
-        android:id="@+id/scanResultarea"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_title_bar_layout"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/scansuccess"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/cardnum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="卡号:"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l" />
-
-            <TextView
-                android:id="@+id/cardmoney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cardnum"
-                android:layout_marginTop="8dp"
-                android:text="余额:0.0"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l" />
-
-            <ImageView
-                android:id="@+id/scanagain"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_delpic" />
-
-            <View
-                style="@style/magic_h_line"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/captureroot"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:background="@color/scan_bg_color">
 
             <SurfaceView
                 android:id="@+id/capture_preview"
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center" />
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginBottom="5dp"
+                android:layout_marginTop="220dp"
                 android:text="请扫描商品条码"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/resulttitle"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/scanResultarea">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="250dp"
+            android:orientation="vertical"
+            android:background="@color/glo_bg_color">
 
-            android:gravity="left|center_vertical"
-            android:paddingLeft="10dp"
-            android:text="已扫描商品"
-            android:textColor="@color/font_color_3"
-            android:textSize="@dimen/text_size_m" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/resulttitle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/scanResultarea">
 
-    <com.cqgk.clerk.view.NormalListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listview"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="已扫描商品"
+                    android:textColor="@color/font_color_3"
+                    android:textSize="@dimen/text_size_m" />
+            </LinearLayout>
+
+            <com.cqgk.clerk.view.NormalListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </FrameLayout>
+
 
 </LinearLayout>
