@@ -232,7 +232,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             captureroot.setVisibility(View.GONE);
             vipInfoLL.setVisibility(View.VISIBLE);
 
-            setListTop(180);
+
 //
             vipNameTV.setText(vipInfo.getMembercard().getName());
             phontTV.setText(vipInfo.getMembercard().getPhoneNumber());
@@ -247,7 +247,14 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
+
+            if (vipInfo.isIsAvailable()) {
+                setListTop(180);
+            }else {
+                setListTop(140);
+            }
         } else {
+            setListTop(250);
             onResume();
         }
 
@@ -255,6 +262,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             couponTV.setVisibility(View.VISIBLE);
             couponTV.setText("现金券抵扣：" + vipInfo.getFaceValue() + "元");
         }else {
+            couponTV.setVisibility(View.GONE);
         }
 
 
@@ -291,7 +299,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         beginCamcer();
 
-        setListTop(250);
     }
 
     private void setListTop(int dp){

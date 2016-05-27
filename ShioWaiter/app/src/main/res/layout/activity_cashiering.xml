@@ -130,7 +130,7 @@
                     android:text="现金券抵扣：0元"
                     android:textColor="@color/color_gray_2"
                     android:textSize="@dimen/text_size_l"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -164,7 +164,7 @@
             </LinearLayout>
             <!--vip info-->
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/listviewpart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -176,16 +176,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/bottomView"
-                    android:layout_below="@id/vipInfoLL"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="45dp"
-                    android:descendantFocusability="beforeDescendants"></ListView>
+                    android:descendantFocusability="beforeDescendants">
+                </ListView>
 
                 <RelativeLayout
                     android:id="@+id/bottomView"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_alignParentBottom="true"
+
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
@@ -215,7 +215,7 @@
                         style="@style/magic_h_line"
                         android:layout_alignParentTop="true" />
                 </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
 
