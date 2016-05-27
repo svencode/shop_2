@@ -232,6 +232,7 @@ private HashMap<String,String> photoList;
         copybean.price = bean.price;
         copybean.userPrice = bean.userPrice;
         copybean.barCode = bean.barCode;
+        copybean.isAllowedModifyPrice = bean.isAllowedModifyPrice;
         return copybean;
     }
 }
