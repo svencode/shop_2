@@ -11,7 +11,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.DisplayUtil;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
@@ -58,8 +61,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     TextView cardmoney;
 
 
-    @ViewInject(R.id.scanagain)
-    ImageView scanagain;
 
     @ViewInject(R.id.memeber_name)
     EditText memeber_name;
@@ -76,6 +77,9 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     @ViewInject(R.id.opencard)
     Button opencard;
+
+    @ViewInject(R.id.inputarea)
+    LinearLayout inputarea;
 
 
     @ViewInject(R.id.row_1_title)
@@ -164,10 +168,11 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         super.handleDecode(result, barcode);
 
         String cid = recode(result.toString());
-//        if (BuildConfig.DEBUG)
-//            cid = AppEnter.TestCardid;
+        if (BuildConfig.DEBUG)
+            cid = AppEnter.TestCardid;
 
         card_id = cid;
+
 
         RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
             @Override
@@ -177,6 +182,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
                 opencard.setVisibility(View.VISIBLE);
+                setListTop(140);
             }
 
             /**
@@ -226,6 +232,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 memeber_name.setText("");
                 phone.setText("");
                 row_4_pwd.setText("");
+                setListTop(250);
             }
         });
     }
@@ -306,5 +313,10 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
                 return super.failure(state, msg);
             }
         });
+    }
+
+    private void setListTop(int dp) {
+        android.view.ViewGroup.LayoutParams lp = inputarea.getLayoutParams();
+        ((FrameLayout.LayoutParams)lp).setMargins(0, DisplayUtil.dip2px(dp),0,0);
     }
 }

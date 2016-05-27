@@ -11,7 +11,7 @@ public class OrderSubmitResultBean implements Serializable{
     private String bonus;
     private String code;
 
-    private HashMap<String,String> coupon;
+    private HashMap<String,String> coupons;
 
     public String getTotalAmount() {
         return totalAmount;
@@ -37,11 +37,11 @@ public class OrderSubmitResultBean implements Serializable{
         this.code = code;
     }
 
-    public HashMap<String, String> getCoupon() {
-        return coupon;
+    public HashMap<String, String> getCoupons() {
+        return coupons;
     }
 
-    public void setCoupon(HashMap<String, String> coupon) {
-        this.coupon = coupon;
+    public void setCoupons(HashMap<String, String> coupons) {
+        this.coupons = coupons;
     }
 }

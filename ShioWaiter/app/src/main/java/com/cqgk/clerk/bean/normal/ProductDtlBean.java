@@ -20,7 +20,7 @@ public class ProductDtlBean implements Serializable {
      * vipPrice : 100.0
      */
 
-    private double num=1;
+    private double num;
     private String id;
     private String goodsId;
     private String goodsTitle;
@@ -220,7 +220,7 @@ private HashMap<String,String> photoList;
     public static ProductDtlBean copy(ProductDtlBean bean){
         ProductDtlBean copybean = new ProductDtlBean();
 
-        copybean.num=1;
+        copybean.num=bean.getNum();
         copybean.id= bean.id;
         copybean.goodsId = bean.goodsId;
         copybean.goodsTitle = bean.goodsTitle;
@@ -232,6 +232,7 @@ private HashMap<String,String> photoList;
         copybean.price = bean.price;
         copybean.userPrice = bean.userPrice;
         copybean.barCode = bean.barCode;
+        copybean.isAllowedModifyPrice = bean.isAllowedModifyPrice;
         return copybean;
     }
 }

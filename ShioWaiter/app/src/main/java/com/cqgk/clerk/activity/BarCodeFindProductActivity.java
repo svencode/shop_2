@@ -36,6 +36,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     private int showType = 0;//0-编辑商品1-返回商品
     private SearchResultPopAdapter searchResultPopAdapter;
     private List<ProductDtlBean> returnList;
+    private HashMap<String, String> productlist = new HashMap<>();
 
     private Handler handler = new Handler();//摄像头重启线程
     private Runnable runnable = new Runnable() {//摄像头重启线程方法
@@ -90,6 +92,13 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 @Override
                 public void onClick(View view) {
 
+                    for (int i = 0; i < searchResultPopAdapter.getCount(); i++) {
+                        if (searchResultPopAdapter.getItem(i).getNum() > 0) {
+                            returnList.add(searchResultPopAdapter.getItem(i));
+                        }
+                    }
+
+
                     if (returnList.size() == 0) {
                         showToast("请选择商品");
                         return;
@@ -113,8 +122,6 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 ProductDtlBean productDtlBean = searchResultPopAdapter.getItem(i);
                 if (showType == 0) {
                     NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
-                } else {
-                    returnList.add(productDtlBean);
                 }
             }
         });
@@ -137,9 +144,11 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        searchResultPopAdapter.setValuelist(new ArrayList<ProductDtlBean>());
         String product_bar_code = recode(result.toString());
+        getCodeData(product_bar_code);
+    }
 
+    private void getCodeData(String product_bar_code) {
         RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
             @Override
             public void success(MeProductListBean result, String msg) {
@@ -155,13 +164,17 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 }
 
                 resulttitle.setVisibility(View.VISIBLE);
-                if(showType==1){
-                    searchResultPopAdapter.setValuelist(result.getList());
-                }else {
-                    searchResultPopAdapter.addValuelist(result.getList());
+
+                for (int i = 0; i < result.getList().size(); i++) {
+                    ProductDtlBean item = result.getList().get(i);
+                    if (productlist.containsKey(item.getGoodsId())) {
+                        setNumQty(item);
+                    } else {
+                        searchResultPopAdapter.addItem(item);
+                        productlist.put(item.getGoodsId(), item.getGoodsTitle());
+                    }
                 }
                 searchResultPopAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -171,6 +184,19 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                 return super.failure(state, msg);
             }
         });
+    }
+
+    /**
+     * @param bean
+     */
+    private void setNumQty(ProductDtlBean bean) {
+        for (int i = 0; i < searchResultPopAdapter.getValuelist().size(); i++) {
+            if (bean.getGoodsId().equals(searchResultPopAdapter.getItem(i).getGoodsId())) {
+                searchResultPopAdapter.getItem(i).setNum(searchResultPopAdapter.getItem(i).getNum() + 1);
+                //LogUtil.e("__________find_after:%s",String.valueOf(searchResultPopAdapter.getItem(i).getNum()));
+            }
+        }
+        //searchResultPopAdapter.notifyDataSetChanged();
     }
 
     @Override

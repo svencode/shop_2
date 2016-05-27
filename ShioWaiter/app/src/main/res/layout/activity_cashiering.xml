@@ -1,191 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/comment_title_bar_layout"
         layout="@layout/layout_bar_title" />
 
+
     <RelativeLayout
-        android:id="@+id/captureroot"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/comment_title_bar_layout"
-        android:background="@color/scan_bg_color">
+        android:layout_height="match_parent">
 
-        <SurfaceView
-            android:id="@+id/capture_preview"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:background="@drawable/mo_scanner_bg" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:text="如客户有会员卡,请扫描卡片上的二维码"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_m" />
-
-    </RelativeLayout>
-    <!--vip info-->
-    <LinearLayout
-        android:id="@+id/vipInfoLL"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/captureroot"
-        android:background="@android:color/white"
-        android:padding="5dp"
-        android:visibility="gone">
         <RelativeLayout
+            android:id="@+id/captureroot"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/nameTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="张三"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/text_size_xl"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/comment_title_bar_layout"
+            android:background="@color/scan_bg_color">
+
+            <SurfaceView
+                android:id="@+id/capture_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
 
             <TextView
-                android:id="@+id/phontTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/nameTV"
-                android:layout_marginLeft="15dp"
-                android:text="13427598820"
-                android:textColor="@color/color_gray_2"
-                android:textSize="@dimen/text_size_l"/>
-
-            <ImageButton
-                android:id="@+id/cleanIB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/icon_delpic"
-                android:background="@android:color/transparent"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="230dp"
+                android:gravity="center"
+                android:text="如客户有会员卡,请扫描卡片上的二维码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_m" />
+
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
-            <TextView
-                android:id="@+id/blanceTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="余额：￥0"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/text_size_xl"/>
-
-            <TextView
-                android:id="@+id/cardNumberTV"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--vip info-->
+            <LinearLayout
+                android:id="@+id/vipInfoLL"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="NO.4383273468372"
-                android:textSize="@dimen/text_size_l"
-                android:textColor="@color/color_gray_2"/>
+                android:layout_height="250dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:visibility="invisible">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/nameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="张三"
+                        android:textColor="@color/color_gray"
+                        android:textSize="@dimen/text_size_xl" />
+
+                    <TextView
+                        android:id="@+id/phontTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/nameTV"
+                        android:text="13427598820"
+                        android:textColor="@color/color_gray_2"
+                        android:textSize="@dimen/text_size_l" />
+
+                    <ImageButton
+                        android:id="@+id/cleanIB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@android:color/transparent"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_delpic" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/blanceTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="余额：￥0"
+                        android:textColor="@color/color_gray"
+                        android:textSize="@dimen/text_size_xl" />
+
+                    <TextView
+                        android:id="@+id/cardNumberTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="NO.4383273468372"
+                        android:textColor="@color/color_gray_2"
+                        android:textSize="@dimen/text_size_l" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color" />
+
+                <TextView
+                    android:id="@+id/couponTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="现金券抵扣：0元"
+                    android:textColor="@color/color_gray_2"
+                    android:textSize="@dimen/text_size_l"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="3dp">
+
+                    <Button
+                        android:id="@+id/rechargeBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="3dp"
+                        android:background="@drawable/bg_red_border_round"
+                        android:text="充值"
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_size_xl" />
+
+                    <Button
+                        android:id="@+id/couponBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="3dp"
+                        android:background="@drawable/bg_red_border_round"
+                        android:text="现金券"
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_size_xl" />
+                </LinearLayout>
+
+                <View style="@style/magic_h_line"/>
+            </LinearLayout>
+            <!--vip info-->
+
+            <RelativeLayout
+                android:id="@+id/listviewpart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/glo_bg_color"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomView"
+                    android:descendantFocusability="beforeDescendants">
+                </ListView>
+
+                <RelativeLayout
+                    android:id="@+id/bottomView"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/amountTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingLeft="8dp"
+
+                        android:textSize="@dimen/text_size_l" />
+
+                    <Button
+                        android:id="@+id/goPayBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="2"
+                        android:background="@color/color_red"
+                        android:text="结算"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_xl" />
+
+                    <View
+                        style="@style/magic_h_line"
+                        android:layout_alignParentTop="true" />
+                </RelativeLayout>
+            </RelativeLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color"/>
-        <TextView
-            android:id="@+id/couponTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="现金券抵扣：0元"
-            android:textColor="@color/color_gray_2"
-            android:textSize="@dimen/text_size_l"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <Button
-                android:id="@+id/rechargeBtn"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="充值"
-                android:textColor="@color/color_red"
-                android:background="@drawable/bg_red_border_round"
-                android:textSize="@dimen/text_size_xl"
-                android:layout_marginRight="3dp"/>
-            <Button
-                android:id="@+id/couponBtn"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="现金券"
-                android:textColor="@color/color_red"
-                android:background="@drawable/bg_red_border_round"
-                android:textSize="@dimen/text_size_xl"
-                android:layout_marginLeft="3dp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-<!--vip info-->
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottomView"
-        android:descendantFocusability="beforeDescendants"
-        android:layout_below="@id/vipInfoLL"></ListView>
 
 
-    <RelativeLayout
-        android:id="@+id/bottomView"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/amountTV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-            android:maxLines="1"
-
-            android:textSize="@dimen/text_size_l" />
-
-        <Button
-            android:id="@+id/goPayBtn"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_weight="2"
-            android:background="@color/color_red"
-            android:text="结算"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_xl" />
-
-        <View
-            style="@style/magic_h_line"
-            android:layout_alignParentTop="true" />
     </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

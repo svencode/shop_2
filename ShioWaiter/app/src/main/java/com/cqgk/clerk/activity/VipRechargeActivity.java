@@ -3,6 +3,7 @@ package com.cqgk.clerk.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -10,6 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.DisplayUtil;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
@@ -61,6 +65,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
     @ViewInject(R.id.summoney)
     TextView summoney;
+
+    @ViewInject(R.id.inputarea)
+    LinearLayout inputarea;
 
     private boolean hasSurface;
     private String card_id;
@@ -114,9 +121,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @Override
     public void requestData() {
         super.requestData();
-//        if (CheckUtils.isAvailable(card_id)) {
-//            loadCardInfo(card_id);
-//        }
+        if (CheckUtils.isAvailable(card_id)) {
+            loadCardInfo(card_id);
+        }
     }
 
     @Override
@@ -137,12 +144,13 @@ public class VipRechargeActivity extends CamerBaseActivity {
     private void loadCardInfo(String cid) {
         RequestUtils.cardInfo(cid, new HttpCallBack<CardDtlBean>() {
             @Override
-            public void success(CardDtlBean result,String msg) {
+            public void success(CardDtlBean result, String msg) {
                 card_id = result.getCard_id();
                 scansuccess.setVisibility(View.VISIBLE);
                 cardnum.setText(String.format("卡号:%s", result.getCard_id()));
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
                 captureroot.setVisibility(View.GONE);
+                setListTop(140);
             }
 
             @Override
@@ -166,21 +174,6 @@ public class VipRechargeActivity extends CamerBaseActivity {
         loadCardInfo(cid);
     }
 
-    private void checkCard(String card_id) {
-        RequestUtils.checkCardState(card_id, new HttpCallBack<String>() {
-            @Override
-            public void success(String result,String msg) {
-
-            }
-
-            @Override
-            public boolean failure(int state, String msg) {
-                showToast(msg);
-                handler.postDelayed(runnable, Constant.CameraRestartTime);
-                return super.failure(state, msg);
-            }
-        });
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -203,12 +196,15 @@ public class VipRechargeActivity extends CamerBaseActivity {
             public void doConfirm() {
                 card_id = "";
                 reScan();
+                setListTop(250);
                 scansuccess.setVisibility(View.GONE);
                 captureroot.setVisibility(View.VISIBLE);
+
             }
         });
 
     }
+
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -232,13 +228,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
         }
 
         long imoney = Long.parseLong(inputmoney.getText().toString());
-        if (imoney % 100 != 0) {
-            showLongToast("充值金额必须为100元的整倍数");
-            return;
-        }
 
         if (imoney <= 0) {
-            showLongToast("充值金额必须为100元的整倍数");
+            showLongToast("请输入充值金额");
             return;
         }
 
@@ -253,19 +245,31 @@ public class VipRechargeActivity extends CamerBaseActivity {
     }
 
     private void getRechargeCode() {
-        //inputmoney.getText().toString()
-        RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
-            @Override
-            public void success(RechargeResultBean result,String msg) {
-                AppEnter.user_msg = result.getUserMsg();
-                NavigationHelper.getInstance().startVipPaySelect(result);
-            }
+        String payMoney = inputmoney.getText().toString();
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {
+            payMoney = "0.01";
+        } else if (BuildConfig.BUILD_TYPE.equals("release")) {
+            payMoney = "0.01";
+        }
+        RequestUtils.vipRecharge(card_id,
+                payMoney,
+                new HttpCallBack<RechargeResultBean>() {
+                    @Override
+                    public void success(RechargeResultBean result, String msg) {
+                        AppEnter.user_msg = result.getUserMsg();
+                        NavigationHelper.getInstance().startVipPaySelect(result);
+                    }
 
-            @Override
-            public boolean failure(int state, String msg) {
-                showLongToast(msg);
-                return super.failure(state, msg);
-            }
-        });
+                    @Override
+                    public boolean failure(int state, String msg) {
+                        showLongToast(msg);
+                        return super.failure(state, msg);
+                    }
+                });
+    }
+
+    private void setListTop(int dp) {
+        android.view.ViewGroup.LayoutParams lp = inputarea.getLayoutParams();
+        ((FrameLayout.LayoutParams)lp).setMargins(0, DisplayUtil.dip2px(dp),0,0);
     }
 }

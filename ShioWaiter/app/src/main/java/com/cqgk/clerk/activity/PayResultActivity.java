@@ -68,9 +68,9 @@ public class PayResultActivity extends BusinessBaseActivity {
 
         String couponStr = "";
 
-        if (null != resultBean.getCoupon()) {
-            for (String key : resultBean.getCoupon().keySet()) {
-                couponStr = couponStr + resultBean.getCoupon().get(key) + "张" + key + "元\n";
+        if (null != resultBean.getCoupons()) {
+            for (String key : resultBean.getCoupons().keySet()) {
+                couponStr = couponStr + resultBean.getCoupons().get(key) + "张" + key + "元\n";
             }
             couponTV.setText(couponStr);
         }
@@ -87,12 +87,13 @@ public class PayResultActivity extends BusinessBaseActivity {
 
     @Event(R.id.exitBtn)
     private void exit(View view) {
-        NavigationHelper.getInstance().GoHome();
+        finish();
+        //NavigationHelper.getInstance().GoHome();
     }
 
     @Event(R.id.goOnBtn)
     private void goOn(View view) {
-
-        NavigationHelper.getInstance().GoHome();
+        finish();
+        //NavigationHelper.getInstance().GoHome();
     }
 }

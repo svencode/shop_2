@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentrel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,90 +13,82 @@
         android:layout_height="55dp"
         android:layout_alignParentTop="true" />
 
-
-    <LinearLayout
-        android:id="@+id/scanResultarea"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_title_bar_layout"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/scansuccess"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/cardnum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="卡号:"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l" />
-
-            <TextView
-                android:id="@+id/cardmoney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cardnum"
-                android:layout_marginTop="8dp"
-                android:text="余额:0.0"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l" />
-
-            <ImageView
-                android:id="@+id/scanagain"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_delpic" />
-
-            <View
-                style="@style/magic_h_line"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/captureroot"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:background="@color/scan_bg_color">
 
             <SurfaceView
                 android:id="@+id/capture_preview"
-                android:layout_width="fill_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:background="@drawable/mo_scanner_bg" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="请扫描现金卷"
+                android:layout_marginTop="230dp"
+                android:text="请扫描现金劵"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_m"
-                android:layout_marginBottom="5dp"/>
+                android:textSize="@dimen/text_size_m" />
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="250dp"
+            android:background="@color/glo_bg_color"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:padding="3dp"
+                android:text="如相机无法扫描,请手动输入"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_m" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="3dp">
+
+                <EditText
+                    android:id="@+id/input_barcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_gray_border_round"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_m" />
+
+                <Button
+                    android:id="@+id/confirm"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:background="@color/font_color_1"
+                    android:text="确定"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_m" />
+
+            </LinearLayout>
 
 
+        </LinearLayout>
+    </FrameLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

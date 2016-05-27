@@ -15,6 +15,7 @@ import com.cqgk.clerk.bean.logicbean.WechatPayBean;
 import com.cqgk.clerk.config.Key;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.helper.PreferencesHelper;
+import com.cqgk.clerk.http.UrlApi;
 import com.cqgk.clerk.utils.aliUtil.PayResult;
 import com.cqgk.clerk.utils.aliUtil.SignUtils;
 import com.cqgk.clerk.view.CommonDialogView;
@@ -205,7 +206,7 @@ public class PayUtil {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://betam.51xnb.cn/clerk/payment/notifyAlipayResult.do"
+        orderInfo += "&notify_url=" + "\"" + UrlApi.getApiUrl("payment/notifyAlipayResult.do")
                 + "\"";
 
         // 服务接口名称， 固定值

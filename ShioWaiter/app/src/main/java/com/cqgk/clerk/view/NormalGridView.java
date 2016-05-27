@@ -16,7 +16,9 @@ public class NormalGridView extends GridView {
 
     private ScrollStateEvent scrollStateEvent;
 
-    private boolean isHaveFooterView=false;
+    private boolean isHaveFooterView = false;
+
+    private View footerview;
 
 
     public boolean isHaveFooterView() {
@@ -42,6 +44,8 @@ public class NormalGridView extends GridView {
         public void isOver();
 
         public void isTop();
+
+        public void isFling();
     }
 
     public NormalGridView(Context context) {
@@ -82,22 +86,34 @@ public class NormalGridView extends GridView {
         return result;
     }
 
-    public void removeFooterView(){
+    public void removeFooterView(View parent) {
+        if (!isHaveFooterView)
+            return;
 
+        if (footerview == null)
+            return;
+
+        footerview.setVisibility(View.GONE);
+        isHaveFooterView = false;
     }
 
     /**
      * 添加底部
+     *
      * @param parent
      */
-    public void addFooter(View parent,String content) {
-        if(isHaveFooterView)
+    public void addFooter(View parent, String content) {
+        if (isHaveFooterView)
             return;
 
-       View foot = FootEndView.getFootView(getContext(),content);
-        LinearLayout parentView = (LinearLayout)parent;
-        parentView.addView(foot);
-        isHaveFooterView=true;
+        if (footerview == null) {
+            footerview = FootEndView.getFootView(getContext(), content);
+            LinearLayout parentView = (LinearLayout) parent;
+            parentView.addView(footerview);
+        }
+
+        footerview.setVisibility(View.VISIBLE);
+        isHaveFooterView = true;
     }
 
 
@@ -111,6 +127,10 @@ public class NormalGridView extends GridView {
                         if (scrollStateEvent != null)
                             scrollStateEvent.isBottom();
                     }
+                    break;
+                case OnScrollListener.SCROLL_STATE_FLING:
+                    if (scrollStateEvent != null)
+                        scrollStateEvent.isFling();
                     break;
             }
         }

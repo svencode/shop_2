@@ -13,9 +13,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -36,7 +39,9 @@ import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestHelper;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.AppUtil;
 import com.cqgk.clerk.utils.CheckUtils;
+import com.cqgk.clerk.utils.DisplayUtil;
 import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.view.PayPwdDialogView;
@@ -88,6 +93,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     @ViewInject(R.id.amountTV)
     TextView amountTV;
+
 
     private boolean hasSurface;
 
@@ -194,8 +200,11 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             public void success(JIesuanReturnBean result, String msg) {
 
                 if (CheckUtils.isAvailable(msg)) {
+                    if(!msg.equals("成功")){
+                        showToast(msg);
+                    }
                     beginCamcer();
-                    showToast(msg);
+
                 }
                 showVipInfo(result);
             }
@@ -223,6 +232,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             captureroot.setVisibility(View.GONE);
             vipInfoLL.setVisibility(View.VISIBLE);
 
+
+//
             vipNameTV.setText(vipInfo.getMembercard().getName());
             phontTV.setText(vipInfo.getMembercard().getPhoneNumber());
             cardNumberTV.setText("NO." + vipInfo.getMembercard().getBarCode());
@@ -236,13 +247,22 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
+
+            if (vipInfo.isIsAvailable()) {
+                setListTop(180);
+            }else {
+                setListTop(140);
+            }
         } else {
+            setListTop(250);
             onResume();
         }
 
         if (vipInfo.isIsAvailable()) {
             couponTV.setVisibility(View.VISIBLE);
             couponTV.setText("现金券抵扣：" + vipInfo.getFaceValue() + "元");
+        }else {
+            couponTV.setVisibility(View.GONE);
         }
 
 
@@ -270,7 +290,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         vipBean = null;
         vipInfo = null;
         captureroot.setVisibility(View.VISIBLE);
-        vipInfoLL.setVisibility(View.GONE);
+        vipInfoLL.setVisibility(View.INVISIBLE);
         for (ProductDtlBean good : myGood) {
             good.setReturnPrice(0);
             good.setUserPrice(0);
@@ -278,6 +298,12 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         getVipInfo(null, null);
 
         beginCamcer();
+
+    }
+
+    private void setListTop(int dp){
+        android.view.ViewGroup.LayoutParams lp =vipInfoLL.getLayoutParams();
+        lp.height= DisplayUtil.dip2px(dp);
     }
 
     @Event(R.id.couponBtn)
