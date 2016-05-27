@@ -232,8 +232,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             captureroot.setVisibility(View.GONE);
             vipInfoLL.setVisibility(View.VISIBLE);
 
-            setListTop(140);
-
+            setListTop(180);
+//
             vipNameTV.setText(vipInfo.getMembercard().getName());
             phontTV.setText(vipInfo.getMembercard().getPhoneNumber());
             cardNumberTV.setText("NO." + vipInfo.getMembercard().getBarCode());
@@ -254,6 +254,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         if (vipInfo.isIsAvailable()) {
             couponTV.setVisibility(View.VISIBLE);
             couponTV.setText("现金券抵扣：" + vipInfo.getFaceValue() + "元");
+        }else {
         }
 
 
