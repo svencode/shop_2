@@ -115,7 +115,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         }
     };
 
-    private boolean isOpenCamer;
+//    private boolean isOpenCamer;
 
 
     @Override
@@ -140,15 +140,15 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
-        if (!isOpenCamer) {
+        if (null != vipBean) {
             return;
         }
-        isOpenCamer = false;
+
         closeCamera();
         String recode = recode(result.toString());
-        if (BuildConfig.DEBUG) {
-            recode = AppEnter.TestCardid;
-        }
+//        if (BuildConfig.DEBUG) {
+//            recode = AppEnter.TestCardid;
+//        }
         getVipInfo(recode, couponNumber);
     }
 
@@ -169,7 +169,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             capture_preview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
 
-        isOpenCamer = true;
     }
 
 
@@ -193,26 +192,26 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         listView.setAdapter(adapter);
     }
 
-    private void getVipInfo(String cardId, String couponId) {
-        couponNumber = couponId;
+    private void getVipInfo(String cardId,final String couponId) {
+
         RequestUtils.settleReCalculate(cardId, couponId, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
             public void success(JIesuanReturnBean result, String msg) {
 
                 if (CheckUtils.isAvailable(msg)) {
-                    if(!msg.equals("成功")){
+                    if (!msg.equals("成功")) {
                         showToast(msg);
                     }
-                    beginCamcer();
 
                 }
+                couponNumber = couponId;
                 showVipInfo(result);
             }
 
             @Override
             public boolean failure(int state, String msg) {
-                beginCamcer();
                 showToast(msg);
+                beginCamcer();
                 return super.failure(state, msg);
             }
         });
@@ -248,21 +247,25 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 //            blance.setSpan(new ForegroundColorSpan(Color.parseColor("#ec584e")),"余额：￥".length(),(vipInfo.getMembercard().getBalance()+"").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             blanceTV.setText(blance);
 
-            if (vipInfo.isIsAvailable()) {
-                setListTop(180);
-            }else {
-                setListTop(140);
-            }
-        } else {
-            setListTop(250);
-            onResume();
+
+        }else {
+            //没有会员信息 重启摄像头
+            beginCamcer();
         }
 
         if (vipInfo.isIsAvailable()) {
             couponTV.setVisibility(View.VISIBLE);
             couponTV.setText("现金券抵扣：" + vipInfo.getFaceValue() + "元");
-        }else {
+            setListTop(180);
+        }else{
             couponTV.setVisibility(View.GONE);
+
+            couponNumber = null;
+            if (null == vipBean){
+                setListTop(250);
+            }else {
+                setListTop(140);
+            }
         }
 
 
@@ -286,11 +289,11 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     @Event(R.id.cleanIB)
     private void delVipInfo(View view) {
-
         vipBean = null;
         vipInfo = null;
         captureroot.setVisibility(View.VISIBLE);
         vipInfoLL.setVisibility(View.INVISIBLE);
+        couponNumber = null;
         for (ProductDtlBean good : myGood) {
             good.setReturnPrice(0);
             good.setUserPrice(0);
@@ -394,8 +397,10 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         RequestUtils.submitOrder(vipNo, couponNumber, myGood, new HttpCallBack<OrderSubmitResultBean>() {
             @Override
             public void success(OrderSubmitResultBean result, String msg) {
+                setResult(999);
                 finish();
                 boolean isVipPay = (null != vipBean);
+
                 NavigationHelper.getInstance().startOrderResult(result, isVipPay);
             }
 

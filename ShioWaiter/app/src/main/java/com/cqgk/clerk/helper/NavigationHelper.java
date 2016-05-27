@@ -143,7 +143,8 @@ public class NavigationHelper extends Basic {
     public void startPayBill(ArrayList<ProductDtlBean> myGood){
         Intent i = new Intent(getActivity(), CashieringActivity.class);
         i.putExtra(CashieringActivity.MY_GOOD_LIST,myGood);
-        this.startActivity(getActivity(),i);
+        this.startActivityForResult(getActivity(),i,0);
+//        this.startActivity(getActivity(),i);
     }
 
     public void startVipPaySelect(RechargeResultBean bean){

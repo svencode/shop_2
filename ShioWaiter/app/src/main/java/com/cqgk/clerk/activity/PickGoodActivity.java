@@ -136,6 +136,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             showToast("未选择商品");
             return;
         }
+
         NavigationHelper.getInstance().startPayBill(myGood);
     }
 
@@ -298,6 +299,12 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
                 topGoodClick(beanlist.get(i));
             }
 
+        }else if (resultCode == 999){
+            //清理筛选物品
+            myGood.clear();
+            adapter.setMyGood(myGood);
+            adapter.notifyDataSetChanged();
+            refreshPrice();
         }
     }
 }
