@@ -215,7 +215,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             price += (item.getNum() * item.getRetailPrice());
         }
 
-        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%s</font>     共<font color=\"red\">%s</font>件", price, num)));
+        amountTV.setText(Html.fromHtml(String.format("￥<font color=\"red\">%.2f</font>     共<font color=\"red\">%s</font>件", price, num)));
     }
 
     @Override
