@@ -191,6 +191,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
         RequestUtils.searchGood(product_bar_code,search_page,new HttpCallBack<GoodListBean>(){
             @Override
             public void success(GoodListBean result, String msg) {
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
                 if (result == null) {
                     showLongToast("此编号无商品");
                     return;
