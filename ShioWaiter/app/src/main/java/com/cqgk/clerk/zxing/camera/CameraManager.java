@@ -29,6 +29,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.cqgk.clerk.zxing.decoding.RGBLuminanceSource;
+
 import org.xutils.common.util.DensityUtil;
 
 /**
@@ -314,6 +316,8 @@ public final class CameraManager {
         return new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
 
     }
+
+
 
     public void openLight() {
         if (camera != null) {

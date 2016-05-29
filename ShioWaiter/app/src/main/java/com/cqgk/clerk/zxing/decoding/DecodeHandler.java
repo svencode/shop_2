@@ -134,4 +134,14 @@ final class DecodeHandler extends Handler {
 		bundle.putFloat(DecodeThread.BARCODE_SCALED_FACTOR, (float) width / source.getWidth());
 	}
 
+	private void decodePic(String pathName){
+
+	}
+
+	private void decodePic(String pathName,int sampleSize){
+		Result rawresult=null;
+		Handler handler = activity.getHandler();
+
+	}
+
 }
