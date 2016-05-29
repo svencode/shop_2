@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,13 +51,14 @@ public class CamerBaseActivity extends BusinessBaseActivity
 
     @Override
     public void handleDecode(Result result, Bitmap barcode) {
-        long currentUpdateTime = System.currentTimeMillis();
-        long timeInterval = currentUpdateTime - lastUpdateTime;
-        if (timeInterval < UPTATE_INTERVAL_TIME) {
-            return;
-        }
-
-        lastUpdateTime = currentUpdateTime;
+//        long currentUpdateTime = System.currentTimeMillis();
+//        long timeInterval = currentUpdateTime - lastUpdateTime;
+//        if (timeInterval < UPTATE_INTERVAL_TIME) {
+//            return;
+//        }
+//
+//        lastUpdateTime = currentUpdateTime;
+        SanAudioPlay();
     }
 
     @Override
@@ -147,6 +151,32 @@ public class CamerBaseActivity extends BusinessBaseActivity
                     startActivity(intent);
                 }
             }, true, false, "取消", "马上设置");
+        }
+    }
+
+    private void SanAudioPlay() {
+        final Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep);
+
+        //final Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        if (soundUri != null) {
+
+            final Ringtone sfx = RingtoneManager.getRingtone(this, soundUri);
+
+            if (sfx != null) {
+
+                sfx.setStreamType(AudioManager.STREAM_SYSTEM);
+
+                sfx.play();
+
+            } else {
+                LogUtil.d("playSounds: failed to load ringtone from uri: " + soundUri);
+
+            }
+
+        } else {
+            LogUtil.d("playSounds: could not parse Uri");
+
         }
     }
 }

@@ -16,6 +16,10 @@ public class LogUtil {
     public static final boolean TEST = true;
     private static final String defTagStr="shopwaiterapp";
 
+    public static void d(String text) {
+        d(defTagStr, text, null);
+    }
+
     public static void e(String text) {
         e(defTagStr, text, null);
     }
