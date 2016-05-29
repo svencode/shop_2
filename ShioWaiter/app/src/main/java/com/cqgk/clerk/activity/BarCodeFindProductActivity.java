@@ -17,6 +17,7 @@ import com.cqgk.clerk.BuildConfig;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.AppEnter;
+import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.config.Constant;
@@ -30,6 +31,7 @@ import com.cqgk.clerk.view.SearchResultPopView;
 import com.cqgk.clerk.zxing.CamerBaseActivity;
 import com.cqgk.clerk.zxing.decoding.Intents;
 import com.google.zxing.Result;
+import com.google.zxing.common.StringUtils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -58,6 +60,12 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     private boolean hasSurface;
 
     private int showType = 0;//0-编辑商品1-返回商品
+
+    private int search_page; //分页
+    private int searchTotal;//
+
+    private String brCode ;
+
     private SearchResultPopAdapter searchResultPopAdapter;
     private List<ProductDtlBean> returnList;
     private HashMap<String, String> productlist = new HashMap<>();
@@ -112,6 +120,30 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                     finish();
                 }
             });
+
+            listview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
+                @Override
+                public void isBottom() {
+
+                    if(searchResultPopAdapter.getCount()+1>searchTotal){
+                        listview.addFooterView("已经到底了");
+                        return;
+                    }
+
+                    search_page++;
+                    searchCode(null==brCode?"":brCode);
+                }
+
+                @Override
+                public void isOver() {
+
+                }
+
+                @Override
+                public void isTop() {
+
+                }
+            });
         }
 
         searchResultPopAdapter = new SearchResultPopAdapter(this);
@@ -145,7 +177,53 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
     public void handleDecode(Result result, Bitmap barcode) {
         super.handleDecode(result, barcode);
         String product_bar_code = recode(result.toString());
-        getCodeData(product_bar_code);
+        brCode = product_bar_code;
+        if (1 == showType){
+            search_page = 1;
+            searchCode(product_bar_code);
+        }else {
+            getCodeData(product_bar_code);
+        }
+
+    }
+
+    private void searchCode(String product_bar_code){
+        RequestUtils.searchGood(product_bar_code,search_page,new HttpCallBack<GoodListBean>(){
+            @Override
+            public void success(GoodListBean result, String msg) {
+                if (result == null) {
+                    showLongToast("此编号无商品");
+                    return;
+                }
+
+                if (result.getList().size() == 0) {
+                    showLongToast("此编号无商品");
+                    return;
+                }
+
+                resulttitle.setVisibility(View.VISIBLE);
+
+                searchTotal = result.getTotal();
+
+                for (int i = 0; i < result.getList().size(); i++) {
+                    ProductDtlBean item = result.getList().get(i);
+                    if (productlist.containsKey(item.getGoodsId())) {
+                        setNumQty(item);
+                    } else {
+                        searchResultPopAdapter.addItem(item);
+                        productlist.put(item.getGoodsId(), item.getGoodsTitle());
+                    }
+                }
+                searchResultPopAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                handler.postDelayed(runnable, Constant.CameraRestartTime);
+                return super.failure(state, msg);
+            }
+        });
     }
 
     private void getCodeData(String product_bar_code) {
