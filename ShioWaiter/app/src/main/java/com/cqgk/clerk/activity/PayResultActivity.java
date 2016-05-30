@@ -63,7 +63,7 @@ public class PayResultActivity extends BusinessBaseActivity {
     }
 
     private void showInfo(OrderSubmitResultBean bean) {
-        orderAmountTV.setText("￥" + resultBean.getTotalAmount());
+        orderAmountTV.setText(resultBean.getTotalAmount());
         jfTV.setText("用户获得" + resultBean.getBonus() + "积分");
 
         String couponStr = "";
