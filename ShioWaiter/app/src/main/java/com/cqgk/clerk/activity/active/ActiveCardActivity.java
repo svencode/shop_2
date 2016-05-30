@@ -27,6 +27,7 @@ import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.AbStrUtil;
 import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.utils.DisplayUtil;
 import com.cqgk.clerk.utils.LogUtil;
@@ -247,8 +248,18 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             return;
         }
 
+        if(!AbStrUtil.isChinese(memeber_name.getText().toString())){
+            showLongToast("抱歉,姓名只允许中文");
+            return;
+        }
+
         if (!CheckUtils.isAvailable(phone.getText().toString())) {
             showLongToast("请输入手机号码");
+            return;
+        }
+
+        if(phone.getText().toString().length()!=11){
+            showLongToast("抱歉,请输入11位手机号码");
             return;
         }
 

@@ -52,25 +52,51 @@
             android:background="@color/white"
             android:orientation="vertical"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingTop="8dp"
             android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/username"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l"
+                android:text="name"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/mobile"
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l"
+                android:text="mobile"
+                />
 
             <TextView
                 android:id="@+id/cardnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="卡号:"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/mobile"
+                android:text="NO."
+                android:layout_marginTop="10dp"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_l" />
+
+
 
             <TextView
                 android:id="@+id/cardmoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cardnum"
-                android:layout_marginTop="8dp"
+                android:layout_below="@+id/username"
+                android:layout_marginTop="10dp"
                 android:text="余额:0.0"
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_l" />
@@ -81,10 +107,11 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/icon_delpic" />
+                android:src="@drawable/icon_delpic"
+                android:visibility="gone"/>
 
             <View
                 style="@style/magic_h_line"
@@ -132,7 +159,8 @@
                     android:paddingLeft="5dp"
                     android:textColor="@color/font_color_3"
                     android:textColorHint="@color/font_color_4"
-                    android:textSize="@dimen/text_size_m" />
+                    android:textSize="@dimen/text_size_m"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"

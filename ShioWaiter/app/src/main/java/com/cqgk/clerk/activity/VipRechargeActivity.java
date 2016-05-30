@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -69,6 +70,15 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @ViewInject(R.id.inputarea)
     LinearLayout inputarea;
 
+    @ViewInject(R.id.scanagain)
+    ImageView scanagain;
+
+    @ViewInject(R.id.username)
+    TextView username;
+
+    @ViewInject(R.id.mobile)
+    TextView mobile;
+
     private boolean hasSurface;
     private String card_id;
     private Handler handler = new Handler();//摄像头重启线程
@@ -88,6 +98,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
         try {
             card_id = getStringExtra("card_id");
+            if (CheckUtils.isAvailable(card_id)) {
+                scanagain.setVisibility(View.GONE);
+            }
         } catch (NullPointerException e) {
 
         }
@@ -147,8 +160,12 @@ public class VipRechargeActivity extends CamerBaseActivity {
             public void success(CardDtlBean result, String msg) {
                 card_id = result.getCard_id();
                 scansuccess.setVisibility(View.VISIBLE);
-                cardnum.setText(String.format("卡号:%s", result.getCard_id()));
+                cardnum.setText(String.format("NO.%s", result.getCard_id()));
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", result.getBalance())));
+
+                username.setText(result.getCard_name());
+                mobile.setText(result.getCard_mobile());
+
                 captureroot.setVisibility(View.GONE);
                 setListTop(140);
             }
@@ -227,6 +244,11 @@ public class VipRechargeActivity extends CamerBaseActivity {
             return;
         }
 
+        if (inputmoney.getText().toString().startsWith("0")) {
+            showLongToast("输入的金额开始不能为0");
+            return;
+        }
+
         long imoney = Long.parseLong(inputmoney.getText().toString());
 
         if (imoney <= 0) {
@@ -270,6 +292,6 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
     private void setListTop(int dp) {
         android.view.ViewGroup.LayoutParams lp = inputarea.getLayoutParams();
-        ((FrameLayout.LayoutParams)lp).setMargins(0, DisplayUtil.dip2px(dp),0,0);
+        ((FrameLayout.LayoutParams) lp).setMargins(0, DisplayUtil.dip2px(dp), 0, 0);
     }
 }

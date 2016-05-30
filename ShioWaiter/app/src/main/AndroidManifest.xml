@@ -1,7 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cqgk.clerk"
-    android:versionCode="1"
-    android:versionName="1.1">
+    package="com.cqgk.clerk">
 
     <uses-sdk
         android:minSdkVersion="14"
