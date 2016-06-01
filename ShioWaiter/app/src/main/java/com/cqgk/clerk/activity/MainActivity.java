@@ -86,7 +86,13 @@ public class MainActivity extends BusinessBaseActivity {
             }
         });
 
-        getTitleDelegate().setLeftText("V"+AppUtil.getVersion());
+        getTitleDelegate().setLeftText("v"+AppUtil.getVersion());
+        getTitleDelegate().setLeftOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
 
         mPullRefreshScrollView.setAutoReleaseRefresh(new Handler());

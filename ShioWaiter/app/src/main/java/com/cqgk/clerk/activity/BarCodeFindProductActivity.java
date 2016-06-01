@@ -211,6 +211,7 @@ public class BarCodeFindProductActivity extends CamerBaseActivity {
                     if (productlist.containsKey(item.getGoodsId())) {
                         setNumQty(item);
                     } else {
+                        item.setNum(1);
                         searchResultPopAdapter.addItem(item);
                         productlist.put(item.getGoodsId(), item.getGoodsTitle());
                     }

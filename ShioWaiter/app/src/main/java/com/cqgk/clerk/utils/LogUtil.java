@@ -1,7 +1,7 @@
 /**
- *  文件名:LogUtil.java
- *  创建人:Sven Fang
- *  创建时间:2015-3-2
+ * 文件名:LogUtil.java
+ * 创建人:Sven Fang
+ * 创建时间:2015-3-2
  */
 package com.cqgk.clerk.utils;
 
@@ -14,7 +14,11 @@ import android.util.Log;
 public class LogUtil {
 
     public static final boolean TEST = true;
-    private static final String defTagStr="shopwaiterapp";
+    private static final String defTagStr = "shopwaiterapp";
+
+    public static void i(String text) {
+        d(defTagStr, text, null);
+    }
 
     public static void d(String text) {
         d(defTagStr, text, null);

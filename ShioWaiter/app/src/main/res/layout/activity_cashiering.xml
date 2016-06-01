@@ -17,7 +17,6 @@
             android:id="@+id/captureroot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/comment_title_bar_layout"
             android:background="@color/scan_bg_color">
 
             <SurfaceView

@@ -521,6 +521,7 @@ public class ProductEditActivity extends CamerBaseActivity {
             productEditItemAdapter.setValueList(editBeanList);
             productEditItemAdapter.notifyDataSetChanged();
         } else {
+            finish();
             NavigationHelper.getInstance().GoHome();
         }
     }

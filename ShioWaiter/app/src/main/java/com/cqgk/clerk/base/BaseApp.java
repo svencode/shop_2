@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -50,10 +51,17 @@ public class BaseApp extends Application {
         initImageLoader(getApplicationContext());
 
 
-        galleryfinalInit();
+        galleryfinalInit();//图库
 
-        x.Ext.init(this);
+        x.Ext.init(this);//xutils3
         x.Ext.setDebug(true);
+
+        if (BuildConfig.FLAVOR.equals("outversion")) {
+            MobclickAgent.setCatchUncaughtExceptions(false);
+        } else {
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.init(this);
+        }
 
     }
 

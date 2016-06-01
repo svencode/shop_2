@@ -277,6 +277,8 @@ public class TitleDelegate extends BasicDelegate {
 
     public void Show() {
         mTitleBarLayout.setVisibility(View.VISIBLE);
+
+        
     }
 
     /**

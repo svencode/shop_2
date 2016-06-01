@@ -10,6 +10,7 @@ import com.cqgk.clerk.R;
 import com.cqgk.clerk.activity.BarCodeFindCashActivity;
 import com.cqgk.clerk.activity.BarCodeFindProductActivity;
 import com.cqgk.clerk.activity.CashieringActivity;
+import com.cqgk.clerk.activity.CrashLogActivity;
 import com.cqgk.clerk.activity.FindPwdActivity;
 import com.cqgk.clerk.activity.InputMoneyActivity;
 import com.cqgk.clerk.activity.LoginActivity;
@@ -181,6 +182,13 @@ public class NavigationHelper extends Basic {
 
     public void startCouponScan(){
         Intent i = new Intent(getActivity(), BarCodeFindCashActivity.class);
+        this.startActivityForResult(getActivity(),i,0);
+    }
+
+    public void startCrashLog(String content){
+        Intent i = new Intent(getActivity(), CrashLogActivity.class);
+        i.putExtra("path",content);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivityForResult(getActivity(),i,0);
     }
 

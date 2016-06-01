@@ -111,7 +111,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
         row_1_title.setText(Html.fromHtml("会员姓名<font color=\"red\">*<font/>"));
         row_2_title.setText(Html.fromHtml("会员手机号<font color=\"red\">*<font/>"));
-        //row_3_title.setText(Html.fromHtml("会员身份证号<font color=\"red\">*<font/>"));
         row_4_title.setText(Html.fromHtml("密码<font color=\"red\">*<font/>"));
         opencard.setEnabled(false);
 
