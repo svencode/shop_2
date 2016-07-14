@@ -7,6 +7,9 @@ import com.cqgk.clerk.bean.logicbean.OrderSubmitBean;
 import com.cqgk.clerk.bean.logicbean.WechatResultBean;
 import com.cqgk.clerk.bean.normal.AdsBean;
 import com.cqgk.clerk.bean.normal.CardDtlBean;
+import com.cqgk.clerk.bean.normal.DeviceBindBean;
+import com.cqgk.clerk.bean.normal.DeviceItemBean;
+import com.cqgk.clerk.bean.normal.DeviceListBean;
 import com.cqgk.clerk.bean.normal.EditBean;
 import com.cqgk.clerk.bean.normal.FileUploadResultBean;
 import com.cqgk.clerk.bean.normal.HomeAdsBean;
@@ -286,26 +289,30 @@ public class RequestUtils {
 
     /**
      * 会员开卡
-     *
      * @param card_id
      * @param card_name
      * @param card_mobile
-     * @param card_idcard
+     * @param birth_day
      * @param card_password
+     * @param sex
      * @param callBack
      */
     public static void membercardAct(String card_id,
                                      String card_name,
                                      String card_mobile,
-                                     String card_idcard,
+                                     String birth_day,
                                      String card_password,
+                                     String sex,
+                                     String recommend_phone,
                                      HttpCallBack<MembercardActBean> callBack) {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_membercardActivate));
         params.addParameter("card_id", card_id);
         params.addParameter("card_name", card_name);
         params.addParameter("card_mobile", card_mobile);
-        params.addParameter("card_idcard", card_idcard);
+        params.addParameter("birth_day", birth_day);
         params.addParameter("card_password", card_password);
+        params.addParameter("gender", sex);
+        params.addParameter("recommend_phone", recommend_phone);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBack);
 
@@ -531,6 +538,58 @@ public class RequestUtils {
         CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_settleCheckCardPwd));
         params.addBodyParameter("memberCardId", cardId);
         params.addBodyParameter("cardPwd", pwd);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+    /**
+     * 添加打印架
+     * @param deviceSerialNumber
+     * @param deviceName
+     * @param callBlack
+     */
+    public static void device_bind(String deviceSerialNumber, String deviceName, HttpCallBack<DeviceItemBean> callBlack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_device_bind));
+        params.addBodyParameter("deviceSerialNumber", deviceSerialNumber);
+        params.addBodyParameter("deviceName", deviceName);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+    /**
+     *
+     * @param callBlack
+     */
+    public static void device_list(HttpCallBack<DeviceListBean> callBlack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_device_list));
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+
+    /**
+     *
+     * @param deviceSerialNumber
+     * @param printTimes
+     * @param orderId
+     * @param callBlack
+     */
+    public static void device_print(String deviceSerialNumber, String printTimes, String orderId,HttpCallBack<String> callBlack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_device_print));
+        params.addBodyParameter("deviceSerialNumber", deviceSerialNumber);
+        params.addBodyParameter("printTimes", printTimes);
+        params.addBodyParameter("orderId", orderId);
+        params.setBodyContent(params.toJSONString());
+        RequestHelper.sendPost(true, params, callBlack);
+    }
+
+    /**
+     * 删除打印机
+     * @param deviceSerialNumber
+     * @param callBlack
+     */
+    public static void device_del(String deviceSerialNumber,HttpCallBack<String> callBlack) {
+        CommonParams params = new CommonParams(UrlApi.getApiUrl(UrlApi.url_device_del));
+        params.addBodyParameter("deviceSerialNumber", deviceSerialNumber);
         params.setBodyContent(params.toJSONString());
         RequestHelper.sendPost(true, params, callBlack);
     }

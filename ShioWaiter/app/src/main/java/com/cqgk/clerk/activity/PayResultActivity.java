@@ -10,7 +10,12 @@ import android.widget.TextView;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.OrderSubmitResultBean;
+import com.cqgk.clerk.config.Key;
 import com.cqgk.clerk.helper.NavigationHelper;
+import com.cqgk.clerk.helper.PreferencesHelper;
+import com.cqgk.clerk.http.HttpCallBack;
+import com.cqgk.clerk.http.RequestUtils;
+import com.cqgk.clerk.utils.CheckUtils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -60,6 +65,28 @@ public class PayResultActivity extends BusinessBaseActivity {
         resultBean = (OrderSubmitResultBean) getIntent().getSerializableExtra(ORDER_RESULT);
         isVipPay = getIntent().getBooleanExtra(IS_VIP_PAY, false);
         showInfo(resultBean);
+
+        //调用打印机打印小票
+        printTicker();
+    }
+
+
+    private void printTicker() {
+        String deviceSerialNumber = PreferencesHelper.find(Key.DeviceSerialNUmber, "");
+        if (CheckUtils.isAvailable(deviceSerialNumber)) {
+            RequestUtils.device_print(deviceSerialNumber, "1", resultBean.getOrderId(), new HttpCallBack<String>() {
+                @Override
+                public void success(String result, String msg) {
+
+                }
+
+                @Override
+                public boolean failure(int state, String msg) {
+                    showToast(msg);
+                    return super.failure(state, msg);
+                }
+            });
+        }
     }
 
     private void showInfo(OrderSubmitResultBean bean) {

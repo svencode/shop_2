@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="50dp"
+            android:text="name"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_l" />
+
+        <TextView
+            android:id="@+id/device_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/device_name"
+            android:text="编号:xxx"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_l" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/device_name"
+            android:layout_marginTop="15dp"
+            android:text="选为当前打印机"
+            android:id="@+id/selthis"/>
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="38dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_red_round_stoke"
+            android:text="删除"
+            android:id="@+id/btn_del"
+            android:textColor="@color/font_color_1" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

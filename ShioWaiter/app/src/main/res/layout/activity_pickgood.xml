@@ -3,15 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include
         android:id="@+id/comment_title_bar_layout"
         layout="@layout/layout_bar_title" />
 
     <include
         android:id="@+id/search_bar"
-        layout="@layout/view_search"
-        />
+        layout="@layout/view_search" />
 
+
+    <LinearLayout
+        android:id="@+id/scanarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:background="@color/bg_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp">
+
+
+        <EditText
+            android:id="@+id/product_code_num"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="请扫描条码"
+
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:paddingLeft="10dp"
+            android:textColor="@color/font_color_3"
+            android:textSize="@dimen/text_size_m" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/bottomView"
@@ -27,8 +55,8 @@
             android:layout_alignParentLeft="true"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:paddingLeft="8dp"
             android:maxLines="1"
+            android:paddingLeft="8dp"
 
             android:text="￥0     共0件"
             android:textSize="@dimen/text_size_l" />
@@ -47,25 +75,25 @@
         <View
             style="@style/magic_h_line"
             android:layout_alignParentTop="true" />
+
+
     </RelativeLayout>
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_bar"
         android:layout_above="@+id/bottomView"
-        >
+        android:layout_below="@+id/scanarea">
 
     </ListView>
 
     <com.cqgk.clerk.view.NormalListView
+        android:id="@+id/searchlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_bar"
         android:layout_above="@+id/bottomView"
-        android:id="@+id/searchlistview"
-        android:visibility="gone"
-        />
+        android:layout_below="@+id/scanarea"
+        android:visibility="gone" />
 
 </RelativeLayout>

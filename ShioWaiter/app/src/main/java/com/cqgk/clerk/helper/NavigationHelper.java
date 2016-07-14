@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
-import com.cqgk.clerk.R;
 import com.cqgk.clerk.activity.BarCodeFindCashActivity;
 import com.cqgk.clerk.activity.BarCodeFindProductActivity;
 import com.cqgk.clerk.activity.CashieringActivity;
@@ -18,17 +17,17 @@ import com.cqgk.clerk.activity.MainActivity;
 import com.cqgk.clerk.activity.PayResultActivity;
 import com.cqgk.clerk.activity.PaySelectActivity;
 import com.cqgk.clerk.activity.PickGoodActivity;
+import com.cqgk.clerk.activity.PrinterListActivity;
 import com.cqgk.clerk.activity.ScanProductActivity;
 import com.cqgk.clerk.activity.VipPaySelectActivity;
 import com.cqgk.clerk.activity.VipRechargeActivity;
 import com.cqgk.clerk.activity.WebViewActivity;
 import com.cqgk.clerk.activity.active.ActiveCardActivity;
 import com.cqgk.clerk.activity.product.ProductEditActivity;
-import com.cqgk.clerk.activity.product.SeachProductActivity;
+import com.cqgk.clerk.activity.product.SearchProductActivity;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BaseApp;
 import com.cqgk.clerk.base.Basic;
-import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.OrderSubmitResultBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.RechargeResultBean;
@@ -132,7 +131,7 @@ public class NavigationHelper extends Basic {
     }
 
     public void startSearchProduct(){
-        Intent i = new Intent(getActivity(), SeachProductActivity.class);
+        Intent i = new Intent(getActivity(), SearchProductActivity.class);
         this.startActivity(getActivity(),i);
     }
 
@@ -189,6 +188,11 @@ public class NavigationHelper extends Basic {
         Intent i = new Intent(getActivity(), CrashLogActivity.class);
         i.putExtra("path",content);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivityForResult(getActivity(),i,0);
+    }
+
+    public void startDeviceList(){
+        Intent i = new Intent(getActivity(), PrinterListActivity.class);
         this.startActivityForResult(getActivity(),i,0);
     }
 

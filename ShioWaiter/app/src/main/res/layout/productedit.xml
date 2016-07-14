@@ -94,7 +94,10 @@
                         android:hint="请扫描或输入商品条码"
                         android:textColor="@color/font_color_3"
                         android:textColorHint="@color/font_color_4"
-                        android:textSize="@dimen/text_size_m" />
+                        android:textSize="@dimen/text_size_m"
+                        android:lines="1"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"/>
 
                 </RelativeLayout>
 

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cqgk.clerk.adapter.ProductRowAdapter;
 import com.cqgk.clerk.adapter.SearchResultPopAdapter;
@@ -17,6 +20,8 @@ import com.cqgk.clerk.bean.normal.GoodListBean;
 import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.bean.normal.ProductRowBean;
+import com.cqgk.clerk.bean.normal.ProductStandInfoBean;
+import com.cqgk.clerk.config.Constant;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
 import com.cqgk.clerk.http.RequestUtils;
@@ -24,6 +29,7 @@ import com.cqgk.clerk.utils.CheckUtils;
 import com.cqgk.clerk.view.NormalGridView;
 import com.cqgk.clerk.view.NormalListView;
 import com.cqgk.clerk.R;
+import com.cqgk.clerk.view.ProductListDialog;
 import com.cqgk.clerk.view.SearchResultPopView;
 
 import org.xutils.view.annotation.ContentView;
@@ -39,7 +45,7 @@ import java.util.List;
  * Created by duke on 16/5/14.
  */
 @ContentView(R.layout.searchproduct)
-public class SeachProductActivity extends BusinessBaseActivity {
+public class SearchProductActivity extends BusinessBaseActivity {
 
     @ViewInject(R.id.listview)
     NormalGridView listview;
@@ -57,12 +63,16 @@ public class SeachProductActivity extends BusinessBaseActivity {
     @ViewInject(R.id.my_product_area)
     LinearLayout my_product_area;
 
+    @ViewInject(R.id.product_code_num)
+    EditText product_code_num;
+
     private ProductRowAdapter productRowAdapter;
     private int page = 1;
     private int myproductTotal;
     private int searchPage = 1;
     private int searchTotal;
     private SearchResultPopAdapter searchResultPopAdapter;
+    private ProductListDialog productListDialog;
 
 
     @Override
@@ -150,20 +160,29 @@ public class SeachProductActivity extends BusinessBaseActivity {
                 return super.failure(state, msg);
             }
         });
-
-
     }
+
 
     @Override
     public void initView() {
         super.initView();
+
+        product_code_num.requestFocus();
+        product_code_num.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    getCodeForProductList(textView.getText().toString());
+                }
+                return false;
+            }
+        });
 
         productRowAdapter = new ProductRowAdapter(this);
         listview.setAdapter(productRowAdapter);
 
         searchResultPopAdapter = new SearchResultPopAdapter(this);
         searlistview.setAdapter(searchResultPopAdapter);
-
 
 
         keyword.addTextChangedListener(new TextWatcher() {
@@ -199,8 +218,8 @@ public class SeachProductActivity extends BusinessBaseActivity {
             public void isBottom() {
 
 
-                if(productRowAdapter.getCount()+1>myproductTotal){
-                    listview.addFooter(my_product_area,"已经到底了");
+                if (productRowAdapter.getCount() + 1 > myproductTotal) {
+                    listview.addFooter(my_product_area, "已经到底了");
                     return;
                 }
 
@@ -234,7 +253,7 @@ public class SeachProductActivity extends BusinessBaseActivity {
         searlistview.setScrollStateEvent(new NormalListView.ScrollStateEvent() {
             @Override
             public void isBottom() {
-                if(searchResultPopAdapter.getCount()+1>searchTotal){
+                if (searchResultPopAdapter.getCount() + 1 > searchTotal) {
                     searlistview.addFooterView("已经到底了");
                     return;
                 }
@@ -254,31 +273,70 @@ public class SeachProductActivity extends BusinessBaseActivity {
             }
         });
 
+    }
 
-//        searchResultPopView = new SearchResultPopView(this, 0);
-//        searchResultPopView.getAdapter().setItemListener(new SearchResultPopAdapter.ItemListener() {
-//            @Override
-//            public void itemClick(int i) {
-//                ProductDtlBean productDtlBean = searchResultPopView.getAdapter().getItem(i);
-//                NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
-//            }
-//        });
-//        searchResultPopView.getListView().setScrollStateEvent(new NormalListView.ScrollStateEvent() {
-//            @Override
-//            public void isBottom() {
-//                searchPage++;
-//                searchByKeyWord(keyword.getText().toString());
-//            }
-//
-//            @Override
-//            public void isOver() {
-//
-//            }
-//
-//            @Override
-//            public void isTop() {
-//            }
-//        });
+
+    /**
+     * 条形码查找商品
+     *
+     * @param product_bar_code
+     */
+    private void getCodeForProductList(final String product_bar_code) {
+        if (productListDialog != null && productListDialog.isShowing())
+            return;
+        RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
+            @Override
+            public void success(final MeProductListBean result, String msg) {
+                if (CheckUtils.isAvailable(msg))
+                    showToast(msg);
+
+                if (result == null)
+                    return;
+
+                if (result.getTotal() == 0 || result.getList().size() == 0) {
+                    showToast(product_bar_code + " 没找到对应商品");
+                    product_code_num.setText("");
+                    return;
+                }
+
+                if (result.getList().size() == 1) {//单个商品直接跳转
+                    ProductDtlBean productDtlBean = result.getList().get(0);
+                    NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+                } else {
+//                    List<ProductDtlBean> tempArr = new ArrayList<ProductDtlBean>();
+//                    ProductDtlBean productDtlBean = new ProductDtlBean();
+//                    productDtlBean.setId("123123");
+//                    productDtlBean.setGoodsTitle("test1");
+//                    productDtlBean.setNum(2);
+//                    productDtlBean.setUserPrice(100);
+//                    productDtlBean.setPrice(100);
+//                    tempArr.add(productDtlBean);
+//                    productDtlBean.setId("123123");
+//                    productDtlBean.setGoodsTitle("test2");
+//                    productDtlBean.setNum(2);
+//                    productDtlBean.setUserPrice(100);
+//                    productDtlBean.setPrice(1001);
+//                    tempArr.add(productDtlBean);
+                    productListDialog = new ProductListDialog(SearchProductActivity.this, result.getList());
+                    productListDialog.setItemOnClickListener(new ProductListDialog.ItemOnClickListener() {
+                        @Override
+                        public void itemOnclick(int position) {
+                            ProductDtlBean productDtlBean = result.getList().get(position);
+                            NavigationHelper.getInstance().startUploadProduct(productDtlBean.getGoodsId());
+                        }
+                    });
+                    productListDialog.show();
+                }
+
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                product_code_num.setText("");
+                return super.failure(state, msg);
+            }
+        });
     }
 
     @Event(R.id.cleanIB)

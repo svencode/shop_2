@@ -107,6 +107,8 @@ public class PickGoodAdapter extends BaseAdapter {
             TextView name = (TextView) view.findViewById(R.id.nameTV);
             name.setText("本单商品");
             view.setBackgroundResource(R.color.bg_color);
+            //view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1));
+            //view.setVisibility(View.GONE);
         } else if ((myGood.size() + 1) == position) {
             view = LayoutInflater.from(context).inflate(R.layout.cell_title, null);
             TextView name = (TextView) view.findViewById(R.id.nameTV);

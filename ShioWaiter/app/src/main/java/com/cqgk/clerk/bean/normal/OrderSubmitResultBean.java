@@ -10,6 +10,15 @@ public class OrderSubmitResultBean implements Serializable{
     private String totalAmount;
     private String bonus;
     private String code;
+    private String orderId;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     private HashMap<String,String> coupons;
 

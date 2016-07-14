@@ -57,26 +57,24 @@
             android:visibility="invisible">
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:id="@+id/username"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l"
                 android:text="name"
-                />
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l" />
 
             <TextView
+                android:id="@+id/mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:id="@+id/mobile"
-                android:textColor="@color/font_color_3"
-                android:textSize="@dimen/text_size_l"
                 android:text="mobile"
-                />
+                android:textColor="@color/font_color_3"
+                android:textSize="@dimen/text_size_l" />
 
             <TextView
                 android:id="@+id/cardnum"
@@ -84,11 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/mobile"
-                android:text="NO."
                 android:layout_marginTop="10dp"
+                android:text="NO."
                 android:textColor="@color/font_color_3"
                 android:textSize="@dimen/text_size_l" />
-
 
 
             <TextView
@@ -111,7 +108,7 @@
                 android:layout_marginTop="5dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/icon_delpic"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <View
                 style="@style/magic_h_line"
@@ -119,12 +116,26 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/inputarea"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginTop="250dp"
-            android:background="@color/glo_bg_color"
-            android:id="@+id/inputarea">
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/member_cardnum"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="@dimen/text_size_m"
+                android:textColor="@color/font_color_3"
+                android:background="@drawable/bg_edittext"
+                android:hint="请扫描或输入会员卡"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -159,8 +170,7 @@
                     android:paddingLeft="5dp"
                     android:textColor="@color/font_color_3"
                     android:textColorHint="@color/font_color_4"
-                    android:textSize="@dimen/text_size_m"
-                    />
+                    android:textSize="@dimen/text_size_m" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,17 +181,18 @@
 
             </RelativeLayout>
 
-            <View style="@style/magic_h_line" />
         </LinearLayout>
 
 
         <!--底部-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="bottom"
-            android:background="@color/white"
-            android:paddingLeft="10dp">
+            android:background="@color/white">
+            <View style="@style/magic_h_line"
+                android:layout_alignParentTop="true"/>
 
             <TextView
                 android:id="@+id/summoney"
@@ -190,6 +201,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="￥0.0"
+                android:paddingLeft="10dp"
                 android:textColor="@color/font_color_1"
                 android:textSize="@dimen/text_size_m" />
 

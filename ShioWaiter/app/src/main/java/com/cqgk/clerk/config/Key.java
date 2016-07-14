@@ -10,4 +10,5 @@ public class Key {
     public static final String TOKEN = "token";
     public static final String USERID = "userid";
     public static final String FIRST_PAY_OK = "first_pay_ok";
+    public static final String DeviceSerialNUmber = "deviceSerialNumber";
 }

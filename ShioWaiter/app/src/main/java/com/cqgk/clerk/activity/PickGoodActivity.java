@@ -5,7 +5,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import com.cqgk.clerk.adapter.SearchResultPopAdapter;
 import com.cqgk.clerk.base.AppEnter;
 import com.cqgk.clerk.base.BusinessBaseActivity;
 import com.cqgk.clerk.bean.normal.GoodListBean;
+import com.cqgk.clerk.bean.normal.MeProductListBean;
 import com.cqgk.clerk.bean.normal.ProductDtlBean;
 import com.cqgk.clerk.helper.NavigationHelper;
 import com.cqgk.clerk.http.HttpCallBack;
@@ -28,6 +31,7 @@ import com.cqgk.clerk.utils.LogUtil;
 import com.cqgk.clerk.view.CommonDialogView;
 import com.cqgk.clerk.R;
 import com.cqgk.clerk.view.NormalListView;
+import com.cqgk.clerk.view.ProductListDialog;
 import com.cqgk.clerk.view.SearchResultPopView;
 
 import org.w3c.dom.Text;
@@ -55,8 +59,12 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @ViewInject(R.id.searchlistview)
     NormalListView searchlistview;
 
+    @ViewInject(R.id.product_code_num)
+    EditText product_code_num;
+
     //SearchResultPopView popView;
     PickGoodAdapter adapter;
+
 
     private ArrayList<ProductDtlBean> myGood;
     private int search_page = 1;
@@ -86,6 +94,19 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
 
     private void layoutView() {
+        product_code_num.requestFocus();
+        product_code_num.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    String product_bar_code = textView.getText().toString();
+                    getCodeForProductList(product_bar_code);
+                }
+                return false;
+            }
+        });
+
+
         adapter = new PickGoodAdapter(this, this);
         listView.setAdapter(adapter);
 
@@ -103,7 +124,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
             @Override
             public void isBottom() {
 
-                if(searchResultPopAdapter.getCount()+1>searchTotal){
+                if (searchResultPopAdapter.getCount() + 1 > searchTotal) {
                     searchlistview.addFooterView("已经到底了");
                     return;
                 }
@@ -129,7 +150,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     @Event(R.id.goPayBtn)
     private void goPay(View view) {
         double goodNum = 0;
-        for (ProductDtlBean good:myGood){
+        for (ProductDtlBean good : myGood) {
             goodNum += good.getNum();
         }
         if (0 == goodNum) {
@@ -222,7 +243,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
     public void topGoodClick(ProductDtlBean item) {
         boolean alreadyHad = false;
 
-        if(item.getNum()<=0)
+        if (item.getNum() <= 0)
             item.setNum(1);
 
         for (ProductDtlBean item1 : myGood) {
@@ -237,7 +258,6 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
             myGood.add(ProductDtlBean.copy(item));
         }
-
 
 
         adapter.setMyGood(myGood);
@@ -260,6 +280,47 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
 
     }
 
+
+    private void getCodeForProductList(final String product_bar_code) {
+        RequestUtils.queryClerkGoodsByBarcode(product_bar_code, new HttpCallBack<MeProductListBean>() {
+            @Override
+            public void success(final MeProductListBean result, String msg) {
+                if (CheckUtils.isAvailable(msg))
+                    showToast(msg);
+
+                if (result == null)
+                    return;
+
+                if (result.getTotal() == 0 || result.getList().size() == 0) {
+                    showToast(product_bar_code + " 没找到对应商品");
+                    product_code_num.setText("");
+                    return;
+                }
+
+                if (result.getTotal() > 1) {
+                    searchTotal = result.getTotal();
+                    searchlistview.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                    searchResultPopAdapter.setValuelist(result.getList());
+                    searchResultPopAdapter.notifyDataSetChanged();
+                } else {
+                    topGoodClick(result.getList().get(0));
+                    searchlistview.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public boolean failure(int state, String msg) {
+                showToast(msg);
+                product_code_num.setText("");
+                return super.failure(state, msg);
+            }
+        });
+    }
+
     @Override
     public void goodMinus(ProductDtlBean item) {
         for (ProductDtlBean item1 : myGood) {
@@ -279,7 +340,7 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(item.getNum());
-                if (0 == item1.getNum())myGood.remove(item1);
+                if (0 == item1.getNum()) myGood.remove(item1);
 
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
@@ -295,11 +356,11 @@ public class PickGoodActivity extends BusinessBaseActivity implements PickGoodAd
         if (resultCode == 1) {
             List<ProductDtlBean> beanlist = (List<ProductDtlBean>) data.getSerializableExtra("dtllist");
             for (int i = 0; i < beanlist.size(); i++) {
-                LogUtil.e(String.format("_________id:%s num:%s",beanlist.get(i).getGoodsId(),beanlist.get(i).getNum()));
+                LogUtil.e(String.format("_________id:%s num:%s", beanlist.get(i).getGoodsId(), beanlist.get(i).getNum()));
                 topGoodClick(beanlist.get(i));
             }
 
-        }else if (resultCode == 999){
+        } else if (resultCode == 999) {
             //清理筛选物品
             myGood.clear();
             adapter.setMyGood(myGood);

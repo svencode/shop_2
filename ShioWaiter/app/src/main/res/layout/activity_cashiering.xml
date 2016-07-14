@@ -163,6 +163,8 @@
             </LinearLayout>
             <!--vip info-->
 
+
+
             <RelativeLayout
                 android:id="@+id/listviewpart"
                 android:layout_width="match_parent"
@@ -170,8 +172,23 @@
                 android:background="@color/glo_bg_color"
                 android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/product_code_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:paddingLeft="10dp"
+                    android:layout_alignParentTop="true"
+                    android:textSize="@dimen/text_size_m"
+                    android:textColor="@color/font_color_3"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="请扫描条码"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal" />
+
                 <ListView
                     android:id="@+id/listView"
+                    android:layout_below="@+id/product_code_num"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/bottomView"

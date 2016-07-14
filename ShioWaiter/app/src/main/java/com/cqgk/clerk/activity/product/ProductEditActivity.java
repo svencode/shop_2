@@ -7,9 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -205,6 +207,18 @@ public class ProductEditActivity extends CamerBaseActivity {
     @Override
     public void initView() {
         super.initView();
+
+        productcode.requestFocus();
+        productcode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    queryProductDefInfo();
+                }
+                return false;
+            }
+        });
+
 
         if (CheckUtils.isAvailable(productId)) {
             getTitleDelegate().setTitle("商品更新");
@@ -558,6 +572,7 @@ public class ProductEditActivity extends CamerBaseActivity {
 
             @Override
             public boolean failure(int state, String msg) {
+
                 return super.failure(state, msg);
             }
         });

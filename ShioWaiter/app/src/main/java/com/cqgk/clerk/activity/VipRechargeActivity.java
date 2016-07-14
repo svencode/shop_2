@@ -7,9 +7,11 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -79,6 +81,9 @@ public class VipRechargeActivity extends CamerBaseActivity {
     @ViewInject(R.id.mobile)
     TextView mobile;
 
+    @ViewInject(R.id.member_cardnum)
+    EditText member_cardnum;
+
     private boolean hasSurface;
     private String card_id;
     private Handler handler = new Handler();//摄像头重启线程
@@ -100,6 +105,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
             card_id = getStringExtra("card_id");
             if (CheckUtils.isAvailable(card_id)) {
                 scanagain.setVisibility(View.GONE);
+                member_cardnum.setVisibility(View.GONE);
             }
         } catch (NullPointerException e) {
 
@@ -128,6 +134,18 @@ public class VipRechargeActivity extends CamerBaseActivity {
             //card_id = AppEnter.TestCardid;
         }
 
+
+        //扫描枪
+        member_cardnum.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    card_id = member_cardnum.getText().toString();
+                    loadCardInfo(card_id);
+                }
+                return false;
+            }
+        });
         requestData();
     }
 
@@ -172,11 +190,17 @@ public class VipRechargeActivity extends CamerBaseActivity {
 
             @Override
             public boolean failure(int state, String msg) {
-                showToast(msg);
+                showToast(card_id + " " + msg);
+                cleancardid();
                 handler.postDelayed(runnable, 4000);
                 return super.failure(state, msg);
             }
         });
+    }
+
+    private void cleancardid() {
+        card_id = "";
+        member_cardnum.setText("");
     }
 
 
@@ -188,6 +212,7 @@ public class VipRechargeActivity extends CamerBaseActivity {
             cid = AppEnter.TestCardid;
 
 
+        member_cardnum.setText(cid);
         loadCardInfo(cid);
     }
 

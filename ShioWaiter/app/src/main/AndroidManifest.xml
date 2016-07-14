@@ -97,7 +97,7 @@
             android:name="com.cqgk.clerk.activity.WebViewActivity"
             android:orientation="vertical" />
         <activity
-            android:name="com.cqgk.clerk.activity.product.SeachProductActivity"
+            android:name=".activity.product.SearchProductActivity"
             android:orientation="vertical"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -130,6 +130,10 @@
             android:launchMode="singleTop" />
         <activity
             android:name="com.cqgk.clerk.activity.PayResultActivity"
+            android:orientation="vertical" />
+
+        <activity
+            android:name="com.cqgk.clerk.activity.PrinterListActivity"
             android:orientation="vertical" />
 
         <activity

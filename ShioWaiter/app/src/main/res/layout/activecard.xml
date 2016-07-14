@@ -107,10 +107,46 @@
                     android:id="@+id/inputarea"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="250dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:layout_marginTop="250dp">
+                    android:orientation="vertical">
 
+                    <!--会员卡号-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/row_0_title"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="会员卡号"
+                            android:textColor="@color/font_color_3"
+                            android:textSize="@dimen/text_size_m" />
+
+                        <EditText
+                            android:id="@+id/member_cardnum"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@+id/row_0_title"
+                            android:background="@android:color/transparent"
+                            android:hint="请扫描或输入会员卡号"
+                            android:inputType="text"
+                            android:imeOptions="actionDone"
+                            android:textColor="@color/font_color_3"
+                            android:textColorHint="@color/font_color_4"
+                            android:textSize="@dimen/text_size_m" />
+
+                    </RelativeLayout>
+
+                    <View style="@style/magic_h_line" />
+
+                    <!--会员姓名-->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
@@ -186,32 +222,33 @@
                         android:paddingRight="10dp">
 
                         <TextView
-                            android:id="@+id/row_3_title"
+                            android:id="@+id/row_birthday_title"
                             android:layout_width="90dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:text="会员身份证号"
+                            android:text="会员生日"
                             android:textColor="@color/font_color_3"
                             android:textSize="@dimen/text_size_m" />
 
                         <EditText
-                            android:id="@+id/card_idcard"
+                            android:id="@+id/member_birthday"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/row_3_title"
+                            android:layout_toRightOf="@+id/row_birthday_title"
                             android:background="@android:color/transparent"
-                            android:digits="0123456789Xx"
-                            android:hint="请输入15-18位身份证号码"
-                            android:maxLength="18"
+                            android:digits="0123456789"
+                            android:hint="请输入年月日例如:19750810"
+                            android:inputType="phone"
+                            android:maxLength="11"
                             android:textColor="@color/font_color_3"
                             android:textColorHint="@color/font_color_4"
                             android:textSize="@dimen/text_size_m" />
 
-
                     </RelativeLayout>
 
                     <View style="@style/magic_h_line" />
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -239,6 +276,90 @@
                             android:hint="请让客户自己输入6位数字"
                             android:inputType="numberPassword"
                             android:maxLength="6"
+                            android:textColor="@color/font_color_3"
+                            android:textColorHint="@color/font_color_4"
+                            android:textSize="@dimen/text_size_m" />
+
+
+                    </RelativeLayout>
+
+                    <View style="@style/magic_h_line" />
+
+                    <!--性别-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/row_sex_title"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="性别"
+                            android:textColor="@color/font_color_3"
+                            android:textSize="@dimen/text_size_m" />
+
+
+                        <RadioGroup
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:id="@+id/sexradiongoup"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/row_sex_title">
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="男"
+                                android:textSize="@dimen/text_size_m"
+                                android:id="@+id/sex_man"
+                                android:checked="true"/>
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_m"
+                                android:id="@+id/sex_woman"
+                                android:text="女" />
+
+                        </RadioGroup>
+
+
+                    </RelativeLayout>
+
+                    <View style="@style/magic_h_line" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/row_tuijian_title"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="推荐人号码"
+                            android:textColor="@color/font_color_3"
+                            android:textSize="@dimen/text_size_m" />
+
+                        <EditText
+                            android:id="@+id/row_tuijian"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@+id/row_tuijian_title"
+                            android:background="@android:color/transparent"
+                            android:hint="请输入推荐人手机"
+                            android:inputType="text"
+                            android:maxLength="11"
                             android:textColor="@color/font_color_3"
                             android:textColorHint="@color/font_color_4"
                             android:textSize="@dimen/text_size_m" />

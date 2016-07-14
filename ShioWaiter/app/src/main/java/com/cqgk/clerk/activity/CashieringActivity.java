@@ -14,10 +14,13 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,6 +97,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
     @ViewInject(R.id.amountTV)
     TextView amountTV;
 
+    @ViewInject(R.id.product_code_num)
+    EditText product_code_num;
+
 
     private boolean hasSurface;
 
@@ -146,12 +152,8 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
         closeCamera();
         String recode = recode(result.toString());
-//        if (BuildConfig.DEBUG) {
-//            recode = AppEnter.TestCardid;
-//        }
         getVipInfo(recode, couponNumber);
     }
-
 
 
     @Override
@@ -187,12 +189,25 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
 
     private void layoutView() {
+
+        product_code_num.requestFocus();
+        product_code_num.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    String recode = textView.getText().toString();
+                    getVipInfo(recode, couponNumber);
+                }
+                return false;
+            }
+        });
+
         adapter = new CashieringAdapter(this, this);
         adapter.setMyGood(myGood);
         listView.setAdapter(adapter);
     }
 
-    private void getVipInfo(String cardId,final String couponId) {
+    private void getVipInfo(final String cardId, final String couponId) {
 
         RequestUtils.settleReCalculate(cardId, couponId, myGood, new HttpCallBack<JIesuanReturnBean>() {
             @Override
@@ -210,8 +225,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
             @Override
             public boolean failure(int state, String msg) {
-                showToast(msg);
+                showToast(cardId + " " + msg);
                 beginCamcer();
+                product_code_num.setText("");
                 return super.failure(state, msg);
             }
         });
@@ -248,7 +264,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             blanceTV.setText(blance);
 
 
-        }else {
+        } else {
             //没有会员信息 重启摄像头
             beginCamcer();
         }
@@ -257,13 +273,13 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             couponTV.setVisibility(View.VISIBLE);
             couponTV.setText("现金券抵扣：" + vipInfo.getFaceValue() + "元");
             setListTop(180);
-        }else{
+        } else {
             couponTV.setVisibility(View.GONE);
 
             couponNumber = null;
-            if (null == vipBean){
+            if (null == vipBean) {
                 setListTop(250);
-            }else {
+            } else {
                 setListTop(140);
             }
         }
@@ -304,9 +320,9 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
 
     }
 
-    private void setListTop(int dp){
-        android.view.ViewGroup.LayoutParams lp =vipInfoLL.getLayoutParams();
-        lp.height= DisplayUtil.dip2px(dp);
+    private void setListTop(int dp) {
+        android.view.ViewGroup.LayoutParams lp = vipInfoLL.getLayoutParams();
+        lp.height = DisplayUtil.dip2px(dp);
     }
 
     @Event(R.id.couponBtn)
@@ -492,7 +508,7 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
         for (ProductDtlBean item1 : myGood) {
             if (item1.equals(item)) {
                 item1.setNum(num);
-                if (0 == num)myGood.remove(item);
+                if (0 == num) myGood.remove(item);
                 adapter.setMyGood(myGood);
                 adapter.notifyDataSetChanged();
                 refreshPrice();
@@ -501,7 +517,6 @@ public class CashieringActivity extends CamerBaseActivity implements CashieringA
             }
         }
     }
-
 
 
     @Override

@@ -6,14 +6,19 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,6 +66,17 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @ViewInject(R.id.cardmoney)
     TextView cardmoney;
 
+    @ViewInject(R.id.member_cardnum)
+    EditText member_cardnum;
+
+    @ViewInject(R.id.member_birthday)
+    EditText member_birthday;
+
+    @ViewInject(R.id.row_tuijian)
+    EditText row_tuijian;
+
+    @ViewInject(R.id.sexradiongoup)
+    RadioGroup sexradiongoup;
 
 
     @ViewInject(R.id.memeber_name)
@@ -73,8 +89,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @ViewInject(R.id.phone)
     EditText phone;
 
-    @ViewInject(R.id.card_idcard)
-    EditText card_idcard;
 
     @ViewInject(R.id.opencard)
     Button opencard;
@@ -87,10 +101,22 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     TextView row_1_title;
     @ViewInject(R.id.row_2_title)
     TextView row_2_title;
-    @ViewInject(R.id.row_3_title)
-    TextView row_3_title;
     @ViewInject(R.id.row_4_title)
     TextView row_4_title;
+
+
+    @ViewInject(R.id.row_0_title)
+    TextView row_0_title;
+
+    @ViewInject(R.id.row_birthday_title)
+    TextView row_birthday_title;
+
+    @ViewInject(R.id.row_sex_title)
+    TextView row_sex_title;
+
+
+    private boolean cardReading = false;
+    private String sexStr = "男";
 
     private boolean hasSurface;
     private String card_id;
@@ -109,15 +135,41 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         enableTitleDelegate();
         getTitleDelegate().setTitle("会员开卡");
 
+        row_0_title.setText(Html.fromHtml("会员卡号<font color=\"red\">*<font/>"));
         row_1_title.setText(Html.fromHtml("会员姓名<font color=\"red\">*<font/>"));
         row_2_title.setText(Html.fromHtml("会员手机号<font color=\"red\">*<font/>"));
         row_4_title.setText(Html.fromHtml("密码<font color=\"red\">*<font/>"));
+        row_birthday_title.setText(Html.fromHtml("会员生日<font color=\"red\">*<font/>"));
+        row_sex_title.setText(Html.fromHtml("性别<font color=\"red\">*<font/>"));
         opencard.setEnabled(false);
 
 
         memeber_name.addTextChangedListener(this);
         phone.addTextChangedListener(this);
         row_4_pwd.addTextChangedListener(this);
+
+
+        member_cardnum.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                    card_id = member_cardnum.getText().toString();
+//                    if (BuildConfig.DEBUG)
+//                        card_id = AppEnter.TestCardid;
+                    checkCardstate();
+                }
+                return false;
+            }
+        });
+
+        sexradiongoup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                RadioButton rb = (RadioButton) findViewById(radioButtonId);
+                sexStr = rb.getText().toString();
+            }
+        });
     }
 
 
@@ -144,6 +196,8 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     @Override
     public void onResume() {
         super.onResume();
+        InputMethodManager im = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
+        im.showSoftInput(member_cardnum, 0);
         if (hasSurface) {
             initCamera(capture_preview.getHolder());
         } else {
@@ -168,21 +222,29 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
         super.handleDecode(result, barcode);
 
         String cid = recode(result.toString());
-        if (BuildConfig.DEBUG)
-            cid = AppEnter.TestCardid;
+//        if (BuildConfig.DEBUG)
+//            cid = AppEnter.TestCardid;
 
         card_id = cid;
+        checkCardstate();
+    }
 
+    private void checkCardstate() {
+        if (cardReading)
+            return;
 
-        RequestUtils.checkCardState(cid, new HttpCallBack<String>() {
+        cardReading = true;
+        RequestUtils.checkCardState(card_id, new HttpCallBack<String>() {
             @Override
-            public void success(String result,String msg) {
+            public void success(String result, String msg) {
                 scansuccess.setVisibility(View.VISIBLE);
                 cardnum.setText(String.format("卡号:%s", card_id));
                 cardmoney.setText(Html.fromHtml(String.format("余额:<font color=\"red\">￥%s</font>", 0)));
                 captureroot.setVisibility(View.GONE);
                 opencard.setVisibility(View.VISIBLE);
+                member_cardnum.setText(card_id);
                 setListTop(140);
+                cardReading = false;
             }
 
             /**
@@ -195,11 +257,18 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
              */
             @Override
             public boolean failure(int state, String msg) {
-                showToast(msg);
+                cardReading = false;
+                showToast(card_id + " " + msg);
                 handler.postDelayed(runnable, Constant.CameraRestartTime);
+                cleanCardinfo();
                 return super.failure(state, msg);
             }
         });
+    }
+
+    private void cleanCardinfo() {
+        card_id = "";
+        member_cardnum.setText("");
     }
 
     @Override
@@ -238,16 +307,20 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     }
 
 
-
     @Event(R.id.opencard)
     private void opencard_click(View view) {
+
+        if (!CheckUtils.isAvailable(member_cardnum.getText().toString())) {
+            showLongToast("请扫描或输入会员卡号");
+            return;
+        }
 
         if (!CheckUtils.isAvailable(memeber_name.getText().toString())) {
             showLongToast("请输入会员姓名");
             return;
         }
 
-        if(!AbStrUtil.isChinese(memeber_name.getText().toString())){
+        if (!AbStrUtil.isChinese(memeber_name.getText().toString())) {
             showLongToast("抱歉,姓名只允许中文");
             return;
         }
@@ -257,8 +330,13 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
             return;
         }
 
-        if(phone.getText().toString().length()!=11){
+        if (phone.getText().toString().length() != 11) {
             showLongToast("抱歉,请输入11位手机号码");
+            return;
+        }
+
+        if (!CheckUtils.isAvailable(member_birthday.getText().toString())) {
+            showLongToast("请输入会员生日");
             return;
         }
 
@@ -284,13 +362,23 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     }
 
     private void openVipCard() {
+
+        if (sexStr.equals("男")) {
+            sexStr = "0";
+        } else {
+            sexStr = "1";
+        }
+
         RequestUtils.membercardAct(card_id,
                 memeber_name.getText().toString(),
                 phone.getText().toString(),
-                card_idcard.getText().toString(),
-                row_4_pwd.getText().toString(), new HttpCallBack<MembercardActBean>() {
+                member_birthday.getText().toString(),
+                row_4_pwd.getText().toString(),
+                sexStr,
+                row_tuijian.getText().toString(),
+                new HttpCallBack<MembercardActBean>() {
                     @Override
-                    public void success(MembercardActBean result,String msg) {
+                    public void success(MembercardActBean result, String msg) {
                         CommonDialogView.show("卡片信息已完成绑定\n还需要充值100元才能成功开通",
                                 new CommonDialogView.DialogClickListener() {
                                     @Override
@@ -312,7 +400,7 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
     private void getRechargeCode() {
         RequestUtils.vipRecharge(card_id, "0.01", new HttpCallBack<RechargeResultBean>() {
             @Override
-            public void success(RechargeResultBean result,String msg) {
+            public void success(RechargeResultBean result, String msg) {
                 AppEnter.user_msg = result.getUserMsg();
                 NavigationHelper.getInstance().startVipPaySelect(result);
             }
@@ -327,6 +415,6 @@ public class ActiveCardActivity extends CamerBaseActivity implements TextWatcher
 
     private void setListTop(int dp) {
         android.view.ViewGroup.LayoutParams lp = inputarea.getLayoutParams();
-        ((FrameLayout.LayoutParams)lp).setMargins(0, DisplayUtil.dip2px(dp),0,0);
+        ((FrameLayout.LayoutParams) lp).setMargins(0, DisplayUtil.dip2px(dp), 0, 0);
     }
 }

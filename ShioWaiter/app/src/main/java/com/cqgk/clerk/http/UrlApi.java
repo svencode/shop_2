@@ -122,7 +122,7 @@ public class UrlApi {
     public static String url_queryClerkGoodsByKey="goods/queryClerkGoodsByKey.do";
 
     /**
-     * 根据条形码查询商品标准信息
+     * 根据条形码查询商品标准信息(多个)
      */
     public static String url_queryClerkGoodsByBarcode="goods/queryClerkGoodsByBarcode.do";
 
@@ -239,5 +239,11 @@ public class UrlApi {
      注意：提交的是商品ID，不是规格ID
      */
     public static String url_deleteClerkGoods="goods/deleteGoodsForClerk.do";
+
+    public static String url_device_bind="device/binddevice.do";
+    public static String url_device_list="device/device.do";
+    public static String url_device_print="device/print.do";
+    public static String url_device_del="device/unbinddevice.do";
+
 
 }

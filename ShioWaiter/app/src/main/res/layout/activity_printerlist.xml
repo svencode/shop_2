@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+
+    <include
+        android:id="@+id/comment_title_bar_layout"
+        layout="@layout/layout_bar_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:padding="10dp"
+            android:text="打印机:"
+            android:textSize="@dimen/text_size_m" />
+
+        <View style="@style/magic_h_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical|left"
+                android:padding="10dp"
+                android:text="打印机编号:"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="在打印机底部,9位数字"
+                android:inputType="numberDecimal"
+                android:textColorHint="@color/font_color_4"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/text_size_m"
+                android:textColor="@color/font_color_3"
+                android:id="@+id/printer_deviceid"/>
+        </LinearLayout>
+
+        <View style="@style/magic_h_line" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical|left"
+                android:padding="10dp"
+                android:text="打印机名称:"
+                android:textSize="@dimen/text_size_m" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="您自己起一个名称便于识别"
+                android:textColorHint="@color/font_color_4"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/text_size_m"
+                android:textColor="@color/font_color_3"
+                android:id="@+id/printer_name"/>
+        </LinearLayout>
+
+        <View style="@style/magic_h_line" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="80dp"
+            android:layout_height="37dp"
+            android:layout_gravity="right|center_vertical"
+            android:background="@color/font_color_1"
+
+            android:layout_margin="8dp"
+            android:text="添加"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <com.cqgk.clerk.view.NormalListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview"
+        android:layout_marginTop="10dp"
+        android:divider="@color/font_color_4"
+        android:dividerHeight="0.7dp"/>
+</LinearLayout>
